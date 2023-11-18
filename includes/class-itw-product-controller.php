@@ -1,14 +1,14 @@
 <?php
 
 // -----------------------------------------------------------
-// Product_Controller : Class
+// ITW_Product_Controller : Class
 //
 // Purpose:
-//     Product Business Layer.
+//     ITW_Product Business Layer.
 //
 // Usage:
 //     // grabbing the instance prevents the need for a global variable to load on every page
-//     $prod = \ITW_Medical\Products\Product_Controller::instance();         
+//     $prod = \ITW_Medical\Products\ITW_Product_Controller::instance();         
 //     $prod->function();
 //     
 //     // Or, simply...
@@ -17,8 +17,8 @@
 // -----------------------------------------------------------
 
 namespace ITW_Medical\Products;
-use ITW_Medical\Products\Product;
-use ITW_Medical\Products\Product_DAL;
+use ITW_Medical\Products\ITW_Product;
+use ITW_Medical\Products\ITW_Product_DAL;
 
 
 // no unauthorized access
@@ -27,9 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( 'Product_Controller' ) ) :
+if ( ! class_exists( 'ITW_Product_Controller' ) ) :
     
-    class Product_Controller {
+    class ITW_Product_Controller {
 
             // this class only needs to be instantiated once 
             private static $_instance = null;
@@ -57,7 +57,7 @@ if ( ! class_exists( 'Product_Controller' ) ) :
 
             public function __construct() {
 
-                    $this->dal = \ITW_Medical\Products\Product_DAL::instance();
+                    $this->dal = \ITW_Medical\Products\ITW_Product_DAL::instance();
 
             }
 
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Product_Controller' ) ) :
                     return $this->dal->get_product( $post_id );
             }
 
-            public function save_product( Product $product ) {
+            public function save_product( ITW_Product $product ) {
                     return $this->dal->save_product( $product );
             }
 
@@ -85,7 +85,7 @@ if ( ! class_exists( 'Product_Controller' ) ) :
 
 
     
-    } // end class: Product_Controller
+    } // end class: ITW_Product_Controller
 
 endif;
 

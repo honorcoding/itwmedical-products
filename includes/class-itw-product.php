@@ -1,13 +1,13 @@
 <?php
 
 // -----------------------------------------------------------
-// Product : Class
+// ITW_Product : Class
 //
 // Purpose:
-//     Product object
+//     ITW_Product object
 //
 // Usage:
-//     Created by calling Product_Controller 
+//     Created by calling ITW_Product_Controller 
 //     e.g. prod()->get_product( $post_id );
 //     
 //     Dump to csv as follows: 
@@ -24,9 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( 'Product' ) ) :
+if ( ! class_exists( 'ITW_Product' ) ) :
     
-    class Product {
+    class ITW_Product {
 
 
             // product CPT constants
@@ -39,7 +39,7 @@ if ( ! class_exists( 'Product' ) ) :
             
 
             // product data 
-            public $post_id         = null;            
+            public $post_id         = null; 
             
 
             public function __construct() {
@@ -74,7 +74,7 @@ if ( ! class_exists( 'Product' ) ) :
 
                         $table['header'] = array(
                             // headers go here
-                            'post_id',
+                            'post "id"',
                             'item1',
                             'item 2',
                         );
@@ -95,10 +95,24 @@ if ( ! class_exists( 'Product' ) ) :
                         
                         // convert the array to a CSV table 
                         if ( $no_header === false ) {
-                            $results .= implode( ',', $this->csv_escape( $table['header'] ) ) . PHP_EOL;
+                            $count = count( $table['header'] );
+                            for( $i = 0; $i < $count; $i++ ) { 
+                                $results .= $this->csv_escape( $table['header'][$i] );
+                                if ( $i < ( $count - 1 ) ) {
+                                    $results .= ',';
+                                } else {
+                                    $results .= PHP_EOL;
+                                }
+                            }
                         }
 
-                        $results .= implode( ',', $this->csv_escape( $table['row'] ) );
+                        $count = count( $table['row'] );
+                        for( $i = 0; $i < $count; $i++ ) { 
+                            $results .= $this->csv_escape( $table['row'][$i] );
+                            if ( $i < ( $count - 1 ) ) {
+                                $results .= ',';
+                            } 
+                        }
 
                     } else {
 
@@ -112,12 +126,18 @@ if ( ! class_exists( 'Product' ) ) :
             }
 
             public function csv_escape( $string ) {
-                    $results = str_replace( '"', '""', $string );
-                    $results = str_replace( ',', '","', $results );
-                    return $results;
+                    $string = strval( $string );
+                    if( 
+                        strpos( $string, ',' ) !== false || 
+                        strpos( $string, '"' ) !== false 
+                    ) {
+                        $string = str_replace( '"', '""', $string );  // escape double quotes
+                        $string = '"' . $string . '"';                 // put quotes around the entire string
+                    }
+                    return $string;
             }
 
     
-    } // end class: Product
+    } // end class: ITW_Product
 
 endif;

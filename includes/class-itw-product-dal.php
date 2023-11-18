@@ -1,7 +1,7 @@
 <?php
 
 // -----------------------------------------------------------
-// Product_DAL : Class
+// ITW_Product_DAL : Class
 //
 // Purpose:
 //     Product Data Access Layer.
@@ -10,12 +10,12 @@
 //     // note: Class is instantiated by the Client Request Controller
 //     //       No need to access directly.
 //
-//     $aoh_dal = \ITW_Medical\Products\Product_DAL::instance();         
-//     $aoh_dal->function();
+//     $prod_dal = \ITW_Medical\Products\ITW_Product_DAL::instance();         
+//     $prod_dal->function();
 // -----------------------------------------------------------
 
 namespace ITW_Medical\Products;
-use ITW_Medical\Products\Product;
+use ITW_Medical\Products\ITW_Product;
 
 
 // no unauthorized access
@@ -24,9 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( 'Product_DAL' ) ) :
+if ( ! class_exists( 'ITW_Product_DAL' ) ) :
     
-    class Product_DAL {
+    class ITW_Product_DAL {
 
             // this class only needs to be instantiated once 
             private static $_instance = null;
@@ -120,6 +120,6 @@ if ( ! class_exists( 'Product_DAL' ) ) :
 
             }
     
-    } // end class: Product_DAL
+    } // end class: ITW_Product_DAL
 
 endif;

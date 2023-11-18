@@ -36,9 +36,9 @@ function iwt_load_plugin_resources() {
     require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/custom-post-types.php';
 
     // load classes that support product functionality 
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-product.php';
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-product-dal.php';
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-product-controller.php';
+    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product.php';
+    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-dal.php';
+    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-controller.php';
 
 
     // allows quick access to Product_Controller class, 
@@ -46,7 +46,7 @@ function iwt_load_plugin_resources() {
     // example: prod()->[method or property] 
     //          for multiple calls, use $prod = prod(); 
     function prod() {
-        return \ITW_Medical\Products\Product_Controller::instance();
+        return \ITW_Medical\Products\ITW_Product_Controller::instance();
     }     
     
 
@@ -88,8 +88,8 @@ function show_debug() {
         global $debug;
         
         //$debug['testing'] = prod()->test();
-        
-        //$product = new \ITW_Medical\Products\Product();
+
+        //$product = new \ITW_Medical\Products\ITW_Product();
         //$product->post_id = 23;
         //$debug['dump1'] = $product->dump( $product::CSV, false );
 
