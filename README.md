@@ -1,6 +1,6 @@
 # ITWMEDICAL PRODUCTS 
 
-ITWMEDICAL PRODUCTS is a plugin that faciliates listing products and displaying the product pages. 
+ITWMedical Products is a Wordpress plugin that faciliates product listing and display.
 
 ## Installation 
 
