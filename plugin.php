@@ -16,16 +16,16 @@ defined( 'ABSPATH' ) || exit;   // no access for random strangers
 
 
 // PLUGIN URL AND PATH 
-define("IWT_MEDICAL_PRODUCTS_URL", plugin_dir_url(__FILE__));
-define("IWT_MEDICAL_PRODUCTS_PATH", plugin_dir_path(__FILE__));
+define("ITW_MEDICAL_PRODUCTS_URL", plugin_dir_url(__FILE__));
+define("ITW_MEDICAL_PRODUCTS_PATH", plugin_dir_path(__FILE__));
 
 
 // ----------------------------------------------------
 // LOAD PLUGIN TOOLS
 // ----------------------------------------------------
 
-add_action( 'init', 'iwt_load_plugin_resources' ); 
-function iwt_load_plugin_resources() {
+add_action( 'init', 'itw_load_plugin_resources' ); 
+function itw_load_plugin_resources() {
     
 
     // ------------------------------------------------------------
@@ -33,22 +33,36 @@ function iwt_load_plugin_resources() {
     // ------------------------------------------------------------
 
     // load custom post types (must load CPTs before tools)
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/custom-post-types.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/itw-custom-post-types.php';
 
     // load classes that support product functionality 
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product.php';
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-dal.php';
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-controller.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-dal.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-controller.php';
 
 
     // allows quick access to Product_Controller class, 
     // but only loads on pages where it is used and only loads once 
-    // example: prod()->[method or property] 
-    //          for multiple calls, use $prod = prod(); 
-    function prod() {
+    // example: itw_prod()->[method or property] 
+    //          for multiple calls, use $itw_prod = itw_prod(); 
+    function itw_prod() {
         return \ITW_Medical\Products\ITW_Product_Controller::instance();
     }     
     
+    // --------------------------------------------
+    // tells dependent tools whether or not to load 
+    // --------------------------------------------
+    //
+    // EXAMPLE: 
+    //    // make sure itw-medical-product tools are activated
+    //    if ( ! defined( 'ITW_MEDICAL_PRODUCTS' ) ) {
+    //        return false;
+    //    }
+    //    // can safely use tools now (e.g. itw_prod()->...)
+    //
+    define('ITW_MEDICAL_PRODUCTS', 'TRUE');
+
+
 
     // ------------------------------------------------------------
     // CSV IMPORT/EXPORT 
@@ -66,11 +80,12 @@ function iwt_load_plugin_resources() {
 
     // load admin page classes and tools 
     if ( is_admin() ) {
-        //require_once IWP_CLIENT_PORTAL_PATH . 'admin\admin-tools.php';
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'admin/class-admin-itw-product-list.php';  
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'admin/class-admin-itw-product-single.php'; 
     }             
         
         
-} // end : iwt_load_plugin_resources()
+} // end : itw_load_plugin_resources()
 
 
 
@@ -87,7 +102,7 @@ function show_debug() {
         
         global $debug;
         
-        //$debug['testing'] = prod()->test();
+        //$debug['testing'] = itw_prod()->test();
 
         //$product = new \ITW_Medical\Products\ITW_Product();
         //$product->post_id = 23;

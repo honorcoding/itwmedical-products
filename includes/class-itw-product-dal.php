@@ -69,47 +69,48 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             // PROCESS DATA 
             // -----------------------------------------------------------
             
-            public function get_request( $post_id ) {
+            // ** returns ITW_Product or false 
+            public function get_product( $post_id ) {
 
-                    $request = false; // if $post_id does not point to a valid Product, or other errors
+                    $product = false; // if $post_id does not point to a valid Product, or other errors
                                     // return false 
 
 
                     if ( 
                         get_post_status( $post_id ) &&                                  // if $post_id is a valid post
-                        get_post_type( $post_id ) == Product::get_post_type()    // and $post_id is a Product
+                        get_post_type( $post_id ) == ITW_Product::get_post_type()    // and $post_id is a Product
                     ) {
 
                         // create the Product object
-                        $request = new Product();
-                        $request->post_id           = $post_id;
-                        $request->conversation      = get_post_meta( $post_id, self::META_KEY_CONVERSATION, true );
-                        $request->request_status    = get_post_meta( $post_id, self::META_KEY_REQUEST_STATUS, true );
-                        $request->approval_status   = get_post_meta( $post_id, self::META_KEY_APPROVAL_STATUS, true );
+                        $product = new ITW_Product();
+                        $product->post_id           = $post_id;
+                        $product->conversation      = get_post_meta( $post_id, self::META_KEY_CONVERSATION, true );
+                        $product->request_status    = get_post_meta( $post_id, self::META_KEY_REQUEST_STATUS, true );
+                        $product->approval_status   = get_post_meta( $post_id, self::META_KEY_APPROVAL_STATUS, true );
 
                     }
 
 
-                    // return Product $request;               
-                    return $request;
+                    // return Product $product;               
+                    return $product;
 
             }
 
-            public function save_request( Product $request ) {
+            public function save_product( ITW_Product $product ) {
 
                     $success = false;
 
 
-                    $post_id = $request->post_id;
+                    $post_id = $product->post_id;
 
                     if ( 
                         get_post_status( $post_id ) &&                                  // if $post_id is a valid post
-                        get_post_type( $post_id ) == Product::get_post_type()    // and $post_id is a Product
+                        get_post_type( $post_id ) == ITW_Product::get_post_type()    // and $post_id is a Product
                     ) {
 
-                        update_post_meta( $post_id, self::META_KEY_CONVERSATION, $request->conversation );
-                        update_post_meta( $post_id, self::META_KEY_REQUEST_STATUS, $request->request_status );
-                        update_post_meta( $post_id, self::META_KEY_APPROVAL_STATUS, $request->approval_status );
+                        update_post_meta( $post_id, self::META_KEY_CONVERSATION, $product->conversation );
+                        update_post_meta( $post_id, self::META_KEY_REQUEST_STATUS, $product->request_status );
+                        update_post_meta( $post_id, self::META_KEY_APPROVAL_STATUS, $product->approval_status );
 
                         $success = true;
 

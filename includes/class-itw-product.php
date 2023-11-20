@@ -8,7 +8,7 @@
 //
 // Usage:
 //     Created by calling ITW_Product_Controller 
-//     e.g. prod()->get_product( $post_id );
+//     e.g. itw_prod()->get_product( $post_id );
 //     
 //     Dump to csv as follows: 
 //     $csv_table = $product->dump( $product::CSV, false ); // includes table header 

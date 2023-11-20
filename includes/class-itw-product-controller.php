@@ -12,8 +12,8 @@
 //     $prod->function();
 //     
 //     // Or, simply...
-//     prod()->function();  
-//     // note: function prod() is declared outisde this namespace in plugin.php 
+//     itw_prod()->function();  
+//     // note: function itw_prod() is declared outisde this namespace in plugin.php 
 // -----------------------------------------------------------
 
 namespace ITW_Medical\Products;
@@ -68,6 +68,7 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
 
             }
 
+            // ** returns ITW_Product or false
             public function get_product( $post_id ) {
                     return $this->dal->get_product( $post_id );
             }

@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------
-//  CUSTOM POST TYPES FOR IWTMEDICAL PRODUCTS 
+//  CUSTOM POST TYPES FOR ITW MEDICAL PRODUCTS 
 // ------------------------------------------------
 
 
-// IWTMedical Product CPT
+// ITW Medical Product CPT
 function cptui_register_my_cpts_itw_medical_product() {
 
 	/**
@@ -53,7 +53,7 @@ function cptui_register_my_cpts_itw_medical_product() {
 cptui_register_my_cpts_itw_medical_product();
 
 
-// IWTMedical Product Category
+// ITW Medical Product Category
 function cptui_register_my_taxes() {
 
 	/**
