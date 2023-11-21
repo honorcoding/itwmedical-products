@@ -39,8 +39,19 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             
 
             // product data 
-            public $post_id         = null; 
-            
+            public $post_id;
+            public $title;
+            public $description;
+            public $image;
+            public $product_number;
+            public $mfg_number;
+            public $short_description;
+            public $product_details;
+            public $product_drawings;
+            public $warranty;
+            public $technical_literature;
+            public $related_products;
+
 
             public function __construct() {
 

@@ -90,6 +90,8 @@ function itw_load_plugin_resources() {
 
 
 
+  
+
 // ----------------------------------------------------
 // DEBUGGING
 // ----------------------------------------------------
@@ -104,8 +106,18 @@ function show_debug() {
         
         //$debug['testing'] = itw_prod()->test();
 
-        //$product = new \ITW_Medical\Products\ITW_Product();
-        //$product->post_id = 23;
+        /*
+        $product = new \ITW_Medical\Products\ITW_Product();
+        $product->post_id = 589;
+        $product->title = 'great';
+        $product->long_description = 'something goes here';
+        $product->short_description = 'something goes there';
+        itw_prod()->save_product( $product );
+        */
+
+        //delete_option( 'debug_option' );
+        $debug['option'] = get_option( 'debug_option' ); 
+
         //$debug['dump1'] = $product->dump( $product::CSV, false );
 
         if ( $debug ) {
