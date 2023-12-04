@@ -1,10 +1,10 @@
 <?php
 // ------------------------------------------------
-//  CUSTOM POST TYPES FOR IWTMEDICAL PRODUCTS 
+//  CUSTOM POST TYPES FOR ITW MEDICAL PRODUCTS 
 // ------------------------------------------------
 
 
-// IWTMedical Product CPT
+// ITW Medical Product CPT
 function cptui_register_my_cpts_itw_medical_product() {
 
 	/**
@@ -12,17 +12,17 @@ function cptui_register_my_cpts_itw_medical_product() {
 	 */
 
 	$labels = [
-		"name" => esc_html__( "ITW Medical Products", "twentytwentythree" ),
-		"singular_name" => esc_html__( "ITW Medical Product", "twentytwentythree" ),
-		"add_new" => esc_html__( "Add New", "twentytwentythree" ),
-		"add_new_item" => esc_html__( "Add New Product", "twentytwentythree" ),
-		"edit_item" => esc_html__( "Edit Product", "twentytwentythree" ),
-		"new_item" => esc_html__( "New Product", "twentytwentythree" ),
-		"view_item" => esc_html__( "View Product", "twentytwentythree" ),
+		"name" => esc_html__( "ITW Medical Products", "itw-medical-products" ),
+		"singular_name" => esc_html__( "ITW Medical Product", "itw-medical-products" ),
+		"add_new" => esc_html__( "Add New", "itw-medical-products" ),
+		"add_new_item" => esc_html__( "Add New Product", "itw-medical-products" ),
+		"edit_item" => esc_html__( "Edit Product", "itw-medical-products" ),
+		"new_item" => esc_html__( "New Product", "itw-medical-products" ),
+		"view_item" => esc_html__( "View Product", "itw-medical-products" ),
 	];
 
 	$args = [
-		"label" => esc_html__( "ITW Medical Products", "twentytwentythree" ),
+		"label" => esc_html__( "ITW Medical Products", "itw-medical-products" ),
 		"labels" => $labels,
 		"description" => "",
 		"public" => true,
@@ -53,7 +53,7 @@ function cptui_register_my_cpts_itw_medical_product() {
 cptui_register_my_cpts_itw_medical_product();
 
 
-// IWTMedical Product Category
+// ITW Medical Product Category
 function cptui_register_my_taxes() {
 
 	/**
@@ -61,13 +61,13 @@ function cptui_register_my_taxes() {
 	 */
 
 	$labels = [
-		"name" => esc_html__( "Categories", "twentytwentythree" ),
-		"singular_name" => esc_html__( "Category", "twentytwentythree" ),
+		"name" => esc_html__( "Categories", "itw-medical-products" ),
+		"singular_name" => esc_html__( "Category", "itw-medical-products" ),
 	];
 
 	
 	$args = [
-		"label" => esc_html__( "Categories", "twentytwentythree" ),
+		"label" => esc_html__( "Categories", "itw-medical-products" ),
 		"labels" => $labels,
 		"public" => true,
 		"publicly_queryable" => true,
@@ -91,3 +91,26 @@ function cptui_register_my_taxes() {
 }
 //add_action( 'init', 'cptui_register_my_taxes' );
 cptui_register_my_taxes();
+
+
+// ----------------------------------------------------
+// TEMPLATES 
+// ----------------------------------------------------
+
+// look in the plugin files for the template (instead of the theme)
+//add_filter('single_template', 'itw_load_custom_templates');
+function itw_load_custom_templates( $template ) {
+
+    global $post;
+
+    // check is Client Resource CPT 
+    if ( $post->post_type == 'itw-medical-product' ) {
+        $plugin_template = ITW_MEDICAL_PRODUCTS_PATH . 'templates/single-itw-medical-product.php';
+        if ( file_exists( $plugin_template ) ) {
+            $template = $plugin_template;
+        }
+    }
+
+    return $template;
+
+}

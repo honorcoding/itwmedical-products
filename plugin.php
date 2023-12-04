@@ -16,39 +16,59 @@ defined( 'ABSPATH' ) || exit;   // no access for random strangers
 
 
 // PLUGIN URL AND PATH 
-define("IWT_MEDICAL_PRODUCTS_URL", plugin_dir_url(__FILE__));
-define("IWT_MEDICAL_PRODUCTS_PATH", plugin_dir_path(__FILE__));
+define("ITW_MEDICAL_PRODUCTS_URL", plugin_dir_url(__FILE__));
+define("ITW_MEDICAL_PRODUCTS_PATH", plugin_dir_path(__FILE__));
 
 
 // ----------------------------------------------------
 // LOAD PLUGIN TOOLS
 // ----------------------------------------------------
 
-add_action( 'init', 'iwt_load_plugin_resources' ); 
-function iwt_load_plugin_resources() {
+add_action( 'init', 'itw_load_plugin_resources' ); 
+function itw_load_plugin_resources() {
     
+
+    // ------------------------------------------------------------
+    // STYLES AND SCRIPTS
+    // ------------------------------------------------------------
+
+    add_action('wp_enqueue_scripts', 'itw_product_styles_and_scripts' ); 
+    add_action('admin_enqueue_scripts', 'itw_product_admin_styles_and_scripts');
+
 
     // ------------------------------------------------------------
     // INFRASTRUCTURE
     // ------------------------------------------------------------
 
     // load custom post types (must load CPTs before tools)
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/custom-post-types.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/itw-custom-post-types.php';
 
     // load classes that support product functionality 
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product.php';
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-dal.php';
-    require_once IWT_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-controller.php';
-
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-dal.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-controller.php';
 
     // allows quick access to Product_Controller class, 
     // but only loads on pages where it is used and only loads once 
-    // example: prod()->[method or property] 
-    //          for multiple calls, use $prod = prod(); 
-    function prod() {
+    // example: itw_prod()->[method or property] 
+    //          for multiple calls, use $itw_prod = itw_prod(); 
+    function itw_prod() {
         return \ITW_Medical\Products\ITW_Product_Controller::instance();
     }     
     
+    // --------------------------------------------
+    // tells dependent tools whether or not to load 
+    // --------------------------------------------
+    //
+    // EXAMPLE: 
+    //    // make sure itw-medical-product tools are activated
+    //    if ( ! defined( 'ITW_MEDICAL_PRODUCTS' ) ) {
+    //        return false;
+    //    }
+    //    // can safely use tools now (e.g. itw_prod()->...)
+    //
+    define('ITW_MEDICAL_PRODUCTS', 'TRUE');
+
 
     // ------------------------------------------------------------
     // CSV IMPORT/EXPORT 
@@ -59,6 +79,12 @@ function iwt_load_plugin_resources() {
     // FRONT-FACING PAGES
     // ------------------------------------------------------------
 
+    if ( ! is_admin() ) {
+// TODO: finish this class 
+// TODO: finish the templates that go with the shortcodes (include)
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'client-view/class-itw-product-single-client-view.php';  
+    }             
+
 
     // ------------------------------------------------------------
     // ADMIN PAGES
@@ -66,13 +92,55 @@ function iwt_load_plugin_resources() {
 
     // load admin page classes and tools 
     if ( is_admin() ) {
-        //require_once IWP_CLIENT_PORTAL_PATH . 'admin\admin-tools.php';
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'admin/class-admin-itw-product-list.php';  
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'admin/class-admin-itw-product-single.php'; 
     }             
         
         
-} // end : iwt_load_plugin_resources()
+} // end : itw_load_plugin_resources()
 
 
+
+// ------------------------------------------------------------
+// STYLES AND SCRIPTS
+// ------------------------------------------------------------
+
+// enqueue scripts and styles affiliated with the client portal 
+// (use external files, so they can be properly enqueued and not cause conflicts with jquery, etc)
+function itw_product_styles_and_scripts() {
+    
+    // client portal styles
+    $css_slug = "itw-product-styles"; 
+    $css_uri = ITW_MEDICAL_PRODUCTS_URL . 'assets/style.css';
+    $css_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/style.css' );
+    
+    wp_register_style( $css_slug, $css_uri, array(), $css_filetime );
+    wp_enqueue_style( $css_slug ); 
+    
+    // client portal scripts
+    $js_slug = "itw-product-scripts"; 
+    $js_uri = ITW_MEDICAL_PRODUCTS_URL . 'assets/scripts.js';
+    $js_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/scripts.js' );
+
+    wp_register_script( $js_slug, $js_uri, array('jquery'), $js_filetime, true );    
+    wp_enqueue_script( $js_slug );   
+        
+}
+
+// enqueue scripts and styles affiliated with the wordpress admin area as it pertains to the client portal 
+function itw_product_admin_styles_and_scripts() {
+
+    // client portal admin scripts
+    $js_slug = "itw-product-admin-scripts"; 
+    $js_uri = ITW_MEDICAL_PRODUCTS_URL . 'assets/admin.js';
+    $js_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/admin.js' );
+
+    wp_register_script( $js_slug, $js_uri, array('jquery'), $js_filetime, true );    
+    wp_enqueue_script( $js_slug );   
+    
+}
+
+  
 
 
 // ----------------------------------------------------
@@ -87,11 +155,29 @@ function show_debug() {
         
         global $debug;
         
-        //$debug['testing'] = prod()->test();
+        //$debug['testing'] = itw_prod()->test();
 
-        //$product = new \ITW_Medical\Products\ITW_Product();
-        //$product->post_id = 23;
+        /*
+        $product = new \ITW_Medical\Products\ITW_Product();
+        $product->post_id = 591;
+        $product->title = 'great';
+        $product->long_description = 'something goes here';
+        $product->short_description = 'something goes there';
+        itw_prod()->save_product( $product );
+        */
+
+        //delete_option( 'debug_option' );
+        //$debug['option'] = get_option( 'debug_option' ); 
+
         //$debug['dump1'] = $product->dump( $product::CSV, false );
+
+        $product = itw_prod()->get_product( 591 );
+        //$debug['data_no_'] = $product->get_data( false );
+        //$debug['test_product_function'] = $product->get_data();
+        //$debug['dump_csv_no_header'] = $product->get_csv( false );
+        //$debug['dump_csv_header'] = $product->get_csv();
+
+
 
         if ( $debug ) {
             ob_start(); 

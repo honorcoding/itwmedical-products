@@ -1,0 +1,200 @@
+/* 
+ * ITW PRODUCTS - STYLES 
+ */
+
+
+/* -------------------------------------
+   GENERAL 
+------------------------------------- */
+
+/*
+* TABS 
+* 
+* HOW TO USE:
+*   <div class="itw-tabs">
+*       <div class="itw-tabs-bar">
+*           <button class="itw-tabs-button active" data-tab="tabname1">Tab1</button>
+*           <button class="itw-tabs-button" data-tab="tabname2">Tab2</button>
+*       </div> 
+*       <div class="itw-tabs-section">
+*           <div id="tabname1" class="itw-tab">
+*               Tab1 content goes here...
+*           </div>
+*           <div id="tabname2" class="itw-tab">
+*               Tab2 content goes here...
+*           </div>
+*       </div>
+*   </div> 
+*/
+.itw-tabs {}
+.itw-tabs .itw-tabs-bar {
+   display: -ms-flexbox;
+   display: flex;
+   background: none;
+}
+.itw-tabs .itw-tabs-bar .itw-tabs-button {
+   padding: 8px 16px;
+   float: left;
+   width: auto; 
+   display: block; 
+   white-space: normal;
+   color: #000;
+   border: none;
+   text-decoration: none;
+   cursor: pointer;
+   outline: 0;
+   background: url("bkgd-strip.png") repeat scroll 0 -50px #385FA9;
+   color: #FFFFFF;
+   margin: 0 2px 0 0;
+   text-transform: uppercase;
+   line-height: 1;  
+   font-size: 9px; 
+}
+.itw-tabs .itw-tabs-bar .itw-tabs-button:first-of-type {
+   margin-left: 0;
+}
+.itw-tabs .itw-tabs-bar .itw-tabs-button:hover,
+.itw-tabs .itw-tabs-bar .itw-tabs-button.active,
+.itw-tabs .itw-tabs-bar .itw-tabs-button.active:hover {
+   text-decoration: none;
+   background: url('bkgd-strip.png') 0 -104px #385fa9;
+   color: #385fa9;
+   cursor: pointer;
+}
+.itw-tabs .itw-tabs-section {
+   background: url("bkgd-strip.png") repeat-x scroll 0 -753px #FFFFFF;
+   padding: 35px;
+}
+.itw-tabs .itw-tabs-section .itw-tab {}
+
+.bottom-space {
+   margin-bottom: 25px!important;
+}
+
+
+
+/* -------------------------------------
+   SINGLE PRODUCT PAGE 
+------------------------------------- */
+
+/* PAGE */
+.itw-product-single {}
+
+
+/* PAGE ELEMENTS */
+.itw-product-single h1 {
+   color: #385fa9;
+   font-weight: normal;
+   font-size: 240%;
+   letter-spacing: -.5px;
+}
+.itw-product-single h2 {
+   color: #EE8D00;
+   line-height: 180%;
+   font-size: 120%;
+   font-weight: normal;
+}
+.itw-product-single p {
+   margin: 0;
+}
+
+
+/* HEADER SHORTCODE */ 
+.itw-product-single .itw-header { 
+   display: flex;
+}
+.itw-product-single .itw-header .col {
+   /*flex: 1 1 auto;*/
+}
+.itw-product-single .itw-header .itw-title {}
+.itw-product-single .itw-header .itw-long-description {}
+.itw-product-single .itw-header .itw-image {}
+
+
+/* ORDER BOX */ 
+.itw-product-single .itw-order {
+   display: flex;
+   margin-top: 15px;
+}
+.itw-product-single .itw-order .itw-order-item {
+   flex-basis: 50%;
+}
+.itw-product-single .itw-order-border {
+   background-color: #dddddd;
+   text-align: center;
+   height: 8px;
+   line-height: 8px;
+   margin: 0 0 0 0;
+   clear: both;
+}
+.itw-product-single .itw-order-border.bottom {
+   margin-bottom: 15px;
+}
+.itw-product-single .itw-order-border span {
+   background-color: #ffffff;
+   font-size: 73%;
+   letter-spacing: .3px;
+   margin: 0 auto;
+   color: #bbbbbb;
+   padding: 2px;
+}
+
+.itw-product-single .itw-order .row {
+   display: flex;
+   flex-direction: row;
+}
+.itw-product-single .itw-order .column {
+   display: flex;
+   flex-direction: column;
+   margin: 2px 0;
+}
+.itw-product-single .itw-order .box-item {
+   flex: 1 1 auto;
+   padding: 3px 5px;
+   margin: 3px 0px 0px 0px;
+}
+.itw-product-single .itw-order .box-item:last-of-type {
+   margin: 3px 0 3px 0;
+}
+.itw-product-single .itw-order .box-item.fixed-1 {
+   width: 80px;
+}
+.itw-product-single .itw-order .box-item.shaded {
+   background-color: #b7b9bb;
+   color: #fff;
+}
+
+
+/* ORDERING INFO */ 
+.itw-product-single .itw-ordering-info {}
+
+
+/* ORDERING INFO EXTENDED */ 
+.itw-product-single .itw-ordering-info-extended {
+   display: flex;
+}
+.itw-product-single .itw-ordering-info-extended .itw-oie-item {
+   flex: 1 1 auto;
+}
+
+
+/* DETAILS */ 
+.itw-product-single .itw-details {}
+
+
+/* DRAWINGS */ 
+.itw-product-single .itw-drawings {}
+
+
+/* WARRANTY */ 
+.itw-product-single .itw-warranty {}
+
+
+/* TECHNICAL */ 
+.itw-product-single .itw-technical {}
+
+
+/* RELATED */ 
+.itw-product-single .itw-related {}
+
+
