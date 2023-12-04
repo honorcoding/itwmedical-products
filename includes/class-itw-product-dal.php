@@ -33,10 +33,11 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             
             // note: title, product details (content) and image (featured image) are post elements
             // meta keys
+            const META_KEY_LONG_DESCRIPTION =       'itw_medical_product_long_description';
             const META_KEY_PRODUCT_NUMBER =         'itw_medical_product_product_number';
             const META_KEY_MFG_NUMBER =             'itw_medical_product_manufacturer_number';
             const META_KEY_SHORT_DESCRIPTION =      'itw_medical_product_short_description';
-            const META_KEY_LONG_DESCRIPTION =       'itw_medical_product_long_description';
+            const META_KEY_PRODUCT_DETAILS =        'itw_medical_product_product_details';
             const META_KEY_PRODUCT_DRAWINGS =       'itw_medical_product_product_drawings';
             const META_KEY_WARRANTY =               'itw_medical_product_warranty';
             const META_KEY_TECHNICAL_LITERATURE =   'itw_medical_product_technical_literature';
@@ -92,12 +93,13 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         $product = new ITW_Product();
                         $product->post_id               = $post_id;
                         $product->title                 = get_the_title( $post_id );
-                        $product->product_details       = get_the_content( $post_id );
+                        $product->long_description      = get_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, true );;
                         $product->image                 = get_the_post_thumbnail( $post_id );
                         $product->product_number        = get_post_meta( $post_id, self::META_KEY_PRODUCT_NUMBER, true );;
                         $product->mfg_number            = get_post_meta( $post_id, self::META_KEY_MFG_NUMBER, true );;
                         $product->short_description     = get_post_meta( $post_id, self::META_KEY_SHORT_DESCRIPTION, true );;
-                        $product->long_description      = get_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, true );;
+                        //(deprecated) $product->product_details       = get_the_content( $post_id );
+                        $product->product_details       = get_post_meta( $post_id, self::META_KEY_PRODUCT_DETAILS, true );;
                         $product->product_drawings      = get_post_meta( $post_id, self::META_KEY_PRODUCT_DRAWINGS, true );;
                         $product->warranty              = get_post_meta( $post_id, self::META_KEY_WARRANTY, true );;
                         $product->technical_literature  = get_post_meta( $post_id, self::META_KEY_TECHNICAL_LITERATURE, true );;
@@ -127,10 +129,11 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         // note: title, image and description are saved by normal wordpress post update feature 
 
                         // save post meta 
+                        update_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, $product->long_description );
                         update_post_meta( $post_id, self::META_KEY_PRODUCT_NUMBER, $product->product_number );
                         update_post_meta( $post_id, self::META_KEY_MFG_NUMBER, $product->mfg_number );
                         update_post_meta( $post_id, self::META_KEY_SHORT_DESCRIPTION, $product->short_description );
-                        update_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, $product->long_description );
+                        update_post_meta( $post_id, self::META_KEY_PRODUCT_DETAILS, $product->product_details );
                         update_post_meta( $post_id, self::META_KEY_PRODUCT_DRAWINGS, $product->product_drawings );
                         update_post_meta( $post_id, self::META_KEY_WARRANTY, $product->warranty );
                         update_post_meta( $post_id, self::META_KEY_TECHNICAL_LITERATURE, $product->technical_literature );

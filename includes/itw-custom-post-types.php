@@ -91,3 +91,26 @@ function cptui_register_my_taxes() {
 }
 //add_action( 'init', 'cptui_register_my_taxes' );
 cptui_register_my_taxes();
+
+
+// ----------------------------------------------------
+// TEMPLATES 
+// ----------------------------------------------------
+
+// look in the plugin files for the template (instead of the theme)
+//add_filter('single_template', 'itw_load_custom_templates');
+function itw_load_custom_templates( $template ) {
+
+    global $post;
+
+    // check is Client Resource CPT 
+    if ( $post->post_type == 'itw-medical-product' ) {
+        $plugin_template = ITW_MEDICAL_PRODUCTS_PATH . 'templates/single-itw-medical-product.php';
+        if ( file_exists( $plugin_template ) ) {
+            $template = $plugin_template;
+        }
+    }
+
+    return $template;
+
+}

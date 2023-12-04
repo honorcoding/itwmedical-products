@@ -34,10 +34,22 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             const CUSTOM_TAXONOMY  = 'itw-medical-product-category';
 
             // csv constants
-            const ARRAY            = 'ARRAY';
-            const CSV              = 'CSV';
-            
+            const TABLE_HEADER     = array(
+                'post_id',
+                'title',
+                'description',
+                'image',
+                'product_number',
+                'mfg_number',
+                'short_description',
+                'product_details',
+                'product_drawings',
+                'warranty',
+                'technical_literature',
+                'related_products',
+            );
 
+            
             // product data 
             public $post_id;
             public $title;
@@ -53,16 +65,7 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             public $related_products;
 
 
-            public function __construct() {
-
-                    /*
-                    // set request constants
-                    if ( is_null( self::$custom_post_type ) ) {
-                        self::$custom_post_type = 'itw-medical-product';
-                    } 
-                    */   
-
-            }
+            public function __construct() {}
 
 
             // get constants
@@ -75,60 +78,105 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             }
 
 
-            // dump data as table (csv string or array, with or without header)
-            public function dump( $type = self::CSV, $no_header = false ) {
+            // general tools 
+            public static function is_itw_product( $post_id ) {
 
-                    // create the table header (as array)
-                    $table = array();
+                $post_type = get_post_type( $post_id );
+                if ( $post_type === self::get_post_type() ) {
+                    return true;
+                } else {
+                    return false;
+                }    
 
-                    if ( $no_header === false ) {
+            }
 
-                        $table['header'] = array(
-                            // headers go here
-                            'post "id"',
-                            'item1',
-                            'item 2',
-                        );
+            public function get_data( $with_labels = true ) {
 
+                $data = array(
+                    $this->post_id,
+                    $this->title,
+                    $this->description,
+                    $this->image,
+                    $this->product_number,
+                    $this->mfg_number,
+                    $this->short_description,
+                    $this->product_details,
+                    $this->product_drawings,
+                    $this->warranty,
+                    $this->technical_literature,
+                    $this->related_products,                               
+                );
+
+                if ( $with_labels === true ) {
+                    $new_data = array();
+                    foreach( $data as $key => $datum ) {
+                        $new_data[ self::TABLE_HEADER[ $key ] ] = $datum;
+                    } 
+                    $data = $new_data;
+                }
+
+                return $data;
+
+            }
+
+            public function get_data_as_html() {
+
+                $html_data = array();
+
+                $data = $this->get_data();
+                foreach ( $data as $key => $value ) {
+
+                    $html_data[ $key ] = nl2br( $value );
+
+                }
+
+            }
+
+
+            // -----------------------------------------------------
+            // CSV TABLE
+            // -----------------------------------------------------
+
+            public static function get_table_header() {
+                    return self::TABLE_HEADER;
+            }
+
+            // get data as csv table (with or without header)
+            public function get_csv( $with_header = true ) {
+
+                    $results = '';                
+
+                    // get the data 
+                    $data = $this->get_data( false );
+
+                    // convert the header to a CSV table (add a PHP_EOL)
+                    if ( $with_header === true ) {
+                        $results = self::get_csv_header() . PHP_EOL;                        
                     }
 
-                    // create the table row (as array)
-                    $table['row'] = array(
-                        // data declared here
-                        $this->post_id,
-                        'this is the time',
-                        'this is the other, item',
-                    );           
+                    // convert the row to a csv table
+                    $results .= self::convert_array_to_csv( $data );
 
-                    if ( $type === self::CSV ) {
+                    return $results;
 
-                        $results = '';
-                        
-                        // convert the array to a CSV table 
-                        if ( $no_header === false ) {
-                            $count = count( $table['header'] );
-                            for( $i = 0; $i < $count; $i++ ) { 
-                                $results .= $this->csv_escape( $table['header'][$i] );
-                                if ( $i < ( $count - 1 ) ) {
-                                    $results .= ',';
-                                } else {
-                                    $results .= PHP_EOL;
-                                }
-                            }
+            }
+
+            public static function get_csv_header() {
+
+                   return self::convert_array_to_csv( self::get_table_header() );
+
+            }
+
+            public static function convert_array_to_csv( $array ) {
+
+                    $results = '';
+
+                    if ( is_array( $array ) && ! empty( $array ) ) {
+
+                        foreach( $array as $value ) {
+                            $results .= self::csv_escape( $value ) . ',';
                         }
-
-                        $count = count( $table['row'] );
-                        for( $i = 0; $i < $count; $i++ ) { 
-                            $results .= $this->csv_escape( $table['row'][$i] );
-                            if ( $i < ( $count - 1 ) ) {
-                                $results .= ',';
-                            } 
-                        }
-
-                    } else {
-
-                        // use the array table
-                        $results = $table;
+                        $results = rtrim( $results, ',' );
 
                     }
 
@@ -136,8 +184,10 @@ if ( ! class_exists( 'ITW_Product' ) ) :
 
             }
 
-            public function csv_escape( $string ) {
+            public static function csv_escape( $string ) {
+
                     $string = strval( $string );
+
                     if( 
                         strpos( $string, ',' ) !== false || 
                         strpos( $string, '"' ) !== false 
@@ -145,7 +195,9 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                         $string = str_replace( '"', '""', $string );  // escape double quotes
                         $string = '"' . $string . '"';                 // put quotes around the entire string
                     }
+
                     return $string;
+
             }
 
     

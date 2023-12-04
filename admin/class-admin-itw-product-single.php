@@ -39,41 +39,55 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                         array(
                             'id'    => 'itw_mp_product_number',
                             'label' => 'Product Number',
+                            'type'  => 'text',
                         ),
                     'mfg_number' =>
                         array(
                             'id'    => 'itw_mp_mfg_number',
                             'label' => 'MFG Number',
+                            'type'  => 'text',
                         ),
                     'short_description' =>
                         array(
                             'id'    => 'itw_mp_short_description',
                             'label' => 'Short Description',
+                            'type'  => 'text',
                         ),
                     'long_description' =>
                         array(
                             'id'    => 'itw_mp_long_description',
                             'label' => 'Long Descripion',
+                            'type'  => 'text',
+                        ),
+                    'product_details' =>
+                        array(
+                            'id'    => 'itw_mp_product_details',
+                            'label' => 'Product Details',
+                            'type'  => 'textarea',
                         ),
                     'product_drawings' =>
                         array(
                             'id'    => 'itw_mp_product_drawings',
                             'label' => 'Product Drawings',
+                            'type'  => 'text',
                         ),
                     'warranty' =>
                         array(
                             'id'    => 'itw_mp_warranty',
                             'label' => 'Warranty',
+                            'type'  => 'text',
                         ),
                     'technical_literature' =>
                         array(
                             'id'    => 'itw_mp_technical_literature',
                             'label' => 'Technical Literature',
+                            'type'  => 'text',
                         ),
                     'related_products' =>
                         array(
                             'id'    => 'itw_mp_related_products',
                             'label' => 'Related Products',
+                            'type'  => 'text',
                         ),
                 );
 
@@ -130,7 +144,17 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                     <p>
                         <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
                         <br />
-                        <input class="widefat" type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo esc_attr( $field['value'] ); ?>" />
+                        <?php
+                            if ( $field['type'] === 'text' ) {
+                                ?>
+                                <input class="widefat" type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo esc_attr( $field['value'] ); ?>" />
+                                <?php
+                            } else if ( $field['type'] === 'textarea') {
+                                ?>
+                                <textarea class="widefat" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" rows="4"><?php echo esc_attr( $field['value'] ); ?></textarea>
+                                <?php
+                            }
+                        ?>
                     </p>
                     <?php    
                 }
@@ -155,8 +179,6 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
             } 
 
             // save meta box 
-// debug: left off here...   
-// it did not save... why?          
             function save_post_meta_box( $post_id, $post ) {
 
                 $edit_cap = get_post_type_object( $post->post_type )->cap->edit_post;
@@ -185,7 +207,11 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                 $fields = $this->meta_box_fields;
                 foreach( $fields as $key => $field ) {
                     if ( array_key_exists( $field['id'], $_POST ) ) {
-                        $product->$key = sanitize_text_field( $_POST[ $field['id'] ] );
+                        if ( $field['type'] === 'text' ) {
+                            $product->$key = sanitize_text_field( $_POST[ $field['id'] ] );
+                        } else if ( $field['type'] === 'textarea' ) {
+                            $product->$key = $_POST[ $field['id'] ]; // do not sanitize. allows html tags, carriage returns, etc.
+                        }
                     } else { 
                         $product->$key = '';
                     }                    
@@ -197,85 +223,6 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
 
             }
               
-/*
-            // HANDLE Client Request FIELDS AFTER SAVE 
-            public function on_save_post( $post_id ) {
-
-                // make sure it is a valid post of the type ITW_Product 
-                $post = get_post( $post_id ); 
-                if ( 
-                    $post == null || 
-                    $post->post_type != ITW_Product::get_post_type() 
-                ) {
-                    return;
-                } 
-
-                // if the post content was changed
-                if ( $post->post_content != '' ) { 
-                    
-                    // get existing client request data 
-                    $request = $this->itw_prod->get_request( $post_id );
-                    if ( $request ) {
-
-                        // unhook this function so it does not loop infinitely
-                        remove_action( 'acf/save_post', 'on_save_post' );
-
-                        // update the conversation with the new post content 
-                        $request = $itw_prod->update_conversation( $request, $post->post_content, 'staff' );
-
-                        // delete the post content
-                        wp_update_post( array( 'ID' => $post_id, 'post_content' => '' ) );              
-                    
-                        // re-hook this function
-                        add_action( 'acf/save_post', 'on_save_post' );
-
-                    }
-                    
-                    
-                } // end : if post content was changed 
-                
-            } // end : on_save_post()
-
-            // POPULATE REQUEST STATUS FIELD 
-            public function load_request_status_field( $field ) {
-                
-                // Reset choices
-                $field['choices'] = array( '' => '- Select -' );  // start with a blank option
-
-                // Get field from options page
-                $statuses = ITW_Product::get_request_statuses(); 
-
-                // Get only names, emails and ids in array
-                foreach( $statuses as $key => $value ) {
-                    $field['choices'][ $key ] = $value;
-                }
-
-                // Return choices
-                return $field;
-
-            }
-
-            // POPULATE APPROVAL STATUS FIELD 
-            public function load_approval_status_field( $field ) {
-                
-                // Reset choices
-                $field['choices'] = array( '' => '- Select -' );  // start with a blank option
-
-                // Get field from options page
-                $statuses = ITW_Product::get_approval_statuses(); 
-
-                // Get only names, emails and ids in array
-                foreach( $statuses as $key => $value ) {
-                    $field['choices'][ $key ] = $value;
-                }
-
-                // Return choices
-                return $field;
-
-            }
-*/
-
-
     } // end class: Admin_ITW_Product_Single
 
     // create a single instantiation of this class 

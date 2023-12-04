@@ -62,13 +62,11 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
             }
 
             public function test() {
-
                     // get information from data access layer
                     return $this->dal->test();
-
             }
 
-            // ** returns ITW_Product or false
+            // * returns @ITW_Product or @boolean (false)
             public function get_product( $post_id ) {
                     return $this->dal->get_product( $post_id );
             }
@@ -76,14 +74,6 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
             public function save_product( ITW_Product $product ) {
                     return $this->dal->save_product( $product );
             }
-
-
-
-            
-            // ----------------------------------------------------
-            // HELPER TOOLS 
-            // ----------------------------------------------------
-
 
     
     } // end class: ITW_Product_Controller
