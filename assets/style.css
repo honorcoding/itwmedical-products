@@ -119,6 +119,9 @@
 .itw-product-single .itw-order .itw-order-item {
    flex-basis: 50%;
 }
+.itw-product-single .itw-order .itw-order-item.full-width {
+   flex-basis: 100%;
+}
 .itw-product-single .itw-order-border {
    background-color: #dddddd;
    text-align: center;
@@ -198,3 +201,55 @@
 .itw-product-single .itw-related {}
 
 
+
+/* -------------------------------------
+   ARCHIVE PRODUCT PAGE 
+------------------------------------- */
+
+/* filter */
+.itw-product-filter-container {
+   display: flex;
+}
+.itw-product-filter {
+   padding: 20px;
+   width: 100%;
+   margin: 0 10px 20px 0px;
+   background: #f1e9e3;
+   box-shadow: 2px 2px 2px #ddd;
+   border-radius: 6px;
+}
+.itw-product-filter select {
+   height: 26px;
+}
+.itw-product-filter input[type=submit] {
+   background: #EE8D00;
+   height: 26px;
+   padding-top: 3px;
+}
+.itw-product-filter input[type=submit]:hover {
+   background: #385fa9;
+}
+
+/* product list */
+.itw-product-list-container {
+   display: flex;  
+}
+.itw-product-list {
+   padding: 20px;
+   width: 100%;
+   margin: 0 10px 20px 0px;
+   background: #f1e9e3;
+   box-shadow: 2px 2px 2px #ddd;
+   border-radius: 6px;
+}
+.itw-product-list table {}
+.itw-product-list table tr {}
+.itw-product-list table th, 
+.itw-product-list table td {
+   text-align: left;
+   padding: 2px 12px;
+}
+.itw-product-list table th:first-of-type,
+.itw-product-list table td:first-of-type {
+   padding-left: 0px;
+}

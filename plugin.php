@@ -55,7 +55,7 @@ function itw_load_plugin_resources() {
     function itw_prod() {
         return \ITW_Medical\Products\ITW_Product_Controller::instance();
     }     
-    
+
     // --------------------------------------------
     // tells dependent tools whether or not to load 
     // --------------------------------------------
@@ -69,6 +69,11 @@ function itw_load_plugin_resources() {
     //
     define('ITW_MEDICAL_PRODUCTS', 'TRUE');
 
+    // load classes that support product filtering 
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-filter.php';
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-filter.php';
+
+    
 
     // ------------------------------------------------------------
     // CSV IMPORT/EXPORT 
@@ -80,9 +85,8 @@ function itw_load_plugin_resources() {
     // ------------------------------------------------------------
 
     if ( ! is_admin() ) {
-// TODO: finish this class 
-// TODO: finish the templates that go with the shortcodes (include)
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'client-view/class-itw-product-single-client-view.php';  
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'client-view/class-itw-product-archive-client-view.php';          
     }             
 
 
@@ -155,29 +159,7 @@ function show_debug() {
         
         global $debug;
         
-        //$debug['testing'] = itw_prod()->test();
-
-        /*
-        $product = new \ITW_Medical\Products\ITW_Product();
-        $product->post_id = 591;
-        $product->title = 'great';
-        $product->long_description = 'something goes here';
-        $product->short_description = 'something goes there';
-        itw_prod()->save_product( $product );
-        */
-
-        //delete_option( 'debug_option' );
-        //$debug['option'] = get_option( 'debug_option' ); 
-
-        //$debug['dump1'] = $product->dump( $product::CSV, false );
-
-        $product = itw_prod()->get_product( 591 );
-        //$debug['data_no_'] = $product->get_data( false );
-        //$debug['test_product_function'] = $product->get_data();
-        //$debug['dump_csv_no_header'] = $product->get_csv( false );
-        //$debug['dump_csv_header'] = $product->get_csv();
-
-
+        // $debug data goes here
 
         if ( $debug ) {
             ob_start(); 
