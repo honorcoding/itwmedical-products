@@ -203,6 +203,55 @@
 
 
 /* -------------------------------------
+   SINGLE PRODUCT PAGE - PRINT
+------------------------------------- */
+
+.itw-product-single.print {
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 11px;
+   color: #747676;
+}
+.itw-product-single.print h1 {
+   font-family: 'Archivo Narrow', sans-serif;
+}
+.itw-product-single.print h2.tab {
+   display: block; 
+   padding: 8px 16px;
+   margin: 25px 2px 0 0;
+   width: 310px;
+
+   background: url("bkgd-strip.png") repeat scroll 0 -50px #385FA9;
+   border: none; 
+   outline: 0;
+
+   text-decoration: none;
+   white-space: normal;
+   text-transform: uppercase;
+   line-height: 1;  
+   font-size: 14px; 
+   color: #FFFFFF;
+}
+.itw-product-single.print .itw-order, 
+.itw-product-single.print .itw-order-border.bottom {
+   width: 315px;
+ }
+.itw-product-single.print .itw-footer { 
+   display: flex;
+   margin-top: 50px;
+   border-top: solid 1px #555;
+}
+.itw-product-single.print .itw-footer > * { 
+   padding: 20px;
+   flex: 1 1 auto;
+}
+.itw-product-single.print .itw-footer .col {
+   /*flex: 1 1 auto;*/
+}
+
+
+
+
+/* -------------------------------------
    ARCHIVE PRODUCT PAGE 
 ------------------------------------- */
 

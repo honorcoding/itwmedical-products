@@ -51,12 +51,6 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
 
             public function load_hooks_and_filters() {
 
-                // TODO: add shortcodes 
-                //       include capability for filters 
-
-                // ARCHIVE PAGE 
-
-
                 // SINGLE PAGE TEMPLATE 
 
                 add_shortcode( 'itw_medical_product_single_content', array( $this, 'itw_medical_product_single_content_shortcode' ) );
@@ -68,7 +62,7 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
                 //    which uses:
                 //      [itw_product view="ordering_info"]
                 //      [itw_product view="ordering_info_extended"]
-                // [itw_product_tabs] 
+                // [itw_product view="tabs"] 
                 //    which uses: 
                 //      [itw_product view="details"]
                 //      [itw_product view="drawings"]
@@ -77,21 +71,14 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
                 // [itw_product view="related"]
 
                 add_shortcode( 'itw_product', array( $this, 'itw_product_single_shortcode' ) );
-                add_shortcode( 'itw_product_tabs', array( $this, 'itw_product_single_tabs_shortcode' ) );
 
 
                 // SINGLE PAGE PRINT 
-                // [itw_product_print]
-                //    which uses:
-                //      [itw_product view="header"]
-                //      [itw_product view="ordering_info"]
-                //      [itw_product view="details"]
-                //      [itw_product view="drawings"]
-                //      [itw_product view="warranty"]
-                //      [itw_product view="technical"]
+                // adding ?view=print to the single page url will display the print template instead of the single page template
+                // e.g. https://itwmedical.com/itw-medical-product/eurovalve/?view=print
 
-                add_shortcode( 'itw_product_print', array( $this, 'itw_product_print_shortcode' ) );
-
+                add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
+                add_filter( 'template_include', array( $this, 'add_print_template' ) );                        
 
             }
 
@@ -130,12 +117,71 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
 
             }
 
+            
+            // handles query vars
+            public function add_query_vars( $vars ) {
+
+                $has_param = false;
+                foreach( $vars as $var ) {
+                    if ( $var === 'view' ) {
+                        $has_param = true;
+                        break;
+                    }
+                }
+
+                if ( $has_param === false ) {
+                    $vars[] = 'view';                
+                }
+                
+                return $vars;
+
+            }
+
+            public function get_query_var( $key ) {
+
+                $value = get_query_var( $key ); 
+
+                if ( 
+                    $value === '' && 
+                    isset( $_GET[ $key ] )
+                ) {
+                    $value = $_GET[ $key ];
+                }
+
+                return $value;
+
+            }
+
 
 
             // ------------------------------------------------------
-            // ARCHIVE PAGES - SHORTCODES 
+            // SINGLE PAGE TEMPLATE 
             // ------------------------------------------------------
 
+            public function itw_medical_product_single_content_shortcode( $atts = array(), $content='' ) {
+
+                // set up default parameters
+                extract(shortcode_atts(array(
+                    //'post_id' => '',
+                ), $atts));
+                
+
+                // only process if itw_product cpt and single page 
+                if ( 
+                    ITW_Product::is_itw_product( get_the_ID() ) && 
+                    is_single()
+                ) {
+
+                    // generate single page content from template file 
+                    ob_start(); 
+                        include self::TEMPLATE_PATH . 'single-itw-product-content.php';
+                    $new_content = ob_get_clean();
+
+                    return $new_content;
+                    
+                }
+
+            }
 
 
             // ------------------------------------------------------
@@ -177,91 +223,12 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
             }
 
 
-            // show product tabs
-            public function itw_product_single_tabs_shortcode( $atts = array(), $content='' ) {
-
-                // set up default parameters
-                extract(shortcode_atts(array(
-                    'post_id' => '',
-                ), $atts));
-                
-                // by default, use the current post 
-                if( $post_id === '' ) {
-                    $post_id = get_the_ID();    
-                }
-
-                // prepare output
-                $output = '';
-
-                // load product
-                $product = $this->maybe_load_product( $post_id );
-
-                if ( $product ) {
-
-                    // generate shortcode output from template file
-                    ob_start(); 
-                        include self::TEMPLATE_PARTS_PATH . 'tabs.php';
-                    $output = ob_get_clean();
-                                    
-                }
-
-                // return shortcode output
-                return $output;
-                
-            }
-
-
 
             // ------------------------------------------------------
-            // SINGLE PAGE PRINT - SHORTCODES 
+            // SINGLE PAGE - PRINT 
             // ------------------------------------------------------
 
-            // show print page 
-            public function itw_product_print_shortcode( $atts = array(), $content='' ) {
-
-                // set up default parameters
-                extract(shortcode_atts(array(
-                    'post_id' => '',
-                ), $atts));
-                
-                // by default, use the current post 
-                if( $post_id === '' ) {
-                    $post_id = get_the_ID();    
-                }
-
-                // prepare output
-                $output = '';
-
-                // load product
-                $product = $this->maybe_load_product( $post_id );
-
-                if ( $product ) {
-
-                    // generate shortcode output from template file
-                    ob_start(); 
-                        include self::TEMPLATE_PARTS_PATH . 'print.php';
-                    $output = ob_get_clean();
-                                    
-                }
-
-                // return shortcode output
-                return $output;
-                
-            }              
-
-
-
-            // ------------------------------------------------------
-            // SINGLE PAGE TEMPLATE 
-            // ------------------------------------------------------
-
-            public function itw_medical_product_single_content_shortcode( $atts = array(), $content='' ) {
-
-                // set up default parameters
-                extract(shortcode_atts(array(
-                    //'post_id' => '',
-                ), $atts));
-                
+            public function add_print_template( $template ) {
 
                 // only process if itw_product cpt and single page 
                 if ( 
@@ -269,17 +236,22 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
                     is_single()
                 ) {
 
-                    // generate single page content from template file 
-                    ob_start(); 
-                        include self::TEMPLATE_PATH . 'single-itw-product-content.php';
-                    $new_content = ob_get_clean();
+                    $print_var = $this->get_query_var( 'view' );
+                    if ( $print_var === 'print' ) {
 
-                    return $new_content;
-                    
+                        $plugin_template = self::TEMPLATE_PATH . '/single-itw-product-print.php';
+                        if ( file_exists( $plugin_template ) ) {
+                            $template = $plugin_template;
+                        }
+                        
+                    }
+                        
                 }
 
-            }
+                return $template;
 
+            } 
+            
 
 
     } // end class: ITW_Product_Single_Client_View

@@ -72,7 +72,9 @@ if ( ! class_exists( 'ITW_Filter' ) ) :
 
                 foreach( $this->filter_ids as $filter_id ) {
                     $vars[] = $filter_id;
-                }                
+                }      
+                
+                return $vars;
 
             }
 

@@ -93,17 +93,17 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         $product = new ITW_Product();
                         $product->post_id               = $post_id;
                         $product->title                 = get_the_title( $post_id );
-                        $product->long_description      = get_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, true );;
+                        $product->long_description      = get_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, true );
                         $product->image                 = get_the_post_thumbnail( $post_id );
-                        $product->product_number        = get_post_meta( $post_id, self::META_KEY_PRODUCT_NUMBER, true );;
-                        $product->mfg_number            = get_post_meta( $post_id, self::META_KEY_MFG_NUMBER, true );;
-                        $product->short_description     = get_post_meta( $post_id, self::META_KEY_SHORT_DESCRIPTION, true );;
+                        $product->product_number        = get_post_meta( $post_id, self::META_KEY_PRODUCT_NUMBER, true );
+                        $product->mfg_number            = get_post_meta( $post_id, self::META_KEY_MFG_NUMBER, true );
+                        $product->short_description     = get_post_meta( $post_id, self::META_KEY_SHORT_DESCRIPTION, true );
                         //(deprecated) $product->product_details       = get_the_content( $post_id );
-                        $product->product_details       = get_post_meta( $post_id, self::META_KEY_PRODUCT_DETAILS, true );;
-                        $product->product_drawings      = get_post_meta( $post_id, self::META_KEY_PRODUCT_DRAWINGS, true );;
-                        $product->warranty              = get_post_meta( $post_id, self::META_KEY_WARRANTY, true );;
-                        $product->technical_literature  = get_post_meta( $post_id, self::META_KEY_TECHNICAL_LITERATURE, true );;
-                        $product->related_products      = get_post_meta( $post_id, self::META_KEY_RELATED_PRODUCTS, true );;
+                        $product->product_details       = get_post_meta( $post_id, self::META_KEY_PRODUCT_DETAILS, true );
+                        $product->product_drawings      = get_post_meta( $post_id, self::META_KEY_PRODUCT_DRAWINGS, true );
+                        $product->warranty              = get_post_meta( $post_id, self::META_KEY_WARRANTY, true );
+                        $product->technical_literature  = get_post_meta( $post_id, self::META_KEY_TECHNICAL_LITERATURE, true );
+                        $product->related_products      = get_post_meta( $post_id, self::META_KEY_RELATED_PRODUCTS, true );
             
                     }
 
