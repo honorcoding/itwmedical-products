@@ -119,6 +119,9 @@
 .itw-product-single .itw-order .itw-order-item {
    flex-basis: 50%;
 }
+.itw-product-single .itw-order .itw-order-item.full-width {
+   flex-basis: 100%;
+}
 .itw-product-single .itw-order-border {
    background-color: #dddddd;
    text-align: center;
@@ -198,3 +201,104 @@
 .itw-product-single .itw-related {}
 
 
+
+/* -------------------------------------
+   SINGLE PRODUCT PAGE - PRINT
+------------------------------------- */
+
+.itw-product-single.print {
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 11px;
+   color: #747676;
+}
+.itw-product-single.print h1 {
+   font-family: 'Archivo Narrow', sans-serif;
+}
+.itw-product-single.print h2.tab {
+   display: block; 
+   padding: 8px 16px;
+   margin: 25px 2px 0 0;
+   width: 310px;
+
+   background: url("bkgd-strip.png") repeat scroll 0 -50px #385FA9;
+   border: none; 
+   outline: 0;
+
+   text-decoration: none;
+   white-space: normal;
+   text-transform: uppercase;
+   line-height: 1;  
+   font-size: 14px; 
+   color: #FFFFFF;
+}
+.itw-product-single.print .itw-order, 
+.itw-product-single.print .itw-order-border.bottom {
+   width: 315px;
+ }
+.itw-product-single.print .itw-footer { 
+   display: flex;
+   margin-top: 50px;
+   border-top: solid 1px #555;
+}
+.itw-product-single.print .itw-footer > * { 
+   padding: 20px;
+   flex: 1 1 auto;
+}
+.itw-product-single.print .itw-footer .col {
+   /*flex: 1 1 auto;*/
+}
+
+
+
+
+/* -------------------------------------
+   ARCHIVE PRODUCT PAGE 
+------------------------------------- */
+
+/* filter */
+.itw-product-filter-container {
+   display: flex;
+}
+.itw-product-filter {
+   padding: 20px;
+   width: 100%;
+   margin: 0 10px 20px 0px;
+   background: #f1e9e3;
+   box-shadow: 2px 2px 2px #ddd;
+   border-radius: 6px;
+}
+.itw-product-filter select {
+   height: 26px;
+}
+.itw-product-filter input[type=submit] {
+   background: #EE8D00;
+   height: 26px;
+   padding-top: 3px;
+}
+.itw-product-filter input[type=submit]:hover {
+   background: #385fa9;
+}
+
+/* product list */
+.itw-product-list-container {
+   display: flex;  
+}
+.itw-product-list {
+   padding: 20px;
+   width: 100%;
+   margin: 0 10px 20px 0px;
+   background: #f1e9e3;
+   box-shadow: 2px 2px 2px #ddd;
+   border-radius: 6px;
+}
+.itw-product-list table {}
+.itw-product-list table tr {}
+.itw-product-list table th, 
+.itw-product-list table td {
+   text-align: left;
+   padding: 2px 12px;
+}
+.itw-product-list table th:first-of-type,
+.itw-product-list table td:first-of-type {
+   padding-left: 0px;
+}

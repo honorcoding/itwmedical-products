@@ -97,6 +97,7 @@ cptui_register_my_taxes();
 // TEMPLATES 
 // ----------------------------------------------------
 
+// deprecated:
 // look in the plugin files for the template (instead of the theme)
 //add_filter('single_template', 'itw_load_custom_templates');
 function itw_load_custom_templates( $template ) {

@@ -132,7 +132,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
 
                 // get fields and populate with product information 
                 if ( $product ) {
-                    $fields = $this->get_meta_box_fields_and_populate_with_values( $product );
+                    $fields = $this->populate_fields_with_product_data( $product );
                 }
 
                 // set up nonce 
@@ -142,17 +142,29 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                 foreach ( $fields as $field ) {
                     ?>
                     <p>
-                        <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
-                        <br />
                         <?php
                             if ( $field['type'] === 'text' ) {
                                 ?>
+                                <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
+                                <br />
                                 <input class="widefat" type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo esc_attr( $field['value'] ); ?>" />
                                 <?php
                             } else if ( $field['type'] === 'textarea') {
                                 ?>
+                                <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
+                                <br />
                                 <textarea class="widefat" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" rows="4"><?php echo esc_attr( $field['value'] ); ?></textarea>
                                 <?php
+                            } else if ( $field['type'] === 'checkbox' ) {
+                                if (  $field['value'] == 1  ) {
+                                    $checked = ' checked="checked"';
+                                } else {
+                                    $checked = '';
+                                }
+                                ?>
+                                <input class="widefat" type="checkbox" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="1" <?php echo $checked; ?> />
+                                <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
+                                <?php                                
                             }
                         ?>
                     </p>
@@ -161,7 +173,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
             }
 
             // get the meta box fields and populate with values
-            public function get_meta_box_fields_and_populate_with_values( ITW_Product $product ) {
+            public function populate_fields_with_product_data( ITW_Product $product ) {
 
                 $fields = $this->meta_box_fields;
 
@@ -206,15 +218,20 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                 // populate the product with field values
                 $fields = $this->meta_box_fields;
                 foreach( $fields as $key => $field ) {
-                    if ( array_key_exists( $field['id'], $_POST ) ) {
+                    if ( $field['type'] === 'checkbox' ) {
+                        // always update checkboxes
+                        // (if $_POST is set, then checked. if $_POST is not set, then unchecked.)
+                        $checked = ( isset( $_POST[ $field['id'] ] ) && $_POST[ $field['id'] ] ) ? "1" : "0";
+                        update_post_meta( $post_id, $field['id'], $checked ); 
+                    } else if ( array_key_exists( $field['id'], $_POST ) ) {
                         if ( $field['type'] === 'text' ) {
                             $product->$key = sanitize_text_field( $_POST[ $field['id'] ] );
                         } else if ( $field['type'] === 'textarea' ) {
                             $product->$key = $_POST[ $field['id'] ]; // do not sanitize. allows html tags, carriage returns, etc.
-                        }
-                    } else { 
-                        $product->$key = '';
-                    }                    
+                        } else { 
+                            $product->$key = '';
+                        }                    
+                    }
                 }
 
                 // save the meta box field values to post meta 

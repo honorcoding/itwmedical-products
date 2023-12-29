@@ -1,3 +1,3 @@
 <div class="itw-details">
-    <?php echo $product->product_details; ?>
+    <?php echo nl2br( $product->product_details ); ?>
 </div>    

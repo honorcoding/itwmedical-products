@@ -1,3 +1,9 @@
+<?php 
+    $content = nl2br( $product->warranty );
+    if ( ! $content ) {
+        $content = 'A warranty is not available for this product.';
+    }
+?>
 <div class="itw-warranty">
-    <h2>Warranty</h2>
+    <?php echo $content; ?>
 </div>    
