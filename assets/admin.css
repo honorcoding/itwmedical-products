@@ -2,34 +2,40 @@
  * ADMIN STYLES
 */
 
-.itwmp-import-export .itwmp-message {
+.itwmp-settings .itwmp-message {
     margin: 20px 20px 20px 0;
     padding: 5px 10px 8px;
     border: solid 2px green;
     border-radius: 5px;
 }
-.itwmp-import-export .itwmp-message.alert {
+.itwmp-settings .itwmp-message.alert {
     border-color: yellow;
 }
-.itwmp-import-export .itwmp-message.error {
+.itwmp-settings .itwmp-message.error {
     border-color: red;
 }
-.itwmp-import-export h1 {
+.itwmp-settings h1 {
     margin-bottom: 35px;
 }
-.itwmp-import-export .section {
+.itwmp-settings .section {
     margin: 20px 20px 20px 0;
     padding: 20px;
     border: solid 1px #ccc;
     border-radius: 5px;
 }
-.itwmp-import-export .section h2 {
+.itwmp-settings .section h2 {
     margin: 0 0 1em 0;
 }
  
-.itwmp-import-export ul {
+.itwmp-settings ul {
     list-style-type: disc;    
 }
-.itwmp-import-export ul li {
+.itwmp-settings ul li {
     margin-left: 25px;
+}
+
+/* warranty section */
+.itwmp-settings .itwmp-warranty-field {
+    width: 100%;
+    max-width: 700px;
 }

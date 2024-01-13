@@ -35,6 +35,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
             const IMPORT_FILE_FORM_ID  = 'itw_import_file_upload_form';
             const IMPORT_FILE_UPLOAD_FOLDER = 'itw_import';
 
+
             // path for display templates
             const TEMPLATE_PATH       = ITW_MEDICAL_PRODUCTS_PATH . 'templates/admin/';
 
@@ -85,9 +86,9 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
             public function add_settings_page_to_admin_menu() {
                 if (is_admin()) {
                     $parent_page = 'edit.php?post_type=itw-medical-product';
-                    $page_title  = 'ITW Medical Products - Import / Export';
-                    $menu_title  = 'Import / Export';
-                    $page_slug   = 'itwmp-import-export';
+                    $page_title  = 'ITW Medical Products - Settings';
+                    $menu_title  = 'Settings';
+                    $page_slug   = 'itwmp-settings';
                     add_submenu_page( $parent_page, $page_title, $menu_title, 'manage_options', $page_slug, array( $this, 'render_settings_page' ) );                    
                 }
             }
@@ -106,13 +107,18 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                     'file_upload' => $this->get_import_file_upload(),
                 );
 
-                $args = array(
-                    'messages'        => $messages,
-                    'import_section' => $this->get_template( 'parts/import', $import_args ),
-                    'export_section' => $this->get_template( 'parts/export' ), 
+                $warranty_args = array(
+                    'warranty' => itw_prod()->get_warranty(),
                 );
 
-                $page_html   = $this->get_template( 'import-export-page-content', $args );
+                $args = array(
+                    'messages'         => $messages,
+                    'import_section'   => $this->get_template( 'parts/import', $import_args ),
+                    'export_section'   => $this->get_template( 'parts/export' ), 
+                    'warranty_section' => $this->get_template( 'parts/warranty', $warranty_args ), 
+                );
+
+                $page_html   = $this->get_template( 'settings-page-content', $args );
 
                 echo $page_html;
 
@@ -142,6 +148,9 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
 
                 // process import form 
                 $messages = $this->process_import_form( $messages ); 
+
+                // process warranty form 
+                $messages = $this->process_warranty_form( $messages );
 
                 return $messages;
 
@@ -232,6 +241,21 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                 return $messages;
 
             } // end : process_import_form()
+
+            // process warranty form 
+            protected function process_warranty_form( $messages ) {
+
+                if ( isset( $_POST['itwmp-warranty-submit'] ) && $_POST['itwmp-warranty-submit'] === 'Update' ) {
+                    if ( isset( $_POST['itwmp-warranty-field'] ) ) {
+                        $warranty = $_POST['itwmp-warranty-field'];
+                        itw_prod()->set_warranty( $warranty );
+                    }                    
+                }
+
+                return $messages;
+
+            }
+
 
 
             // handle messages

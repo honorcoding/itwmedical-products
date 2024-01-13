@@ -213,6 +213,21 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
 
             }
  
+
+            // -----------------------------------------------------------
+            // GLOBAL DATA - WORDPRESS OPTIONS
+            // -----------------------------------------------------------
+
+            // get the warranty text
+            public function get_warranty() {
+                return $this->dal->get_warranty();
+            }
+
+            // set the warranty text 
+            public function set_warranty( $text ) {
+                return $this->dal->set_warranty( $text );
+            }
+
     
     } // end class: ITW_Product_Controller
 

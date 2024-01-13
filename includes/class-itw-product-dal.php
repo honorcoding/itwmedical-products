@@ -40,9 +40,11 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             const META_KEY_SHORT_DESCRIPTION =      'itw_medical_product_short_description';
             const META_KEY_PRODUCT_DETAILS =        'itw_medical_product_product_details';
             const META_KEY_PRODUCT_DRAWINGS =       'itw_medical_product_product_drawings';
-            //const META_KEY_WARRANTY =               'itw_medical_product_warranty';
             const META_KEY_TECHNICAL_LITERATURE =   'itw_medical_product_technical_literature';
             const META_KEY_RELATED_PRODUCTS =       'itw_medical_product_related_products';
+
+            // wp option keys
+            const WARRANTY_OPTION_KEY = 'itw_warranty';
 
             // return type for categories
             const STRING = 'STRING';
@@ -290,7 +292,7 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                             $attachment_id = 0;
 
                             // if the image belongs to this site
-                            if ( $this->is_image_from_this_site( $product['image'] ) ) {
+                            if ( $this->is_url_from_this_site( $product['image'] ) ) {
                                 // attempt to find that attachment_id
                                 $attachment_id = attachment_url_to_postid( $product['image'] );     // returns 0 on failure
                             }
@@ -351,7 +353,8 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
 
             }  // end : update_product() 
 
-            public function is_image_from_this_site( $image_url ) {
+            // check if url if from this site
+            public function is_url_from_this_site( $image_url ) {
 
                 $site_url_parsed = wp_parse_url( get_site_url() );
                 $site_host = $site_url_parsed['host'];
@@ -363,6 +366,22 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                 return $is_site_image;
 
             }
+            
+
+            // -----------------------------------------------------------
+            // GLOBAL DATA - WORDPRESS OPTIONS
+            // -----------------------------------------------------------
+
+            // get the warranty text
+            public function get_warranty() {
+                return stripslashes( get_option( self::WARRANTY_OPTION_KEY ) );
+            }
+
+            // set the warranty text 
+            public function set_warranty( $text ) {
+                update_option( self::WARRANTY_OPTION_KEY, $text );
+            }
+
             
     } // end class: ITW_Product_DAL
 

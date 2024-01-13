@@ -1,6 +1,6 @@
-<div class="itwmp-import-export">
+<div class="itwmp-settings">
 
-    <h1>ITW Medical Products - Import / Export</h1>
+    <h1>ITW Medical Products</h1>
 
     <?php 
         // show messages 
@@ -30,6 +30,11 @@
     <div class="section">
         <h2>Export</h2>
         <?php echo $args['export_section'] ?>
+    </div>
+
+    <div class="section">
+        <h2>Warranty</h2>
+        <?php echo $args['warranty_section'] ?>
     </div>
 
 </div> 
