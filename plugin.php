@@ -4,7 +4,7 @@
  * Description: Facilitates product listing and display. 
  * Version: 1.0
  * Author: IWP
- * Author URI:   https://innerworkspro.com
+ * Author URI:   https://itwmedical.com
  * License:      GPL2
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:  itwmedical_products    
@@ -27,14 +27,6 @@ define("ITW_MEDICAL_PRODUCTS_PATH", plugin_dir_path(__FILE__));
 add_action( 'init', 'itw_load_plugin_resources' ); 
 function itw_load_plugin_resources() {
     
-
-    // ------------------------------------------------------------
-    // STYLES AND SCRIPTS
-    // ------------------------------------------------------------
-
-    add_action('wp_enqueue_scripts', 'itw_product_styles_and_scripts' ); 
-    add_action('admin_enqueue_scripts', 'itw_product_admin_styles_and_scripts');
-
 
     // ------------------------------------------------------------
     // INFRASTRUCTURE
@@ -68,36 +60,47 @@ function itw_load_plugin_resources() {
     //    // can safely use tools now (e.g. itw_prod()->...)
     //
     define('ITW_MEDICAL_PRODUCTS', 'TRUE');
-
-    // load classes that support product filtering 
-    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-filter.php';
-    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-filter.php';
-
     
 
     // ------------------------------------------------------------
-    // CSV IMPORT/EXPORT 
-    // ------------------------------------------------------------
-
-
-    // ------------------------------------------------------------
-    // FRONT-FACING PAGES
+    // CLIENT-FACING PAGES
     // ------------------------------------------------------------
 
     if ( ! is_admin() ) {
+
+        // load client-facing styles and scripts
+        add_action('wp_enqueue_scripts', 'itw_product_styles_and_scripts' ); 
+    
+        // load classes that support product filtering 
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-filter.php';
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-product-filter.php';
+
+        // handle client-facing pages
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'client-view/class-itw-product-single-client-view.php';  
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'client-view/class-itw-product-archive-client-view.php';          
+
     }             
 
 
     // ------------------------------------------------------------
-    // ADMIN PAGES
+    // ADMIN-FACING PAGES
     // ------------------------------------------------------------
 
-    // load admin page classes and tools 
     if ( is_admin() ) {
+
+        // load admin-facing styles and scripts
+        add_action('admin_enqueue_scripts', 'itw_product_admin_styles_and_scripts');
+
+        // load classes that support file uploads, csv processing, and image download (for import/export)
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-file-upload.php';
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-csv-file.php';
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-download-remote-image.php';        
+
+        // handle admin-facing pages
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'admin/class-admin-itw-product-settings.php'; 
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'admin/class-admin-itw-product-list.php';  
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'admin/class-admin-itw-product-single.php'; 
+
     }             
         
         
@@ -106,7 +109,7 @@ function itw_load_plugin_resources() {
 
 
 // ------------------------------------------------------------
-// STYLES AND SCRIPTS
+// FOR LOADING STYLES AND SCRIPTS
 // ------------------------------------------------------------
 
 // enqueue scripts and styles affiliated with the client portal 
@@ -134,6 +137,14 @@ function itw_product_styles_and_scripts() {
 // enqueue scripts and styles affiliated with the wordpress admin area as it pertains to the client portal 
 function itw_product_admin_styles_and_scripts() {
 
+    // client portal styles
+    $css_slug = "itw-product-admin-styles"; 
+    $css_uri = ITW_MEDICAL_PRODUCTS_URL . 'assets/admin.css';
+    $css_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/admin.css' );
+    
+    wp_register_style( $css_slug, $css_uri, array(), $css_filetime );
+    wp_enqueue_style( $css_slug ); 
+    
     // client portal admin scripts
     $js_slug = "itw-product-admin-scripts"; 
     $js_uri = ITW_MEDICAL_PRODUCTS_URL . 'assets/admin.js';
@@ -152,20 +163,42 @@ function itw_product_admin_styles_and_scripts() {
 // ----------------------------------------------------
 
 global $debug;
-add_action( 'wp_footer', 'show_debug' );
+if ( is_admin() ) {
+    add_action( 'admin_footer', 'show_debug' );
+} else { 
+    add_action( 'wp_footer', 'show_debug' );
+}
+
+
+function itw_is_site_image( $image_url ) {
+
+    $site_url_parsed = wp_parse_url( get_site_url() );
+    $site_host = $site_url_parsed['host'];
+    
+    $image_url_parsed = wp_parse_url( $image_url );
+    $image_host = $image_url_parsed['host'];
+
+    $is_site_image = ( $site_host === $image_host ) ? true : false;
+    return $is_site_image;
+
+}
+
 function show_debug() {
     
     //if ( get_current_user_id() == 10 ) { // 10 = developer user id
         
         global $debug;
-        
-        // $debug data goes here
+        // example: $debug['data'] = $data;
 
+        
         if ( $debug ) {
             ob_start(); 
                 print_r($debug); 
             $results = ob_get_clean(); 
             $results = '<div style="padding:25px;background:#fff;"><pre>' . $results . '</pre></div>';
+            if ( is_admin() ) {
+                $results = '<div style="padding-left:160px;">' . $results . '</div>';
+            }
             echo $results;
         }
         

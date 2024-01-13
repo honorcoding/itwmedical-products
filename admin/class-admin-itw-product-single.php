@@ -71,12 +71,14 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                             'label' => 'Product Drawings',
                             'type'  => 'text',
                         ),
+                    /*
                     'warranty' =>
                         array(
                             'id'    => 'itw_mp_warranty',
                             'label' => 'Warranty',
-                            'type'  => 'text',
+                            'type'  => 'textarea',
                         ),
+                    */
                     'technical_literature' =>
                         array(
                             'id'    => 'itw_mp_technical_literature',
@@ -238,7 +240,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                 $product_controller = itw_prod();
                 $product_controller->save_product( $product );                
 
-            }
+            } // end : save_post_meta_box()
               
     } // end class: Admin_ITW_Product_Single
 
