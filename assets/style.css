@@ -191,6 +191,9 @@
 
 /* WARRANTY */ 
 .itw-product-single .itw-warranty {}
+.itw-product-single .itw-warranty p {
+   margin-bottom: 15px;
+}
 
 
 /* TECHNICAL */ 
