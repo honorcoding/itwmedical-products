@@ -1,6 +1,15 @@
 <div class="itw-product-list-container">
     <div class="itw-product-list">
         <?php
+
+            if ( $term_description !== '' ) {
+                ?>
+                    <div class="itw-term-description">
+                        <?php echo $term_description; ?>
+                    </div>
+                <?php
+            }
+
             if ( ! empty( $products ) ) {
                 ?>
                     <table>

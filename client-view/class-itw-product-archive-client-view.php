@@ -58,12 +58,12 @@ if ( ! class_exists( 'ITW_Product_Archive_Client_View' ) ) :
             // used to prevent shortcodes from having to load a filter multiple times on the same page 
             public function get_product_filter() {
 
-                if ( is_null( $this->product_controller ) ) {
-                    $this->product_controller = new ITW_Product_Filter();
+                if ( is_null( $this->product_filter ) ) {
+                    $this->product_filter = new ITW_Product_Filter();
                 }
 
-                if ( ! is_null( $this->product_controller ) ) {
-                    return $this->product_controller;
+                if ( ! is_null( $this->product_filter ) ) {
+                    return $this->product_filter;
                 } else {
                     return false;
                 }
@@ -72,12 +72,12 @@ if ( ! class_exists( 'ITW_Product_Archive_Client_View' ) ) :
 
             public function get_product_controller() {
 
-                if ( is_null( $this->product_filter ) ) {
-                    $this->product_filter = itw_prod();
+                if ( is_null( $this->product_controller ) ) {
+                    $this->product_controller = itw_prod();
                 }
 
-                if ( ! is_null( $this->product_filter ) ) {
-                    return $this->product_filter;
+                if ( ! is_null( $this->product_controller ) ) {
+                    return $this->product_controller;
                 } else {
                     return false;
                 }
@@ -126,6 +126,7 @@ if ( ! class_exists( 'ITW_Product_Archive_Client_View' ) ) :
 
             }
 
+
             // displays a list of filtered products 
             public function itw_products_shortcode( $atts = array(), $content='' ) {
 
@@ -136,8 +137,19 @@ if ( ! class_exists( 'ITW_Product_Archive_Client_View' ) ) :
 
                 // get filter
                 $filter = $this->get_product_filter();
-
-                // get list of products
+                
+                // get the description of first filter item 
+                // (there should only be one, but just in case)
+                $term_description = '';
+                $filter_values = $filter->get_filter_values();                
+                if ( ! empty( $filter_values ) ) {
+                    $key = array_key_first( $filter_values );
+                    if ( isset( $filter_values[ $key ]['term_description'] ) && $filter_values[ $key ]['term_description'] ) {
+                        $term_description = $filter_values[ $key ]['term_description'];
+                    }
+                }
+                
+                // get list of `products
                 $products = array();
                 if ( $filter ) {
 

@@ -89,9 +89,10 @@ if ( ! class_exists( 'ITW_CSV_File' ) ) :
                     $data['error'] = 'File could not be opened or does not exist.';
 
                 } // end : if file could be opened
+                
                 return $data;
 
-            }
+            } // end: import_to_array()
 
     } // end class: ITW_CSV_File
 

@@ -87,6 +87,53 @@ if ( ! class_exists( 'ITW_Product_Filter' ) ) :
 
             }
 
+            // get filter values 
+            public function get_filter_values() {
+
+                $filter_values = array();
+
+                foreach( $this->filters as $filter ) {
+
+                    if ( $filter['type'] === 'taxonomy' ) {
+
+                        $value = $this->get_query_var( $filter['id'] );  
+
+                        // do not add tax query if not required 
+                        if ( $value && $value !== '' && $value !== 'all' ) {
+
+                            $term = get_term_by( 'slug', $value, ITW_Product::CUSTOM_TAXONOMY );
+
+                            if ( $term ) {
+                                $term_id = $term->term_id;
+                            } else {
+                                $term_id = false;
+                            }
+                            
+                            if ( $term_id ) {
+                                $term_description = term_description( $term );
+                            } else {
+                                $term_description = false;
+                            }
+
+                            $filter_values[] = array(
+                                'id'    => 'itw_category',
+                                'type'  => 'taxonomy',
+                                'slug'  => ITW_Product::CUSTOM_TAXONOMY,
+                                'value' => $value,
+                                'term_id' => $term_id,
+                                'term_description' => $term_description, 
+                            ); 
+
+                        } 
+
+                    }
+
+                }
+
+                return $filter_values;
+
+            }
+
 
     } // end class: ITW_Product_Filter
 
