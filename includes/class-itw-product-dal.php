@@ -33,15 +33,8 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             private static $_instance = null;
             
             // note: title, product details (content) and image (featured image) are post elements
-            // meta keys
-            const META_KEY_LONG_DESCRIPTION =       'itw_medical_product_long_description';
-            const META_KEY_PRODUCT_NUMBER =         'itw_medical_product_product_number';
-            const META_KEY_MFG_NUMBER =             'itw_medical_product_manufacturer_number';
-            const META_KEY_SHORT_DESCRIPTION =      'itw_medical_product_short_description';
-            const META_KEY_PRODUCT_DETAILS =        'itw_medical_product_product_details';
-            const META_KEY_PRODUCT_DRAWINGS =       'itw_medical_product_product_drawings';
-            const META_KEY_TECHNICAL_LITERATURE =   'itw_medical_product_technical_literature';
-            const META_KEY_RELATED_PRODUCTS =       'itw_medical_product_related_products';
+            // meta keys prefix
+            const META_KEY_PREFIX = 'itw_medical_product_';
 
             // wp option keys
             const WARRANTY_OPTION_KEY = 'itw_warranty';
@@ -142,17 +135,20 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         $product = new ITW_Product();
                         $product->post_id               = $post_id;
                         $product->title                 = get_the_title( $post_id );
-                        $product->long_description      = get_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, true );
+                        $product->long_description      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'long_description', true );
                         $product->image                 = get_the_post_thumbnail( $post_id );
-                        $product->product_number        = get_post_meta( $post_id, self::META_KEY_PRODUCT_NUMBER, true );
-                        $product->mfg_number            = get_post_meta( $post_id, self::META_KEY_MFG_NUMBER, true );
-                        $product->short_description     = get_post_meta( $post_id, self::META_KEY_SHORT_DESCRIPTION, true );
+                        $product->product_number        = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_number', true );
+                        $product->mfg_number            = get_post_meta( $post_id, self::META_KEY_PREFIX . 'mfg_number', true );
+                        $product->short_description     = get_post_meta( $post_id, self::META_KEY_PREFIX . 'short_description', true );
                         //(deprecated) $product->product_details       = get_the_content( $post_id );
-                        $product->product_details       = get_post_meta( $post_id, self::META_KEY_PRODUCT_DETAILS, true );
-                        $product->product_drawings      = get_post_meta( $post_id, self::META_KEY_PRODUCT_DRAWINGS, true );
-                        //(deprecated)$product->warranty              = get_post_meta( $post_id, self::META_KEY_WARRANTY, true );
-                        $product->technical_literature  = get_post_meta( $post_id, self::META_KEY_TECHNICAL_LITERATURE, true );
-                        $product->related_products      = get_post_meta( $post_id, self::META_KEY_RELATED_PRODUCTS, true );
+                        $product->product_details_materials_of_construction = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_materials_of_construction', true );
+                        $product->product_details_connections               = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_connections', true );
+                        $product->product_details_design                    = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', true );
+                        $product->product_details_perfomance_data           = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_performance_data', true );
+                        $product->product_details_packaging                 = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', true );
+                        $product->product_drawings      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', true );
+                        $product->technical_literature  = get_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', true );
+                        $product->related_products      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', true );
                         $product->categories            = $this->get_product_categories( $post_id );
             
                     }
@@ -214,15 +210,18 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         // note: title, image and categories are saved by normal wordpress post update feature 
 
                         // save post meta 
-                        update_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, $product->long_description );
-                        update_post_meta( $post_id, self::META_KEY_PRODUCT_NUMBER, $product->product_number );
-                        update_post_meta( $post_id, self::META_KEY_MFG_NUMBER, $product->mfg_number );
-                        update_post_meta( $post_id, self::META_KEY_SHORT_DESCRIPTION, $product->short_description );
-                        update_post_meta( $post_id, self::META_KEY_PRODUCT_DETAILS, $product->product_details );
-                        update_post_meta( $post_id, self::META_KEY_PRODUCT_DRAWINGS, $product->product_drawings );
-                        //update_post_meta( $post_id, self::META_KEY_WARRANTY, $product->warranty );
-                        update_post_meta( $post_id, self::META_KEY_TECHNICAL_LITERATURE, $product->technical_literature );
-                        update_post_meta( $post_id, self::META_KEY_RELATED_PRODUCTS, $product->related_products );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'long_description', $product->long_description );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_number', $product->product_number );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'mfg_number', $product->mfg_number );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'short_description', $product->short_description );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_materials_of_construction', $product->product_details_materials_of_construction );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_connections', $product->product_details_connections );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', $product->product_details_design );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_perfomance_data', $product->product_details_perfomance_data );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', $product->product_details_packaging );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', $product->product_drawings );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', $product->technical_literature );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', $product->related_products );
 
                         $success = true;
 
@@ -313,15 +312,18 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         }
 
                         // save post meta 
-                        update_post_meta( $post_id, self::META_KEY_PRODUCT_NUMBER, $product['product_number'] );
-                        update_post_meta( $post_id, self::META_KEY_MFG_NUMBER, $product['mfg_number'] );
-                        update_post_meta( $post_id, self::META_KEY_LONG_DESCRIPTION, $product['long_description'] );
-                        update_post_meta( $post_id, self::META_KEY_SHORT_DESCRIPTION, $product['short_description'] );
-                        update_post_meta( $post_id, self::META_KEY_PRODUCT_DETAILS, $product['product_details'] );
-                        update_post_meta( $post_id, self::META_KEY_PRODUCT_DRAWINGS, $product['product_drawings'] );
-                        //update_post_meta( $post_id, self::META_KEY_WARRANTY, $product['warranty'] );
-                        update_post_meta( $post_id, self::META_KEY_TECHNICAL_LITERATURE, $product['technical_literature'] );
-                        update_post_meta( $post_id, self::META_KEY_RELATED_PRODUCTS, $product['related_products'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_number', $product['product_number'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'mfg_number', $product['mfg_number'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'long_description', $product['long_description'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'short_description', $product['short_description'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_materials_of_construction', $product['product_details_materials_of_construction'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_connections', $product['product_details_connections'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', $product['product_details_design'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_perfomance_data', $product['product_details_performance_data'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', $product['product_details_packaging'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', $product['product_drawings'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', $product['technical_literature'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', $product['related_products'] );
 
                         // save post categories 
                         if ( $product['categories'] !== '' ) {

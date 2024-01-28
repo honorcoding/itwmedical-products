@@ -42,9 +42,12 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                 'product_number',
                 'mfg_number',
                 'short_description',
-                'product_details',
+                'product_details_materials_of_construction',
+                'product_details_connections',
+                'product_details_design',
+                'product_details_perfomance_data',
+                'product_details_packaging',
                 'product_drawings',
-                //'warranty',
                 'technical_literature',
                 'related_products',
                 'categories'
@@ -59,9 +62,12 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             public $product_number;
             public $mfg_number;
             public $short_description;
-            public $product_details;
+            public $product_details_materials_of_construction;
+            public $product_details_connections;
+            public $product_details_design;
+            public $product_details_perfomance_data;
+            public $product_details_packaging;
             public $product_drawings;
-            //public $warranty;
             public $technical_literature;
             public $related_products;
             public $categories;
@@ -102,9 +108,12 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                     $this->product_number,
                     $this->mfg_number,
                     $this->short_description,
-                    $this->product_details,
+                    $this->product_details_materials_of_construction,
+                    $this->product_details_connections,
+                    $this->product_details_design,
+                    $this->product_details_perfomance_data,
+                    $this->product_details_packaging,
                     $this->product_drawings,
-                    //$this->warranty,
                     $this->technical_literature,
                     $this->related_products,  
                     $this->categories,                             

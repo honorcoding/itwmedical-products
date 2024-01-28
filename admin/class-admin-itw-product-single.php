@@ -59,9 +59,33 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                             'label' => 'Long Descripion',
                             'type'  => 'text',
                         ),
-                    'product_details' =>
+                    'product_details_materials_of_construction' =>
                         array(
-                            'id'    => 'itw_mp_product_details',
+                            'id'    => 'itw_mp_product_details_materials_of_construction',
+                            'label' => 'Product Details',
+                            'type'  => 'textarea',
+                        ),
+                    'product_details_connections' =>
+                        array(
+                            'id'    => 'itw_mp_product_details_connections',
+                            'label' => 'Product Details',
+                            'type'  => 'textarea',
+                        ),
+                    'product_details_design' =>
+                        array(
+                            'id'    => 'itw_mp_product_details_design',
+                            'label' => 'Product Details',
+                            'type'  => 'textarea',
+                        ),
+                    'product_details_perfomance_data' =>
+                        array(
+                            'id'    => 'itw_mp_product_details_perfomance_data',
+                            'label' => 'Product Details',
+                            'type'  => 'textarea',
+                        ),
+                    'product_details_packaging' =>
+                        array(
+                            'id'    => 'itw_mp_product_details_packaging',
                             'label' => 'Product Details',
                             'type'  => 'textarea',
                         ),
@@ -71,14 +95,6 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                             'label' => 'Product Drawings',
                             'type'  => 'text',
                         ),
-                    /*
-                    'warranty' =>
-                        array(
-                            'id'    => 'itw_mp_warranty',
-                            'label' => 'Warranty',
-                            'type'  => 'textarea',
-                        ),
-                    */
                     'technical_literature' =>
                         array(
                             'id'    => 'itw_mp_technical_literature',
