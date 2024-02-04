@@ -10,6 +10,11 @@ use ITW_Medical\File\ITW_File_Upload;
 use ITW_Medical\CSV\ITW_CSV_File;
 use ITW_Medical\Products\ITW_Product;
 
+// TODO : think this through... what is best way to handle a file download? with an external class? 
+//        or straight here in the settings page? ...
+//        can we add javascript and ajax calls (with a callback? a static callback?) 
+use ITW_Medical\File\ITW_File_Download;
+
 
 // no unauthorized access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -50,6 +55,10 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
             public function load_hooks_and_filters() {
 
                 add_action( 'admin_menu', array( $this, 'add_settings_page_to_admin_menu') );
+
+                // Ajax action to export product csv data
+                add_action( 'wp_ajax_itw_get_product_csv_data', array( $this, 'get_product_csv_data' ) );
+                add_action( 'wp_ajax_nopriv_itw_get_product_csv_data', array( $this, 'get_product_csv_data' ) );                
 
             }
 
@@ -107,6 +116,10 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                     'file_upload' => $this->get_import_file_upload(),
                 );
 
+                $export_args = array(
+                    'export_link' => $this->get_csv_export_download_link(),
+                );
+
                 $warranty_args = array(
                     'warranty' => itw_prod()->get_warranty(),
                 );
@@ -114,7 +127,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                 $args = array(
                     'messages'         => $messages,
                     'import_section'   => $this->get_template( 'parts/import', $import_args ),
-                    'export_section'   => $this->get_template( 'parts/export' ), 
+                    'export_section'   => $this->get_template( 'parts/export', $export_args ), 
                     'warranty_section' => $this->get_template( 'parts/warranty', $warranty_args ), 
                 );
 
@@ -183,8 +196,13 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                                 $file_path = $file_data['uploadPath'];      
 
                                 // import the csv file data into an array
-                                $csv_data = ITW_CSV_File::import_to_array( $file_path );
-                                
+                                $csv_data = ITW_CSV_File::import_csv_file_to_array( $file_path );
+
+                                // delete the file (no longer required)
+                                if ( file_exists( $file_path ) ) {
+                                    unlink( $file_path );
+                                }                                 
+
                                 // if no errors while importing the csv file
                                 if ( ! isset( $csv_data['error'] ) ) {
 
@@ -256,8 +274,6 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
 
             }
 
-
-
             // handle messages
             protected function add_message( &$messages, $text, $type = 'ok' ) {
 
@@ -270,6 +286,29 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                     'text' => $text,
                 );
 
+            }
+
+
+            // ------------------------------------------------------
+            // EXPORT TOOLS
+            // ------------------------------------------------------
+
+            /**
+             * Handles Ajax call to get product csv data 
+             */
+            public function get_product_csv_data() {
+                $data = array(
+                    'message' => 'ajax call works',
+                );
+
+                wp_send_json_success( $data );
+            }
+
+            /**
+             * Get CSV Export Download Link
+             */
+            public function get_csv_export_download_link( $title = 'Export' ) {
+                return '<input type="button" onclick="itw_download_export_file()" value="'.$title.'" />';
             }
 
  

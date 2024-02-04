@@ -16,7 +16,7 @@
 
 namespace ITW_Medical\Products;
 use ITW_Medical\Products\ITW_Product;
-use KM_Download_Remote_Image;
+use ITW_Medical\Wordpress\WPX as WPX;
 
 
 // no unauthorized access
@@ -147,7 +147,9 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         $product->product_details_perfomance_data           = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_performance_data', true );
                         $product->product_details_packaging                 = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', true );
                         $product->product_drawings      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', true );
+                        $product->product_drawings_files = WPX::get_filenames_from_attachment_ids( $product->product_drawings, 'STRING' );
                         $product->technical_literature  = get_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', true );
+                        $product->technical_literature_files = WPX::get_filenames_from_attachment_ids( $product->technical_literature, 'STRING' );
                         $product->related_products      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', true );
                         $product->categories            = $this->get_product_categories( $post_id );
             
@@ -192,7 +194,7 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
 
             
             /*
-             * Called when product is saved via admin area 
+             * Called when product is saved via admin area - single post 
             **/
             public function save_product( ITW_Product $product ) {
                     // TODO: to speed up this function, use a single MySQL query, instead of a dozen different ones
@@ -267,8 +269,6 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             **/
             public function update_product( $post_id, $product, $import_external_image = true ) {
 
-                // TODO: DOES THIS HAVE A UNIQUE IDENTIFIER? (E.G. PRODUCT_NUMBER OR MFG_NUMBER OR BOTH TOGETHER?)
-
                 $success = false;
 
                 if ( 
@@ -282,32 +282,23 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         'post_title' => $product['title'],
                     );
                     $post_id = wp_update_post( $update_args, false, false );
-
                     if ( $post_id !== 0 ) {
 
-                        // get the attachment image (and assign to this post as the featured image)
+                        // save images, drawings, technical literature
                         if ( $import_external_image === true ) {
 
-                            $attachment_id = 0;
-
-                            // if the image belongs to this site
-                            if ( $this->is_url_from_this_site( $product['image'] ) ) {
-                                // attempt to find that attachment_id
-                                $attachment_id = attachment_url_to_postid( $product['image'] );     // returns 0 on failure
-                            }
-
-                            // if an attachment_id was not found, or this image is from another site
-                            if ( $attachment_id === 0 ) {
-
-                                // download image from external URL and save to post_id
-                                $download_remote_image = new KM_Download_Remote_Image( $product['image'] );
-                                $attachment_id         = $download_remote_image->download();
-                                
-                            }
-
-                            if ( $attachment_id && $attachment_id !== 0 ) {
+                            // get the attachment image (and assign to this post as the featured image)
+                            $attachment_id = WPX::get_attachment_id_from_filename( $product['image'] );
+                            if ( $attachment_id ) {
                                 set_post_thumbnail( $post_id, $attachment_id );
                             }
+
+                            // save drawings and technical literature filenames as attachment ids
+                            $drawings_attachment_ids = WPX::get_attachment_ids_from_filenames( $product['product_drawings_files'] );
+                            update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', $drawings_attachment_ids );
+
+                            $technical_literature_attachment_ids = WPX::get_attachment_ids_from_filenames( $product['technical_literature_files'] );
+                            update_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', $technical_literature_attachment_ids );
 
                         }
 
@@ -321,8 +312,6 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', $product['product_details_design'] );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_perfomance_data', $product['product_details_performance_data'] );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', $product['product_details_packaging'] );
-                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', $product['product_drawings'] );
-                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', $product['technical_literature'] );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', $product['related_products'] );
 
                         // save post categories 
@@ -355,23 +344,10 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
 
             }  // end : update_product() 
 
-            // check if url if from this site
-            public function is_url_from_this_site( $image_url ) {
 
-                $site_url_parsed = wp_parse_url( get_site_url() );
-                $site_host = $site_url_parsed['host'];
-                
-                $image_url_parsed = wp_parse_url( $image_url );
-                $image_host = $image_url_parsed['host'];
-
-                $is_site_image = ( $site_host === $image_host ) ? true : false;
-                return $is_site_image;
-
-            }
-            
 
             // -----------------------------------------------------------
-            // GLOBAL DATA - WORDPRESS OPTIONS
+            // GLOBAL DATA - WORDPRESS OPTIONS 
             // -----------------------------------------------------------
 
             // get the warranty text

@@ -5,12 +5,12 @@
 (function($) {
     $(document).ready(function() {
     
-        /*
-        * TABS 
-        * 
-        * HOW TO USE:
-        *   see style.css
-        */
+        /**
+         * TABS 
+         * 
+         * HOW TO USE:
+         *   see style.css
+         */
         $('.itw-tabs-button').on( "click", function() {
 
             // if clicked on active tab, then do nothing 
@@ -34,3 +34,5 @@
 
     });
 })(jQuery)
+
+

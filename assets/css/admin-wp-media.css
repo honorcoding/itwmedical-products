@@ -1,0 +1,53 @@
+/*
+ * ADMIN WP-MEDIA STYLES
+*/
+
+.itw_wp_media_field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.itw_wp_media_field > * {
+    margin-right: 10px;
+}
+.itw_wp_media_field .itw_wp_media_images {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 0px;
+}
+.itw_wp_media_field .itw_wp_media_images > * {
+    margin-right: 10px;
+}
+.itw_wp_media_field .itw_wp_media_images .attachment_container {
+    padding: 1px;
+    width: 150px;
+    height: 150px;
+
+    border: solid 1px #999;
+    border-radius: 4px;
+}
+.itw_wp_media_field .itw_wp_media_images .attachment_container .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    top: -38px;
+    left: 4px;
+
+    width: 146px;
+    height: 30px;
+    margin-left: -5px;
+    padding: 2px 3px;
+
+    background: white;
+    color: #000;
+    font-size: 12px;
+
+    overflow: hidden;
+}
+.itw_wp_media_text {}
+.itw_wp_media_button {}
+

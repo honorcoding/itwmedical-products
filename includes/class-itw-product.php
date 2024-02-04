@@ -48,7 +48,9 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                 'product_details_perfomance_data',
                 'product_details_packaging',
                 'product_drawings',
+                'product_drawings_files',
                 'technical_literature',
+                'technical_literature_files',
                 'related_products',
                 'categories'
             );
@@ -68,7 +70,9 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             public $product_details_perfomance_data;
             public $product_details_packaging;
             public $product_drawings;
+            public $product_drawings_files;
             public $technical_literature;
+            public $technical_literature_files;
             public $related_products;
             public $categories;
 
@@ -114,7 +118,9 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                     $this->product_details_perfomance_data,
                     $this->product_details_packaging,
                     $this->product_drawings,
+                    $this->product_drawings_files,
                     $this->technical_literature,
+                    $this->technical_literature_files,
                     $this->related_products,  
                     $this->categories,                             
                 );

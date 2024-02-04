@@ -106,7 +106,7 @@ if ( ! class_exists( 'ITW_File_Upload' ) ) :
                 $this->upload_directory = $upload_directory;
                 $this->upload_directory_permissions = $permissions;
                 $this->file_extensions = $file_extensions;
-                $this->multiple = ( $multiple !== false ) ? true : false;
+                $this->multiple = ( $multiple === true ) ? true : false;
 
             }
 

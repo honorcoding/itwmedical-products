@@ -10,6 +10,7 @@
 
 namespace ITW_Medical\Products\Admin;
 use ITW_Medical\Products\ITW_Product;
+use ITW_Medical\Media\ITW_WP_Media;
 
 
 // no unauthorized access
@@ -62,44 +63,44 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                     'product_details_materials_of_construction' =>
                         array(
                             'id'    => 'itw_mp_product_details_materials_of_construction',
-                            'label' => 'Product Details',
+                            'label' => 'Product Details - Materials of Construction',
                             'type'  => 'textarea',
                         ),
                     'product_details_connections' =>
                         array(
                             'id'    => 'itw_mp_product_details_connections',
-                            'label' => 'Product Details',
+                            'label' => 'Product Details - Connections',
                             'type'  => 'textarea',
                         ),
                     'product_details_design' =>
                         array(
                             'id'    => 'itw_mp_product_details_design',
-                            'label' => 'Product Details',
+                            'label' => 'Product Details - Design',
                             'type'  => 'textarea',
                         ),
                     'product_details_perfomance_data' =>
                         array(
                             'id'    => 'itw_mp_product_details_perfomance_data',
-                            'label' => 'Product Details',
+                            'label' => 'Product Details - Performance Data',
                             'type'  => 'textarea',
                         ),
                     'product_details_packaging' =>
                         array(
                             'id'    => 'itw_mp_product_details_packaging',
-                            'label' => 'Product Details',
+                            'label' => 'Product Details - Packaging',
                             'type'  => 'textarea',
                         ),
                     'product_drawings' =>
                         array(
                             'id'    => 'itw_mp_product_drawings',
                             'label' => 'Product Drawings',
-                            'type'  => 'text',
+                            'type'  => 'media',
                         ),
                     'technical_literature' =>
                         array(
                             'id'    => 'itw_mp_technical_literature',
                             'label' => 'Technical Literature',
-                            'type'  => 'text',
+                            'type'  => 'media',
                         ),
                     'related_products' =>
                         array(
@@ -183,6 +184,13 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                                 <input class="widefat" type="checkbox" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="1" <?php echo $checked; ?> />
                                 <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
                                 <?php                                
+                            } else if ( $field['type'] === 'media' ) {
+                                $field_html = ITW_WP_Media::get_field_html( $field['id'], $field['value'] );
+                                ?>
+                                <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
+                                <br />
+                                <?php echo $field_html; ?>
+                                <?
                             }
                         ?>
                     </p>
@@ -233,7 +241,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                 //       (title, product details, and image are already saved via normal Wordpress process)
               
 
-                // populate the product with field values
+                // populate the product with field values (checkbox, text, textarea, media)
                 $fields = $this->meta_box_fields;
                 foreach( $fields as $key => $field ) {
                     if ( $field['type'] === 'checkbox' ) {
@@ -244,9 +252,13 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                     } else if ( array_key_exists( $field['id'], $_POST ) ) {
                         if ( $field['type'] === 'text' ) {
                             $product->$key = sanitize_text_field( $_POST[ $field['id'] ] );
-                        } else if ( $field['type'] === 'textarea' ) {
+                        } else if ( 
+                            $field['type'] === 'textarea' || 
+                            $field['type'] === 'media'
+                        ) {
                             $product->$key = $_POST[ $field['id'] ]; // do not sanitize. allows html tags, carriage returns, etc.
                         } else { 
+                            // not a recognized field, so ignore
                             $product->$key = '';
                         }                    
                     }

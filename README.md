@@ -9,3 +9,7 @@ Download and install the plugin.
 ## Usage 
 
 [note: usage notes go here]
+
+## TODO
+
+Go through all code and make sure TODO notes have been handled 
