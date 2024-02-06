@@ -20,7 +20,7 @@
 
 
 namespace ITW_Medical\Media;
-use ITW_Medical\Wordpress\WPX as WPX;
+use ITW_Medical\Wordpress\WP_Expanded as WPX;
 
 
 // no unauthorized access
@@ -98,7 +98,7 @@ if ( ! class_exists( 'ITW_WP_Media' ) ) :
                 if( isset( $_GET['attachment_ids'] ) ){
 
                     $attachment_ids = filter_input( INPUT_GET, 'attachment_ids', FILTER_SANITIZE_STRING );                         
-                    $attachments = WPX::simple_explode( ',', $attachment_ids );                
+                    $attachments = WPX::simple_explode( $attachment_ids );                
 
                     $html = '<div class="itw_wp_media_images">';
 
@@ -137,7 +137,7 @@ if ( ! class_exists( 'ITW_WP_Media' ) ) :
                 $html = '';
 
                 // convert comma-separated-string into an array (remove empty strings) 
-                $attachments = WPX::simple_explode( ',', $attachment_ids ); 
+                $attachments = WPX::simple_explode( $attachment_ids ); 
 
                 // prepare class 
                 if ( $class !== '' ) {

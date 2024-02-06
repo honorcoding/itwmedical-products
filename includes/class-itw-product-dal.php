@@ -16,7 +16,7 @@
 
 namespace ITW_Medical\Products;
 use ITW_Medical\Products\ITW_Product;
-use ITW_Medical\Wordpress\WPX as WPX;
+use ITW_Medical\Wordpress\WP_Expanded as WPX;
 
 
 // no unauthorized access
@@ -43,6 +43,8 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             const STRING = 'STRING';
             const ARRAY  = 'ARRAY';
 
+            // last error 
+            private $last_error;
 
             // -----------------------------------------------------------
             // INSTANTIATION 
@@ -84,80 +86,101 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             **/
             public function search( $product_number, $mfg_number ) { 
 
-                    // prepare the query args 
-                    $args = array(
-                        'post_type' => ITW_Product::CUSTOM_POST_TYPE,
-                        'post_status' => 'publish',
-                        'posts_per_page' => -1,
-                        'meta_query' => array(
-                            'relation' => 'AND',
-                            array(
-                                'key' => self::META_KEY_PRODUCT_NUMBER,
-                                'value' => $product_number,
-                                'compare' => '='
-                            ),
-                            array(
-                                'key' => self::META_KEY_MFG_NUMBER,
-                                'value' => $mfg_number,
-                                'compare' => '='
-                            ),
+                // prepare the query args 
+                $args = array(
+                    'post_type' => ITW_Product::CUSTOM_POST_TYPE,
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1,
+                    'meta_query' => array(
+                        'relation' => 'AND',
+                        array(
+                            'key' => self::META_KEY_PREFIX . 'product_number',
+                            'value' => $product_number,
+                            'compare' => '='
                         ),
-                        'fields' => 'ids',
-                    );
+                        array(
+                            'key' => self::META_KEY_PREFIX . 'mfg_number',
+                            'value' => $mfg_number,
+                            'compare' => '='
+                        ),
+                    ),
+                    'fields' => 'ids',
+                );
 
-                    // get a list of matching posts 
-                    $post_ids = get_posts( $args );
+                // get a list of matching posts 
+                $post_ids = get_posts( $args );
 
-                    // return first post_id with matching product_number 
-                    if ( ! empty( $post_ids ) ) {
-                        return $post_ids[0];
-                    } else {
-                        return false;
-                    }
+                // return first post_id with matching product_number 
+                if ( ! empty( $post_ids ) ) {
+                    return $post_ids[0];
+                } else {
+                    return false;
+                }
 
             } // end : search()
             
+            // get a list of ids of all available products in database
+            public function get_all_product_ids() {
+
+                // prepare the query args 
+                $args = array(
+                    'post_type' => ITW_Product::CUSTOM_POST_TYPE,
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1,
+                    'fields' => 'ids',
+                );
+
+                // get a list of matching posts 
+                $post_ids = get_posts( $args );
+
+                // return first post_id with matching product_number 
+                if ( ! empty( $post_ids ) ) {
+                    return $post_ids;
+                } else {
+                    return false;
+                }
+
+            }
 
             // note: to speed up this function, use a single MySQL query, instead of a dozen different ones
             // @return ITW_Product or false 
             public function get_product( $post_id ) {
 
-                    $product = false; // if $post_id does not point to a valid Product, or other errors
-                                    // return false 
+                $product = false; // if $post_id does not point to a valid Product, or other errors
+                                // return false 
 
 
-                    if ( 
-                        get_post_status( $post_id ) &&                                  // if $post_id is a valid post
-                        get_post_type( $post_id ) == ITW_Product::get_post_type()    // and $post_id is a Product
-                    ) {
+                if ( 
+                    get_post_status( $post_id ) &&                                  // if $post_id is a valid post
+                    get_post_type( $post_id ) == ITW_Product::get_post_type()    // and $post_id is a Product
+                ) {
 
-                        // create the Product object
-                        $product = new ITW_Product();
-                        $product->post_id               = $post_id;
-                        $product->title                 = get_the_title( $post_id );
-                        $product->long_description      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'long_description', true );
-                        $product->image                 = get_the_post_thumbnail( $post_id );
-                        $product->product_number        = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_number', true );
-                        $product->mfg_number            = get_post_meta( $post_id, self::META_KEY_PREFIX . 'mfg_number', true );
-                        $product->short_description     = get_post_meta( $post_id, self::META_KEY_PREFIX . 'short_description', true );
-                        //(deprecated) $product->product_details       = get_the_content( $post_id );
-                        $product->product_details_materials_of_construction = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_materials_of_construction', true );
-                        $product->product_details_connections               = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_connections', true );
-                        $product->product_details_design                    = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', true );
-                        $product->product_details_perfomance_data           = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_performance_data', true );
-                        $product->product_details_packaging                 = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', true );
-                        $product->product_drawings      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', true );
-                        $product->product_drawings_files = WPX::get_filenames_from_attachment_ids( $product->product_drawings, 'STRING' );
-                        $product->technical_literature  = get_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', true );
-                        $product->technical_literature_files = WPX::get_filenames_from_attachment_ids( $product->technical_literature, 'STRING' );
-                        $product->related_products      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', true );
-                        $product->categories            = $this->get_product_categories( $post_id );
-            
-                    }
+                    // create the Product object
+                    $product = new ITW_Product();
+                    $product->post_id                = $post_id;
+                    $product->product_number         = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_number', true );
+                    $product->mfg_number             = get_post_meta( $post_id, self::META_KEY_PREFIX . 'mfg_number', true );
+                    $product->title                  = get_the_title( $post_id );
+                    $product->short_description      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'short_description', true );
+                    $product->long_description       = get_post_meta( $post_id, self::META_KEY_PREFIX . 'long_description', true );
+                    $product->image                  = get_post_thumbnail_id( $post_id );
+                    $product->image_file             = WPX::get_filename_from_attachment_id( $product->image );
+                    $product->product_details_materials_of_construction = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_materials_of_construction', true );
+                    $product->product_details_connections               = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_connections', true );
+                    $product->product_details_design                    = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', true );
+                    $product->product_details_performance_data           = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_performance_data', true );
+                    $product->product_details_packaging                 = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', true );
+                    $product->product_drawings       = get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', true );
+                    $product->product_drawings_files = WPX::get_filenames_from_attachment_ids( $product->product_drawings, 'STRING' );
+                    $product->technical_literature   = get_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', true );
+                    $product->technical_literature_files = WPX::get_filenames_from_attachment_ids( $product->technical_literature, 'STRING' );
+                    $product->categories             = $this->get_product_categories( $post_id );
+        
+                }
 
 
-                    // return Product $product;               
-                    return $product;
+                // return Product $product;               
+                return $product;
 
             } // end : get_product()
 
@@ -165,7 +188,7 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             // @return (array or string) a list of product categories associated with this post_id 
             public function get_product_categories( $post_id, $return_type = self::ARRAY ) {
 
-                $categories = false;
+                $categories = array();
 
                 $terms = get_the_terms( $post_id, ITW_Product::get_taxonomy() );
 
@@ -219,11 +242,10 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_materials_of_construction', $product->product_details_materials_of_construction );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_connections', $product->product_details_connections );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', $product->product_details_design );
-                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_perfomance_data', $product->product_details_perfomance_data );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_performance_data', $product->product_details_performance_data );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', $product->product_details_packaging );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_drawings', $product->product_drawings );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'technical_literature', $product->technical_literature );
-                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', $product->related_products );
 
                         $success = true;
 
@@ -251,6 +273,8 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
 
                     $success = $this->update_product( $post_id, $product, $import_external_image );
 
+                } else { 
+                    $this->set_last_error( 'Could not insert post.' );
                 }
 
                 return $success;
@@ -288,9 +312,10 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         if ( $import_external_image === true ) {
 
                             // get the attachment image (and assign to this post as the featured image)
-                            $attachment_id = WPX::get_attachment_id_from_filename( $product['image'] );
+                            $attachment_id = WPX::get_attachment_id_from_filename( $product['image_file'] );
                             if ( $attachment_id ) {
                                 set_post_thumbnail( $post_id, $attachment_id );
+                                update_post_meta( $post_id, self::META_KEY_PREFIX . 'image', $attachment_id );
                             }
 
                             // save drawings and technical literature filenames as attachment ids
@@ -310,15 +335,14 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_materials_of_construction', $product['product_details_materials_of_construction'] );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_connections', $product['product_details_connections'] );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_design', $product['product_details_design'] );
-                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_perfomance_data', $product['product_details_performance_data'] );
+                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_performance_data', $product['product_details_performance_data'] );
                         update_post_meta( $post_id, self::META_KEY_PREFIX . 'product_details_packaging', $product['product_details_packaging'] );
-                        update_post_meta( $post_id, self::META_KEY_PREFIX . 'related_products', $product['related_products'] );
 
                         // save post categories 
                         if ( $product['categories'] !== '' ) {
 
                             // get cat_ids from category names 
-                            $cat_names = explode( ',', $product['categories'] );
+                            $cat_names = WPX::simple_explode( $product['categories'] );
                             $cat_ids = array();
                             foreach( $cat_names as $cat_name ) {
                                 $term = get_term_by( 'name', trim($cat_name), ITW_Product::get_taxonomy() );
@@ -336,8 +360,12 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
 
                         $success = true;
 
-                    } 
+                    } else {
+                        $this->set_last_error( 'Could not update post.' );
+                    }
 
+                } else {
+                    $this->set_last_error( 'Not a valid post_id or not a valid ITW Medical Product.' );
                 }
 
                 return $success;
@@ -358,6 +386,20 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             // set the warranty text 
             public function set_warranty( $text ) {
                 update_option( self::WARRANTY_OPTION_KEY, $text );
+            }
+
+
+
+            // -----------------------------------------------------------
+            // HANDLE ERRORS
+            // -----------------------------------------------------------
+
+            public function get_last_error() {
+                return $this->last_error;
+            }
+
+            private function set_last_error( $error ) {
+                $this->last_error = $error;
             }
 
             

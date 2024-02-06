@@ -32,7 +32,46 @@
 
         });
 
+
+        /**
+         * Example:
+         * <div class="download_on_click" data-url="https://mysite.com/downloadable.jpg" filename="downloadable.jpg">Click Me</div>
+         */
+        $('.download_on_click').on("click",function() {
+
+            // get the image_url
+            url = $(this).data('url');
+            filename = $(this).data('filename');
+
+            download_on_click( url, filename );
+
+        });
+
     });
 })(jQuery)
 
+
+// ----------------------------------------------
+// download on click 
+// ----------------------------------------------
+
+async function download_on_click( imageSrc, nameOfDownload ) {
+
+    const response = await fetch(imageSrc);
+
+    const blobImage = await response.blob();
+
+    const href = URL.createObjectURL(blobImage);
+
+    const anchorElement = document.createElement('a');
+    anchorElement.href = href;
+    anchorElement.download = nameOfDownload;
+
+    document.body.appendChild(anchorElement);
+    anchorElement.click();
+
+    document.body.removeChild(anchorElement);
+    window.URL.revokeObjectURL(href);
+
+}
 

@@ -36,44 +36,44 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             // csv constants
             const TABLE_HEADER = array(
                 'post_id',
-                'title',
-                'long_description',
-                'image',
                 'product_number',
                 'mfg_number',
+                'title',
                 'short_description',
+                'long_description',
+                'image',
+                'image_file',
                 'product_details_materials_of_construction',
                 'product_details_connections',
                 'product_details_design',
-                'product_details_perfomance_data',
+                'product_details_performance_data',
                 'product_details_packaging',
                 'product_drawings',
                 'product_drawings_files',
                 'technical_literature',
                 'technical_literature_files',
-                'related_products',
                 'categories'
             );
 
             
             // product data 
             public $post_id;
-            public $title;
-            public $description;
-            public $image;
             public $product_number;
             public $mfg_number;
+            public $title;
             public $short_description;
+            public $long_description;
+            public $image;
+            public $image_file;
             public $product_details_materials_of_construction;
             public $product_details_connections;
             public $product_details_design;
-            public $product_details_perfomance_data;
+            public $product_details_performance_data;
             public $product_details_packaging;
             public $product_drawings;
             public $product_drawings_files;
             public $technical_literature;
             public $technical_literature_files;
-            public $related_products;
             public $categories;
 
 
@@ -102,41 +102,71 @@ if ( ! class_exists( 'ITW_Product' ) ) :
 
             }
 
+            public static function get_table_header() {
+                return self::TABLE_HEADER;
+            }
+
+            public static function get_import_export_header() {
+
+                $header = self::TABLE_HEADER;
+
+                // remove fields that are unnecessary for import/export
+                foreach( $header as $key => $value ) {
+                    switch( $value ) {
+                        case 'post_id':
+                        case 'image':
+                        case 'product_drawings':
+                        case 'technical_literature':
+                            unset( $header[ $key ] );
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                return $header;
+
+            }
+
+
+            /**
+             * Converts ITW_Product from object to array  
+             */
             public function get_data( $with_labels = true ) {
 
-                $data = array(
-                    $this->post_id,
-                    $this->title,
-                    $this->description,
-                    $this->image,
-                    $this->product_number,
-                    $this->mfg_number,
-                    $this->short_description,
-                    $this->product_details_materials_of_construction,
-                    $this->product_details_connections,
-                    $this->product_details_design,
-                    $this->product_details_perfomance_data,
-                    $this->product_details_packaging,
-                    $this->product_drawings,
-                    $this->product_drawings_files,
-                    $this->technical_literature,
-                    $this->technical_literature_files,
-                    $this->related_products,  
-                    $this->categories,                             
-                );
-
-                if ( $with_labels === true ) {
-                    $new_data = array();
-                    foreach( $data as $key => $datum ) {
-                        $new_data[ self::TABLE_HEADER[ $key ] ] = $datum;
-                    } 
-                    $data = $new_data;
+                $header = self::get_table_header();
+                $data = array();
+                
+                foreach( $header as $key ) {
+                    if ( $with_labels ) {
+                        $data[ $key ] = $this->$key;
+                    } else {
+                        $data[] = $this->$key;
+                    }
                 }
 
                 return $data;
 
             }
 
+            public function get_export_data( $with_labels = true ) {
+
+                $header = self::get_import_export_header();
+                $data = array();
+                
+                foreach( $header as $key ) {
+                    if ( $with_labels ) {
+                        $data[ $key ] = $this->$key;
+                    } else {
+                        $data[] = $this->$key;
+                    }
+                }
+
+                return $data;
+
+            }
+
+            /*
             public function get_data_as_html() {
 
                 $html_data = array();
@@ -149,17 +179,14 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                 }
 
             }
-
+            */
 
 
             // -----------------------------------------------------
             // CSV TABLE
             // -----------------------------------------------------
 
-            public static function get_table_header() {
-                    return self::TABLE_HEADER;
-            }
-
+            /*
             // get data as csv table (with or without header)
             public function get_csv( $with_header = true ) {
 
@@ -218,6 +245,7 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                 return $string;
 
             }
+            */
 
     
     } // end class: ITW_Product

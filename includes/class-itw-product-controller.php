@@ -19,6 +19,7 @@
 namespace ITW_Medical\Products;
 use ITW_Medical\Products\ITW_Product;
 use ITW_Medical\Products\ITW_Product_DAL;
+use ITW_Medical\Wordpress\WP_Expanded as WPX;
 
 
 // no unauthorized access
@@ -37,6 +38,8 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
             // data access layer
             private $dal;
             
+            // last error 
+            private $last_error;
 
             // -----------------------------------------------------------
             // INSTANTIATION 
@@ -122,10 +125,10 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
                             $success = $this->update_product( $post_id, $product, $import_external_image );
                             $product_title = ( isset( $product['title'] ) ) ? $product['title'] : '';
                             if ( $success === true ) {
-                                $messages[] = 'Product: ' . $product_title . ' successfully added.';
+                                $messages[] = 'Product: ' . $product_title . ' successfully updated.';
                             } else {
                                 $title = ( $product_title !== '' ) ? ': ' . $product_title : '';
-                                $messages[] = 'Product' . $title . ' could not be added.';
+                                $messages[] = 'Product' . $title . ' could not be updated. ' . $this->get_last_error();
                             }
 
                         // else (product does not exist)
@@ -138,7 +141,7 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
                                 $messages[] = 'Product: ' . $product_title . ' successfully added.';
                             } else {
                                 $title = ( $product_title !== '' ) ? ': ' . $product_title : '';
-                                $messages[] = 'Product' . $title . ' could not be added.';
+                                $messages[] = 'Product' . $title . ' could not be added. ' . $this->get_last_error();
                             }
 
                         }
@@ -160,14 +163,17 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
 
                 $success = false;
 
-                $product_title = ( isset( $product_data['title'] ) ) ? $product_data['title'] : '';
+                //$product_title = ( isset( $product_data['title'] ) ) ? $product_data['title'] : '';
 
                 if ( $this->is_valid_product_data( $product_data ) ) {
 
                     $success = $this->dal->create_product( $product_data, $import_external_image );
+                    if ( ! $success ) {
+                        $this->set_last_error( $this->dal->get_last_error() );
+                    }                    
 
                 } 
-
+                
                 return $success;
                 
             }
@@ -177,11 +183,14 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
 
                 $success = false;
 
-                $product_title = ( isset( $product_data['title'] ) ) ? $product_data['title'] : '';
+                //$product_title = ( isset( $product_data['title'] ) ) ? $product_data['title'] : '';
 
                 if ( $this->is_valid_product_data( $product_data ) ) {
 
                     $success = $this->dal->update_product( $post_id, $product_data, $import_external_image );
+                    if ( ! $success ) {
+                        $this->set_last_error( $this->dal->get_last_error() );
+                    }                    
 
                 } 
 
@@ -196,17 +205,27 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
 
                 $product_keys = array_keys( $product_data );
 
-                foreach( ITW_Product::TABLE_HEADER as $header_col ) {
+                $missing_columns = array();
+
+                $header_columns = ITW_Product::get_import_export_header();
+                foreach( $header_columns as $header_col ) {
 
                     if ( 
                         $header_col !== 'post_id' && 
                         ! in_array( $header_col, $product_keys ) 
                     ) {
 
+                        $missing_columns[] = $header_col;
                         $is_valid = false;
 
                     }
 
+                }
+
+                if ( ! $is_valid ) {
+                    // report error 
+                    $error = 'Missing import columns: ' . WPX::simple_implode( $missing_columns );
+                    $this->set_last_error( $error );
                 }
 
                 return $is_valid;
@@ -214,6 +233,53 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
             }
  
 
+
+            // -----------------------------------------------------------
+            // EXPORT PRODUCTS 
+            // -----------------------------------------------------------
+
+            public function export_all() {
+
+                $table = array();
+
+                $product_ids = $this->dal->get_all_product_ids();
+                if ( $product_ids ) {
+
+                    // get table header 
+                    $table['header'] =  ITW_Product::get_import_export_header();
+
+                    // get each table row 
+                    foreach ( $product_ids as $product_id ) {
+
+                        // get product data 
+                        $product = $this->get_product( $product_id );
+
+                        // convert ITW_Product object to an array (for export)
+                        $product_data = $product->get_export_data();
+
+                        // convert categories from array to comma-delineated string
+                        $cat_names = array();
+                        $cat_array = $product_data['categories'];
+                        if ( is_array( $cat_array ) && ! empty( $cat_array ) ) {
+                            foreach( $cat_array as $cat ) {
+                                $cat_names[] = $cat['name'];
+                            }
+                        }
+                        $product_data['categories'] = WPX::simple_implode( $cat_names );
+
+                        // save to export table 
+                        $table[ $product_id ] = $product_data;
+
+                    }
+
+                }
+
+                return $table;
+
+            } // end : export_all()
+
+
+            
             // -----------------------------------------------------------
             // GLOBAL DATA - WORDPRESS OPTIONS
             // -----------------------------------------------------------
@@ -226,6 +292,19 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
             // set the warranty text 
             public function set_warranty( $text ) {
                 return $this->dal->set_warranty( $text );
+            }
+
+
+            // -----------------------------------------------------------
+            // HANDLE ERRORS 
+            // -----------------------------------------------------------
+
+            public function get_last_error() {
+                return $this->last_error;
+            }
+
+            private function set_last_error( $error ) {
+                $this->last_error = $error;
             }
 
     

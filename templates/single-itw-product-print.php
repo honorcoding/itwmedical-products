@@ -3,8 +3,8 @@
  * SINGLE MEDICAL PRODUCT - PRINT TEMPLATE 
 */
 
-$css_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/style.css' );
-$css_file = ITW_MEDICAL_PRODUCTS_URL . 'assets/style.css?ver=' . $css_filetime;
+$css_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/css/style.css' );
+$css_file = ITW_MEDICAL_PRODUCTS_URL . 'assets/css/style.css?ver=' . $css_filetime;
 
 ?>
 <!DOCTYPE html>

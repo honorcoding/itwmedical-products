@@ -39,7 +39,7 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
 
                 // convert a comma-deliminated string into an array
                 if ( ! is_array( $ids ) ) {
-                    $ids = self::simple_explode( ',', $ids );
+                    $ids = self::simple_explode( $ids );
                 }
 
                 // get the filename for each id (use empty string if no attachment found) 
@@ -50,7 +50,7 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
                 }   
 
                 if ( $output === 'STRING' ) {
-                    $filenames = self::simple_implode( ',', $filenames );
+                    $filenames = self::simple_implode( $filenames );
                 }
 
                 return $filenames;
@@ -72,7 +72,8 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
                 if ( is_numeric( $id ) ) {
                     $id = intval( $id );
                     if ( $id > 0 ) {
-                        $filename = get_attached_file( $id, true ); // return false if unsuccessful
+                        //$filename = get_attached_file( $id, true ); // return false if unsuccessful
+                        $filename = wp_get_attachment_url( $id, true ); // return false if unsuccessful 
                     }
                 }
 
@@ -89,18 +90,18 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
              *
              * @return string $ids - a list of attachment_ids (blank if unsuccessful)
              */
-            public function get_attachment_ids_from_filenames( $filenames ) {
+            public static function get_attachment_ids_from_filenames( $filenames ) {
                 
                 $ids = '';
 
                 // convert a comma-deliminated string into an array
                 if ( ! is_array( $filenames ) ) {
-                    $filenames = self::simple_explode( ',', $filenames );
+                    $filenames = self::simple_explode( $filenames );
                 }
 
                 if ( is_array( $filenames ) ) {
                     foreach( $filenames as $filename ) { 
-                        $id = $this->get_attachment_id_from_filename( $filename );
+                        $id = self::get_attachment_id_from_filename( $filename );
                         if ( $id ) {
                             $ids = ( $ids !== '' ) ? $ids . ',' . $id : $id;
                         }
@@ -120,7 +121,7 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
              *
              * @return int/boolean $id or false (if unsuccessful)
              */
-            public function get_attachment_id_from_filename( $filename ) {
+            public static function get_attachment_id_from_filename( $filename ) {
 
                 // if the image url is from this site
                 $attachment_id = 0;
@@ -158,10 +159,10 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
             public static function is_url_from_this_site( $url ) {
 
                 $site_url_parsed = wp_parse_url( get_site_url() );
-                $site_host = $site_url_parsed['host'];
+                $site_host = ( isset ( $site_url_parsed['host'] ) ) ? $site_url_parsed['host'] : '';
                 
                 $url_parsed = wp_parse_url( $url );
-                $url_host = $url_parsed['host'];
+                $url_host = ( isset ( $url_parsed['host'] ) ) ? $url_parsed['host'] : '';
 
                 $is_site_url = ( $site_host === $url_host ) ? true : false;
                 return $is_site_url;
@@ -178,7 +179,7 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
              * 
              * @return array (returns an empty array if no valid tokens found) 
              */
-            public static function simple_explode( $delimiter, $string ) {
+            public static function simple_explode( $string, $delimiter = ',' ) {
 
                 if ( $delimiter !== '' ) { 
                     $array = explode( $delimiter, $string ); 
@@ -208,7 +209,7 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
              * 
              * @return string (returns an empty string if no elements found) 
              */
-            public static function simple_implode( $glue, $array ) {
+            public static function simple_implode( $array, $glue = ',' ) {
 
                 $string = '';
 

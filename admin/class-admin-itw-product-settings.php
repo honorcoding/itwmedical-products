@@ -54,11 +54,35 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
 
             public function load_hooks_and_filters() {
 
+                // additional values for javascript to know 
+                add_action( 'admin_head', array( $this, 'javascript_data_for_this_page' ) );
+
+                // add admin menu
                 add_action( 'admin_menu', array( $this, 'add_settings_page_to_admin_menu') );
 
                 // Ajax action to export product csv data
                 add_action( 'wp_ajax_itw_get_product_csv_data', array( $this, 'get_product_csv_data' ) );
                 add_action( 'wp_ajax_nopriv_itw_get_product_csv_data', array( $this, 'get_product_csv_data' ) );                
+
+            }
+
+            public function javascript_data_for_this_page() {
+
+                // if on the medical-product settings page
+                $current_screen = get_current_screen();
+                if ( 
+                    isset( $current_screen->id ) && 
+                    $current_screen->id === 'itw-medical-product_page_itwmp-settings' 
+                ) {
+                    ?>
+                    <script type="text/javascript">
+                        var itw = {
+                            ajax_url:'<?php echo admin_url('admin-ajax.php'); ?>',
+                            import_form_id: '<?php echo self::IMPORT_FILE_FORM_ID; ?>',
+                        };
+                    </script>
+                    <?php
+                } 
 
             }
 
@@ -117,7 +141,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                 );
 
                 $export_args = array(
-                    'export_link' => $this->get_csv_export_download_link(),
+                    'export_link' => $this->get_csv_export_download_link( 'Export All Products' ),
                 );
 
                 $warranty_args = array(
@@ -198,7 +222,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                                 // import the csv file data into an array
                                 $csv_data = ITW_CSV_File::import_csv_file_to_array( $file_path );
 
-                                // delete the file (no longer required)
+                                // delete the temporary import file (no longer required)
                                 if ( file_exists( $file_path ) ) {
                                     unlink( $file_path );
                                 }                                 
@@ -290,6 +314,18 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
 
 
             // ------------------------------------------------------
+            // IMPORT TOOLS
+            // ------------------------------------------------------
+
+            /**
+             * Get CSV Export Download Link
+             */
+            public function get_import_product_button( $title = 'Export' ) {
+                return '<input type="button" onclick="itw_download_export_file()" value="'.$title.'" />';
+            }
+
+
+            // ------------------------------------------------------
             // EXPORT TOOLS
             // ------------------------------------------------------
 
@@ -297,11 +333,24 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
              * Handles Ajax call to get product csv data 
              */
             public function get_product_csv_data() {
+
+                // get array of data for all products
+                $product_controller = itw_prod();
+                $product_data = $product_controller->export_all();
+
+
+                // convert product data to csv
+                $products_as_csv = ITW_CSV_File::array_to_csv( $product_data );
+                if ( $products_as_csv === false ) {
+                    $products_as_csv = '';
+                }
+
                 $data = array(
-                    'message' => 'ajax call works',
+                    'products' => $products_as_csv,
                 );
 
                 wp_send_json_success( $data );
+
             }
 
             /**

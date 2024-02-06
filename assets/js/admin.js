@@ -2,6 +2,50 @@
  * ITW PRODUCT - ADMIN SCRIPTS 
 */
 
+// -----------------------------------------------------
+// IMPORT PRODUCT DATA 
+// -----------------------------------------------------
+
+
+jQuery(document).ready(function() {
+    jQuery( '#' + itw.import_form_id ).submit(function (event) {
+
+    alert( 'submitting form: ' + itw.import_form_id );
+
+    /*
+    var formData = {
+      name: $("#name").val(),
+      email: $("#email").val(),
+      superheroAlias: $("#superheroAlias").val(),
+    };
+
+    $.ajax({
+      type: "POST",
+      url: "process.php",
+      data: formData,
+      dataType: "json",
+      encode: true,
+    }).done(function (data) {
+      console.log(data);
+    });
+    */
+
+    event.preventDefault();
+  });    
+});
+
+
+function itw_import_product_data() {
+
+    alert( itw.import_form_id );
+
+}
+
+
+// -----------------------------------------------------
+// EXPORT PRODUCT DATA 
+// -----------------------------------------------------
+
 /**
  * Initiate the process to download products as CSV data
  */ 
@@ -22,22 +66,20 @@ function ITW_Get_CSV_Data(){
 
     jQuery.get(ajaxurl, data, function(response) {
         if( response.success === true ) {    
-            ITW_Export_Data_to_CSV_File( response.data );       
+            ITW_Export_Data_to_CSV_File( response.data, 'all_products.csv' );       
         }
     });
 
 }
 
 /**
- * Automatically download data as file: products.csv 
+ * Automatically download data as csv file
  */
-function ITW_Export_Data_to_CSV_File( data ) {
-console.log( data );
-// TODO: WHY DOESN'T THIS EXPORT AS A CSV DOCUMENT? WHY ALL THE EXTRA WP HTML? HOW TO GET AROUND THAT? 
-//       ONCE WE GET AROUND THAT, THEN WHY DO I NEED ALL THIS AJAX, ETC? CAN'T I JUST ADD A FUNCTION TO ITW_CSV_FILE.PHP?
+function ITW_Export_Data_to_CSV_File( data, filename ) {
+    
     var c = document.createElement("a");
-    c.download = "products.csv";
-    var t = new Blob([data], {
+    c.download = filename;
+    var t = new Blob([data.products], {
         type: "text/csv"
     });
 

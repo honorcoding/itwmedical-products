@@ -9,9 +9,9 @@
 //
 // -----------------------------------------------------------
 
-namespace ITW_Medical\Products\Client;
-use ITW_Medical\Products\ITW_Product;
-use ITW_Medical\Products\ITW_Product_Controller;
+namespace ITW_Medical\Products\Client; 
+use ITW_Medical\Products\ITW_Product; 
+use ITW_Medical\Products\ITW_Product_Controller; 
 
 
 // no unauthorized access
@@ -239,7 +239,7 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
                     $print_var = $this->get_query_var( 'view' );
                     if ( $print_var === 'print' ) {
 
-                        $plugin_template = self::TEMPLATE_PATH . '/single-itw-product-print.php';
+                        $plugin_template = self::TEMPLATE_PATH . 'single-itw-product-print.php';
                         if ( file_exists( $plugin_template ) ) {
                             $template = $plugin_template;
                         }

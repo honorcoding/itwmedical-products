@@ -206,23 +206,10 @@ function show_debug() {
         global $debug;
         // example: $debug['data'] = $data;
 
-// TODO: close, but no cigar
-// test 
-/*
-$table = array(
-    array(
-        'first' => 'bob',
-        'last'  => 'newhart',
-        'email' => 'bob@newhart.com'
-    ),
-    array(
-        'first' => 'john',
-        'last'  => 'carson',
-        'email' => 'john@carson.com'
-    ),
-);
-\ITW_Medical\CSV\ITW_CSV_File::export_to_csv_attachment( $table );
-*/
+        //$debug['export_all'] = itw_prod()->export_all();
+
+
+
 
         if ( $debug ) {
             ob_start(); 

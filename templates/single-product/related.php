@@ -1,9 +1,11 @@
 <?php 
-    $content = nl2br( $product->related_products );
-    if ( ! $content ) {
-        $content = 'Related products are not available for this product.';
-    }
+    // get category of this product 
+
+    // get related products based on category 
+
 ?>
 <div class="itw-related">
-    <?php echo $content; ?>
+    <?php
+        // list out related products 
+    ?>
 </div>    

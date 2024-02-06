@@ -58,7 +58,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                         array(
                             'id'    => 'itw_mp_long_description',
                             'label' => 'Long Descripion',
-                            'type'  => 'text',
+                            'type'  => 'textarea',
                         ),
                     'product_details_materials_of_construction' =>
                         array(
@@ -78,9 +78,9 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                             'label' => 'Product Details - Design',
                             'type'  => 'textarea',
                         ),
-                    'product_details_perfomance_data' =>
+                    'product_details_performance_data' =>
                         array(
-                            'id'    => 'itw_mp_product_details_perfomance_data',
+                            'id'    => 'itw_mp_product_details_performance_data',
                             'label' => 'Product Details - Performance Data',
                             'type'  => 'textarea',
                         ),
@@ -101,12 +101,6 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                             'id'    => 'itw_mp_technical_literature',
                             'label' => 'Technical Literature',
                             'type'  => 'media',
-                        ),
-                    'related_products' =>
-                        array(
-                            'id'    => 'itw_mp_related_products',
-                            'label' => 'Related Products',
-                            'type'  => 'text',
                         ),
                 );
 

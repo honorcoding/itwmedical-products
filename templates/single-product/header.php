@@ -5,6 +5,6 @@
             <div class="itw-long-description"><?php echo $product->long_description; ?></div>
         </div>
         <div class="itw-col">
-            <div class="itw-image"><?php echo $product->image; ?></div>
+            <div class="itw-image"><?php echo wp_get_attachment_image( $product->image, 'medium' ); ?></div>
         </div>
 </div>

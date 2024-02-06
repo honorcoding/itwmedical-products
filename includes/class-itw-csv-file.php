@@ -101,49 +101,42 @@ if ( ! class_exists( 'ITW_CSV_File' ) ) :
             /**
              * Exports an array table as a CSV browser attachment (immediate download)
              *
-             * @param array $fields - the array table 
-             * @param boolean $headers - whether or not the array table has headers
+             * @param array $table - an array of rows. each row is an array of columns. 
+             *                       example: $table = array(
+             *                                   'header_row' => array( 'h1', 'h2', 'h3' ),
+             *                                   'row_1'      => array( 'c1', 'c2', 'c3' ),
+             *                                   'row_2'      => array( 'c4', 'c5', 'c6' ),
+             *                                );
              *
-             * Note: https://www.php.net/manual/en/function.fputcsv.php 
-             *       (Examples include techniques for generating CSV files or just returning strings)
+             * @return string/boolean - returns a string of CSV data or false on failure
+             * 
+             * Note: see https://www.php.net/manual/en/function.fputcsv.php 
              */
-            public static function array_to_csv( array $table, $headers = true ) {
+            public static function array_to_csv( array $table ) {
 
-                // send response headers to the browser
-                /*
-                header( 'Content-Type: text/csv' );
-                header( 'Content-Disposition: attachment;filename='.$filename);
-                */
-$csv = 'some text';
-header("Pragma: public");
-header("Expires: 0");
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header("Cache-Control: private", false);
-header("Content-Type: application/octet-stream");
-header("Content-Disposition: attachment; filename=\"report.csv\";" );
-header("Content-Transfer-Encoding: binary");
+                // open the file output (piping to memory instead of file) 
+                $f = fopen('php://memory', 'r+');
 
-echo $csv;
-exit;           
-/*     
-                $fp = fopen('php://output', 'w');
-
-                if($headers) {
-                    // output header row (if at least one row exists)
-                    if ( isset( $table[0] ) ) {
-                        $row = $table[0];
-                        fputcsv($fp, array_keys($row));
-                    }
-                }    
-
+                // go through each table row and out put the csv 
+                $csv = '';
                 foreach( $table as $row ) {
-                    fputcsv($fp, $row);
-                }
+                    if (fputcsv($f, $row) === false) {
+                        return false;   // on error, return false 
+                    }
+                }                
 
-                fclose($fp);            
-*/
-            } // end : export_to_csv_attachment() 
-            
+                // rewind the output pipe and dump the contents to the $csv variable
+                rewind( $f );
+                $csv = stream_get_contents($f);
+
+                // close the output pipe
+                fclose( $f );
+
+                // return the results
+                return $csv; 
+
+            } // end : array_to_csv() 
+
 
     } // end class: ITW_CSV_File
 
