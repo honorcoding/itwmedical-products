@@ -94,6 +94,13 @@
    font-size: 150%;
    font-weight: normal;
 }
+.itw-product-single h2 a {
+   color: #EE8D00!important;
+   text-decoration: none;
+}
+.itw-product-single h2 a:hover {
+   color: #b7b9bb!important;
+}
 .itw-product-single p {
    margin: 0;
 }

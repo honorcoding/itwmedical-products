@@ -19,6 +19,9 @@ defined( 'ABSPATH' ) || exit;   // no access for random strangers
 define("ITW_MEDICAL_PRODUCTS_URL", plugin_dir_url(__FILE__));
 define("ITW_MEDICAL_PRODUCTS_PATH", plugin_dir_path(__FILE__));
 
+// PLUGIN SETTNIGS 
+define("ITW_PRODUCT_LIST_PAGE_ID_OPTION_KEY", 'itw_product_list_page_id' );
+
 
 // ----------------------------------------------------
 // LOAD PLUGIN TOOLS
@@ -207,7 +210,6 @@ function show_debug() {
         // example: $debug['data'] = $data;
 
         //$debug['export_all'] = itw_prod()->export_all();
-
 
 
 

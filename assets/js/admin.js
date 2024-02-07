@@ -6,7 +6,7 @@
 // IMPORT PRODUCT DATA 
 // -----------------------------------------------------
 
-
+/*
 jQuery(document).ready(function() {
     jQuery( '#' + itw.import_form_id ).submit(function (event) {
 
@@ -28,12 +28,12 @@ jQuery(document).ready(function() {
     }).done(function (data) {
       console.log(data);
     });
-    */
+    * /
 
     event.preventDefault();
   });    
 });
-
+*/
 
 function itw_import_product_data() {
 

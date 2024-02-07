@@ -71,7 +71,7 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
 
 
             // -----------------------------------------------------------
-            // GET, SEARCH, AND SAVE PRODUCTS 
+            // GET, SEARCH, AND SAVE PRODUCTS AND PRODUCT DATA
             // -----------------------------------------------------------
             
             // @returns (ITW_Product) or (boolean) false
@@ -90,12 +90,53 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
                 return $this->dal->save_product( $product );
             }
 
+            /**
+             * converts category array into comma-delineated string 
+             */
+            public function implode_categories( $categories ) {
+                $cat_names = array();
+                if ( is_array( $categories ) && ! empty( $categories ) ) {
+                    foreach( $categories as $cat ) {
+                        $cat_names[] = $cat['name'];
+                    }
+                }
+                return WPX::simple_implode( $cat_names );
+            }
+
+            /**
+             * gets a categories link 
+             */
+            public function get_category_link( $category_slug ) {
+                
+                $category_link = '';
+
+                $product_list_page_id = get_option( ITW_PRODUCT_LIST_PAGE_ID_OPTION_KEY );
+                $product_list_page_url = ( $product_list_page_id && $product_list_page_id !== '' ) ? get_permalink( $product_list_page_id ) : '';
+
+                if ( $product_list_page_url !== '' ) {
+                    $category_link = $product_list_page_url . '?itw_category=' . $category_slug;
+                }
+
+                return $category_link;
+
+            }
 
             // -----------------------------------------------------------
             // ADD / IMPORT PRODUCTS 
             // -----------------------------------------------------------
+
+            /**
+             * Ajax function to import products individually 
+             */
+            public static function ajax_import() {
+
+                if ( isset( $_POST['product'] ) ) {
+                    $product = $_POST['product'];   // array of product data from javascript
+                }
+
+            }
             
-            /* 
+            /** 
              * Imports an array of products into the wordpress database as ITW_Products
              * 
              * @param (array) $products : array of products. 
@@ -258,14 +299,7 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
                         $product_data = $product->get_export_data();
 
                         // convert categories from array to comma-delineated string
-                        $cat_names = array();
-                        $cat_array = $product_data['categories'];
-                        if ( is_array( $cat_array ) && ! empty( $cat_array ) ) {
-                            foreach( $cat_array as $cat ) {
-                                $cat_names[] = $cat['name'];
-                            }
-                        }
-                        $product_data['categories'] = WPX::simple_implode( $cat_names );
+                        $product_data['categories'] = $this->implode_categories( $product_data['categories'] );
 
                         // save to export table 
                         $table[ $product_id ] = $product_data;

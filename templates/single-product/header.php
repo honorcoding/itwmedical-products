@@ -1,6 +1,12 @@
 <div class="itw-header">
         <div class="itw-col">
-            <h2>Medical Product</h2>
+            <?php 
+                if ( $category_html !== '' ) {
+                    ?>
+                    <h2><?php echo $category_html; ?></h2>
+                    <?php 
+                } 
+            ?>
             <h1 class="itw-title"><?php echo $product->title; ?></h1>
             <div class="itw-long-description"><?php echo $product->long_description; ?></div>
         </div>

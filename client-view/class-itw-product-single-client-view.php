@@ -208,6 +208,23 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
                 // load product
                 $product = $this->maybe_load_product( $post_id );
 
+                // load category details 
+                $category_html = '';
+                foreach( $product->categories as $cat ) {
+
+                    $cat_url = itw_prod()->get_category_link( $cat['slug'] );
+
+                    if ( $cat_url !== '' ) {
+                        $cat_html = '<a href="' . $cat_url . '">' . $cat['name'] . '</a>';
+                    } else {
+                        $cat_html = $cat['name'];
+                    }
+
+                    $category_html = ( $category_html !== '' ) ? $category_html . ', ' . $cat_html : $cat_html;
+
+                }
+
+                // load template
                 if ( $product && $view !== '' ) {
 
                     // generate shortcode output from template file

@@ -24,17 +24,22 @@
 
     <div class="section">
         <h2>Import</h2>
-        <?php echo $args['import_section'] ?>
+        <?php echo $args['import_section']; ?>
     </div>
 
     <div class="section">
         <h2>Export</h2>
-        <?php echo $args['export_section'] ?>
+        <?php echo $args['export_section']; ?>
     </div>
 
     <div class="section">
         <h2>Warranty</h2>
-        <?php echo $args['warranty_section'] ?>
+        <?php echo $args['warranty_section']; ?>
+    </div>
+
+    <div class="section">
+        <h2>Product List Page</h2>
+        <?php echo $args['product_list_page']; ?>
     </div>
 
 </div> 

@@ -146,16 +146,32 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
 
                 $warranty_args = array(
                     'warranty' => itw_prod()->get_warranty(),
+                );            
+
+                // get a list of all pages on the site 
+                $args = array(
+                    'post_type' => 'page',
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1,
+                    'orderby' => 'title',
+                    'order' => 'ASC',
                 );
+                $all_pages = get_posts( $args );
+
+                $product_list_page_args = array(
+                    'product_list_page_id' => get_option( ITW_PRODUCT_LIST_PAGE_ID_OPTION_KEY ),
+                    'all_pages' => $all_pages,
+                );    
 
                 $args = array(
-                    'messages'         => $messages,
-                    'import_section'   => $this->get_template( 'parts/import', $import_args ),
-                    'export_section'   => $this->get_template( 'parts/export', $export_args ), 
-                    'warranty_section' => $this->get_template( 'parts/warranty', $warranty_args ), 
+                    'messages'          => $messages,
+                    'import_section'    => $this->get_template( 'parts/import', $import_args ),
+                    'export_section'    => $this->get_template( 'parts/export', $export_args ), 
+                    'warranty_section'  => $this->get_template( 'parts/warranty', $warranty_args ), 
+                    'product_list_page' => $this->get_template( 'parts/product_list_page', $product_list_page_args ),
                 );
 
-                $page_html   = $this->get_template( 'settings-page-content', $args );
+                $page_html = $this->get_template( 'settings-page-content', $args );
 
                 echo $page_html;
 
@@ -188,6 +204,9 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
 
                 // process warranty form 
                 $messages = $this->process_warranty_form( $messages );
+
+                // process product_list_page form 
+                $messages = $this->process_product_list_page_form( $messages );
 
                 return $messages;
 
@@ -291,6 +310,22 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                     if ( isset( $_POST['itwmp-warranty-field'] ) ) {
                         $warranty = $_POST['itwmp-warranty-field'];
                         itw_prod()->set_warranty( $warranty );
+                        $this->add_message( $messages, 'Product warranty updated.' );
+                    }                    
+                }
+
+                return $messages;
+
+            }
+
+            // process product_list_page form
+            protected function process_product_list_page_form( $messages ) {
+
+                if ( isset( $_POST['itwmp-plp-submit'] ) && $_POST['itwmp-plp-submit'] === 'Update' ) {
+                    if ( isset( $_POST['itwmp-plp-field'] ) ) {
+                        $product_list_page_id = $_POST['itwmp-plp-field'];
+                        update_option( ITW_PRODUCT_LIST_PAGE_ID_OPTION_KEY, $product_list_page_id );
+                        $this->add_message( $messages, 'Product list page updated.' );
                     }                    
                 }
 
