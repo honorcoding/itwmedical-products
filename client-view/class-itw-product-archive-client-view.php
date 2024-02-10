@@ -91,12 +91,29 @@ if ( ! class_exists( 'ITW_Product_Archive_Client_View' ) ) :
                 // set up default parameters
                 extract(shortcode_atts(array(
                     //'url' => '',
+                    'parent' => '',
                 ), $atts));
 
+                // prepare $args 
+                $args = array(
+                    'taxonomy' => ITW_Product::CUSTOM_TAXONOMY,
+                );
+
+                if ( $parent !== '' ) {
+                    $parent_term = get_term_by( 'name', $parent, ITW_Product::CUSTOM_TAXONOMY ); 
+                    if ( $parent_term === false ) {
+                        $parent_term = get_term_by( 'slug', $parent, ITW_Product::CUSTOM_TAXONOMY ); 
+                    }
+                    if ( $parent_term === false ) {
+                        $parent_term = get_term_by( 'id', $parent, ITW_Product::CUSTOM_TAXONOMY ); 
+                    }
+                    if ( $parent_term !== false ) {
+                        $args['parent'] = $parent_term->term_id;
+                    }
+                }                    
+
                 // get terms as options
-                $terms = get_terms( array(
-                    'taxonomy'   => ITW_Product::CUSTOM_TAXONOMY,
-                ) );
+                $terms = get_terms( $args );
 
                 $options = array();
                 if (  

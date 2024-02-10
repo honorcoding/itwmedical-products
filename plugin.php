@@ -89,9 +89,6 @@ function itw_load_plugin_resources() {
 
     }             
 
-// debug
-require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-csv-file.php';
-
     // ------------------------------------------------------------
     // ADMIN-FACING PAGES
     // ------------------------------------------------------------
@@ -103,8 +100,7 @@ require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-csv-file.php';
 
         // load classes that support file uploads, csv processing, and accessing wordpress media files
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-file-upload.php';
-// debug        
-//        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-csv-file.php';
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-csv-file.php';
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/class-itw-wp-media.php';
 
         // handle admin-facing pages
