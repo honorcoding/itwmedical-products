@@ -541,7 +541,7 @@ if ( ! class_exists( 'ITW_File_Upload' ) ) :
                 if ( ! file_exists( $upload_folder ) ) {
 
                     // try to create the upload directory 
-// TODO: PERMISSIONS DID NOTHING                    
+                    // TODO: PERMISSIONS DID NOTHING                    
                     @mkdir( $upload_folder, $permissions );
 
                     // check if the creation was successful

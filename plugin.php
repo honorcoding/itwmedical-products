@@ -185,19 +185,6 @@ if ( is_admin() ) {
 }
 
 
-function itw_is_site_image( $image_url ) {
-
-    $site_url_parsed = wp_parse_url( get_site_url() );
-    $site_host = $site_url_parsed['host'];
-    
-    $image_url_parsed = wp_parse_url( $image_url );
-    $image_host = $image_url_parsed['host'];
-
-    $is_site_image = ( $site_host === $image_host ) ? true : false;
-    return $is_site_image;
-
-}
-
 function show_debug() {
     
     //if ( get_current_user_id() == 10 ) { // 10 = developer user id

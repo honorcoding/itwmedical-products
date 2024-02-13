@@ -43,10 +43,6 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
 
             public function __construct() {
 
-                // TODO: check if itw_product single (or print) - if so, then proceed, otherwise do nothing ? ... 
-                //       thoughts: this would prevent unnecessary loading of shortcodes, but will it be overly restrictive? 
-                //       see below: is_itw_product_single()
-
                 $this->load_hooks_and_filters();
 
             }

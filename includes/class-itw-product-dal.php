@@ -255,7 +255,6 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
             **/
             public function save_product( ITW_Product $product ) {
                     // TODO: to speed up this function, use a single MySQL query, instead of a dozen different ones
-                    // TODO: DOES THIS HAVE A UNIQUE IDENTIFIER? (E.G. PRODUCT_NUMBER OR MFG_NUMBER OR BOTH TOGETHER?)
 
                     $success = false;
 

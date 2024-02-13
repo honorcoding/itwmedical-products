@@ -49,7 +49,8 @@ if ( ! class_exists( 'ITW_CSV_File' ) ) :
 
                     // loop through each line (row) of the file 
                     $row_count = 0;
-// TODO: catch errors (i.e. if $handle is not valid csv, etc...)
+                    
+                    // TODO: catch errors (i.e. if $handle is not valid csv, etc...)
                     while ( ( $row = fgetcsv( $handle, 1000, "," ) ) !== FALSE ) {
 
                         // loop through each column in that row
