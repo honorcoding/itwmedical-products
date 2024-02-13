@@ -39,6 +39,8 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
             const TEMPLATE_PATH       = ITW_MEDICAL_PRODUCTS_PATH . 'templates/';
             const TEMPLATE_PARTS_PATH = ITW_MEDICAL_PRODUCTS_PATH . 'templates/single-product/';
 
+            const MAX_RELATED_PRODUCTS = 5;
+
             public function __construct() {
 
                 // TODO: check if itw_product single (or print) - if so, then proceed, otherwise do nothing ? ... 
@@ -208,31 +210,41 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
                 // load product
                 $product = $this->maybe_load_product( $post_id );
 
-                // load category details 
-                $category_html = '';
-                foreach( $product->categories as $cat ) {
+                if ( $product ) { 
 
-                    $cat_url = itw_prod()->get_category_link( $cat['slug'] );
+                    // load category details 
+                    $category_html = '';
+                    foreach( $product->categories as $cat ) {
 
-                    if ( $cat_url !== '' ) {
-                        $cat_html = '<a href="' . $cat_url . '">' . $cat['name'] . '</a>';
-                    } else {
-                        $cat_html = $cat['name'];
+                        $cat_url = itw_prod()->get_category_link( $cat['slug'] );
+
+                        if ( $cat_url !== '' ) {
+                            $cat_html = '<a href="' . $cat_url . '">' . $cat['name'] . '</a>';
+                        } else {
+                            $cat_html = $cat['name'];
+                        }
+
+                        $category_html = ( $category_html !== '' ) ? $category_html . ', ' . $cat_html : $cat_html;
+
                     }
 
-                    $category_html = ( $category_html !== '' ) ? $category_html . ', ' . $cat_html : $cat_html;
+                    $related_products = itw_prod()->get_related_products( $product );   
 
-                }
+                    // load template
+                    if ( $product && $view !== '' ) {
 
-                // load template
-                if ( $product && $view !== '' ) {
+                        // generate shortcode output from template file
+                        ob_start(); 
+                            include self::TEMPLATE_PARTS_PATH . $view . '.php';
+                        $output = ob_get_clean();
+                                        
+                    }
 
-                    // generate shortcode output from template file
-                    ob_start(); 
-                        include self::TEMPLATE_PARTS_PATH . $view . '.php';
-                    $output = ob_get_clean();
-                                    
-                }
+                } else { 
+
+                    $output = 'Product does not exist.';
+                    
+                } // end : if $product 
 
                 // return shortcode output
                 return $output;

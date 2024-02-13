@@ -225,6 +225,47 @@
 
 /* RELATED */ 
 .itw-product-single .itw-related {}
+.itw-product-single .itw-related ul {
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   flex-wrap: wrap;
+}
+.itw-product-single .itw-related li {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: 3px;  
+   margin: 10px;
+   width: 150px;
+   border: solid 1px #ccc;   
+}
+.itw-product-single .itw-related li a {
+   width: 150px;
+   text-decoration: none;
+}
+.itw-product-single .itw-related .itw-image {
+
+}
+.itw-product-single .itw-related .itw-title {
+   border: none;
+   margin: 0;
+   padding: 3px; 
+   font-weight: bold;
+   text-align: center; 
+   display: flex;
+   text-align: center;
+   justify-content: center;    
+}
+.itw-product-single .itw-related li:hover {
+   border: solid 1px #385fa9;
+}
+.itw-product-single .itw-related li:hover a .itw-title {
+   background: #385fa9;
+   color: #fff;
+}
 
 
 

@@ -85,6 +85,42 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
                 return $this->dal->search( $product_number, $mfg_number );
             }
 
+            public function get_products_with_category( $cat_ids = array(), $except = '' ) {
+                return $this->dal->get_products_with_category( $cat_ids, $except ); 
+            }
+
+            public function get_related_products( &$product, $limit = 5 ) {
+
+                $related_products = array();
+                
+                // get category ids of this product (as array)
+                $cat_ids = array();
+                foreach( $product->categories as $cat ) { 
+                    $cat_ids[] = $cat['term_id'];
+                }
+
+                // get related product ids based on categories     
+                $related_product_ids = itw_prod()->get_products_with_category( $cat_ids, $product->post_id );
+
+                // get related products (limit the number)
+                $count = 0; // limit the number of related products to display 
+                foreach( $related_product_ids as $prod_id ) {
+
+                    // get the product 
+                    $related_products[] = itw_prod()->get_product( $prod_id );
+
+                    // limit the number of related products to display 
+                    $count++;
+                    if ( $count >= $limit ) {
+                        break;
+                    }
+
+                }
+
+                return $related_products;
+
+            }
+
             // @returns (boolean) true or false
             public function save_product( ITW_Product $product ) {
                 return $this->dal->save_product( $product );

@@ -142,6 +142,40 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
 
             }
 
+            public function get_products_with_category( $cat_ids = array(), $except = '' ) {
+
+                $post_ids = array();
+
+                if ( ! empty( $cat_ids ) ) {
+
+                    // prepare the query args 
+                    $args = array(
+                        'post_type' => ITW_Product::CUSTOM_POST_TYPE,
+                        'post_status' => 'publish',
+                        'posts_per_page' => -1,
+                        'fields' => 'ids',
+                        'tax_query' => array( 
+                            array(
+                                'taxonomy' => ITW_Product::CUSTOM_TAXONOMY,
+                                'terms' => $cat_ids,
+                                'operator' => 'IN',
+                            ) 
+                        ),
+                    );
+
+                    if ( $except !== '' ) {
+                        $args['post__not_in'] = array( intval( $except ) );
+                    }
+
+                    // get a list of matching posts 
+                    $post_ids = get_posts( $args );
+
+                }
+
+                return $post_ids;
+
+            }
+
             // note: to speed up this function, use a single MySQL query, instead of a dozen different ones
             // @return ITW_Product or false 
             public function get_product( $post_id ) {

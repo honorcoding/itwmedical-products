@@ -207,8 +207,6 @@ function show_debug() {
 
         //$debug['export_all'] = itw_prod()->export_all();
 
-
-
         if ( $debug ) {
             ob_start(); 
                 print_r($debug); 
@@ -219,7 +217,7 @@ function show_debug() {
             }
             echo $results;
         }
-        
+
     //}
     
 }
