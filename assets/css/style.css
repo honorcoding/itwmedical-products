@@ -369,4 +369,7 @@
 .itw-product-list table td:first-of-type {
    padding-left: 0px;
 }
+.itw-product-list table td.view-column {
+   min-width: 25px;
+}
 .itw-product-list .itw-term-description {}

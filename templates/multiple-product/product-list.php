@@ -26,7 +26,7 @@
                             $link = get_permalink( $product->post_id );                                
                             ?>
                                 <tr>
-                                    <td><a href="<?php echo $link; ?>">View</a></td>
+                                    <td class="view-column"><a href="<?php echo $link; ?>">View</a></td>
                                     <td><?php echo $product->product_number; ?></td>
                                     <td><?php echo $product->mfg_number; ?></td>
                                     <td><?php echo $product->title; ?></td>

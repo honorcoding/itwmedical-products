@@ -12,6 +12,6 @@
             <?php echo do_shortcode('[itw_product view="order"]'); ?>
         </div>
         <div class="itw-col">
-            <div class="itw-image"><?php echo $product->image; ?></div>
+            <div class="itw-image"><?php echo wp_get_attachment_image( $product->image, 'medium' ); ?></div>
         </div>
 </div>
