@@ -176,6 +176,7 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
 
             }
 
+
             // note: to speed up this function, use a single MySQL query, instead of a dozen different ones
             // @return ITW_Product or false 
             public function get_product( $post_id ) {
@@ -217,6 +218,20 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                 return $product;
 
             } // end : get_product()
+
+
+            public function get_product_number( $post_id ) {
+                return get_post_meta( $post_id, self::META_KEY_PREFIX . 'product_number', true );
+            }
+
+
+            public function get_mfg_number( $post_id ) {
+                return get_post_meta( $post_id, self::META_KEY_PREFIX . 'mfg_number', true );
+            }
+
+            public function get_post_meta_id( $key ) {
+                return self::META_KEY_PREFIX . $key; 
+            }
 
 
             // @return (array or string) a list of product categories associated with this post_id 

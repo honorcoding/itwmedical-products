@@ -224,7 +224,55 @@ if ( ! class_exists( 'WP_Expanded' ) ) :
 
                 return $string;
 
-            }      
+            }    
+
+
+            /**
+            * Inserts an element into an array before the position of the insert_key
+            * Note: 
+            *      - Only works on arrays of key=>value pairs
+            * 
+            * @params
+            *      - (array) $array = the array to be inserted into 
+            *      - (string) $insert_before = array key to insert before 
+            *                                  (must be the array key, not the numeric index,
+            *                                  unless the numeric index is the array key)
+            *      - (array) $new_array = an array of key->value pairs to be inserted 
+            * 
+            * @returns 
+            *      - (array) the new array with the inserted value 
+            */
+            public static function array_insert( $array, $insert_before, $new_array ) {
+
+                // get the numeric index from the array key 
+                $keys = array_keys( $array); 
+                $array_index = -1;
+                foreach( $keys as $index => $key ) {
+                    if ( $key === $insert_before ) {
+                        $array_index = $index;
+                        break;
+                    }        
+                }
+
+                // split the array into two halfs 
+                if ( $array_index > -1 ) {
+
+                    $half_one = array_slice( $array, 0, $array_index );
+                    $half_two = array_slice( $array, $array_index );
+
+                } else {
+
+                    $half_one = $array;
+                    $half_two = [];
+
+                }
+
+                // combine the arrays
+                $results = array_merge( $half_one, $new_array, $half_two );
+
+                return $results;
+
+            }            
 
 
     } // end class: WP_Expanded

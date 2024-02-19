@@ -79,6 +79,18 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
                 return $this->dal->get_product( $post_id );
             }
 
+            public function get_product_number( $post_id ) {
+                return $this->dal->get_product_number( $post_id );
+            }
+
+            public function get_mfg_number( $post_id ) {
+                return $this->dal->get_mfg_number( $post_id );
+            }
+
+            public function get_post_meta_id( $key ) {
+                return $this->dal->get_post_meta_id( $key ); 
+            }
+
             // Searches for the first ITW_Product with a matching product_number and mfg_number
             // @returns (int) post_id or (boolean) false
             public function search( $product_number, $mfg_number ) {

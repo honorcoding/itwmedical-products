@@ -9,6 +9,7 @@
 
 namespace ITW_Medical\Products\Admin;
 use ITW_Medical\Products\ITW_Product;
+use ITW_Medical\Wordpress\WP_Expanded as WPX;
 
 
 // no unauthorized access
@@ -45,6 +46,9 @@ if ( ! class_exists( 'Admin_ITW_Product_List' ) ) :
                 // product categories in list 
                 add_filter( 'manage_'.ITW_Product::get_post_type().'_posts_columns',  array( $this, 'add_custom_columns_to_list_page' ) ); 
                 add_action( 'manage_'.ITW_Product::get_post_type().'_posts_custom_column' ,  array( $this, 'add_data_to_custom_columns_for_list_page') , 10, 2 );
+
+                // customize the search query to look in custom fields as well 
+                add_filter( "pre_get_posts", array( $this, 'custom_search_query' ) );            
 
             }
 
@@ -132,13 +136,34 @@ if ( ! class_exists( 'Admin_ITW_Product_List' ) ) :
             // CLIENT REQUESTS - ADD CUSTOM COLUMNS AND FILTERS TO CLIENT REQUESTS LIST
             // Add the custom columns to the post type:
             public function add_custom_columns_to_list_page($columns) {
-                $columns['category']    = __( 'Categories', 'ITW_MEDICAL_PRODUCTS' );
+
+                $new_columns = [
+                    'product_id' => __( 'Product ID', 'ITW_MEDICAL_PRODUCTS' ), 
+                    'mfg_id' => __( 'MFG ID', 'ITW_MEDICAL_PRODUCTS' ), 
+                    'category' => __( 'Categories', 'ITW_MEDICAL_PRODUCTS' ), 
+                ];
+                $insert_before = 'date';                
+                $columns = WPX::array_insert( $columns, $insert_before, $new_columns );
+
                 return $columns;
+
             }
+
 
             // Add the data to the custom columns for the post type:
             public function add_data_to_custom_columns_for_list_page( $column, $post_id ) {
+
                 switch ( $column ) {
+
+                    case 'product_id' :
+
+                        echo itw_prod()->get_product_number( $post_id );
+                        break;
+
+                    case 'mfg_id' :
+
+                        echo itw_prod()->get_mfg_number( $post_id );
+                        break;
                     
                     case 'category' :
 
@@ -165,8 +190,43 @@ if ( ! class_exists( 'Admin_ITW_Product_List' ) ) :
                     default : 
                         break;
 
-                }
+                } // end : switch
+
+            } // end : add_data_to_custom_columns_for_list_page()
+
+
+
+            // ----------------------------------------------------
+            // CUSTOM SEARCH QUERY 
+            // ----------------------------------------------------
+
+            function custom_search_query( $query ) {
+
+                $itw_prod = itw_prod();
+
+                $custom_fields = array(
+                    // put all the meta fields you want to search for here
+                    $itw_prod->get_post_meta_id( 'product_number' ),
+                    $itw_prod->get_post_meta_id( 'mfg_number' ),
+                );
+                $searchterm = $query->query_vars['s'];
+
+                // we have to remove the "s" parameter from the query, because it will prevent the posts from being found
+                $query->query_vars['s'] = "";
+
+                if ($searchterm != "") {
+                    $meta_query = array('relation' => 'OR');
+                    foreach($custom_fields as $cf) {
+                        array_push($meta_query, array(
+                            'key' => $cf,
+                            'value' => $searchterm,
+                            'compare' => 'LIKE'
+                        ));
+                    }
+                    $query->set("meta_query", $meta_query);
+                };
             }
+
 
     
     } // end class: Admin_ITW_Product_List
