@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: ITW Medical Products
- * Description: Facilitates product listing and display. 
+ * Description: Handles medical products. 
  * Version: 1.0
- * Author: IWP
+ * Author: ITW Medical
  * Author URI:   https://itwmedical.com
  * License:      GPL2
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html

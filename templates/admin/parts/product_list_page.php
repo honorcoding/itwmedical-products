@@ -21,9 +21,20 @@ $pages = $args['all_pages'];
                     }
                 }
             ?>
-        </select>
+        </select>        
     </p>
     <p>
+        <ul>
+        Note: <br/>
+            <li>
+                Add the following shortcodes to this page:<br/>
+                [itw_product_filters parent="Standard Products"]<br/>
+                [itw_products]<br/>
+            </li>
+        </ul>
+    </p>
+    <br />
+    <p>        
         <input id="itwmp-plp-submit" name="itwmp-plp-submit" type="submit" value="Update" />
     </p>
 </form>

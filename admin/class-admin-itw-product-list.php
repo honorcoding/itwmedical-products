@@ -200,7 +200,7 @@ if ( ! class_exists( 'Admin_ITW_Product_List' ) ) :
             // CUSTOM SEARCH QUERY 
             // ----------------------------------------------------
 
-            function custom_search_query( $query ) {
+            public function custom_search_query( $query ) {
 
                 $itw_prod = itw_prod();
 
