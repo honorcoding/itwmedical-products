@@ -96,7 +96,7 @@ if ( ! class_exists( 'ITW_File_Upload' ) ) :
                                             $field_id, 
                                             $form_id, 
                                             $upload_directory,                  
-                                            $permissions = 0644, 
+                                            $permissions = 0755, 
                                             $file_extensions = array( 'csv' ),  // NOTE: must be an array
                                             $multiple = false
                                         ) {

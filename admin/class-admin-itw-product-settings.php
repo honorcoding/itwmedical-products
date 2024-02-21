@@ -91,10 +91,13 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                 // create the file upload object (if not already created)
                 if ( is_null( $this->import_file_upload ) ) {
 
+                    $permissions = 0755;
+
                     $this->import_file_upload = new ITW_File_Upload(
                         self::IMPORT_FILE_FIELD_ID,
                         self::IMPORT_FILE_FORM_ID,
-                        ITW_File_Upload::get_wordpress_upload_path( self::IMPORT_FILE_UPLOAD_FOLDER ) 
+                        ITW_File_Upload::get_wordpress_upload_path( self::IMPORT_FILE_UPLOAD_FOLDER ),
+                        $permissions
                     );
         
                 }
