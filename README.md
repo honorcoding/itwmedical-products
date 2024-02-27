@@ -3,6 +3,7 @@
 ITWMedical Products is a Wordpress plugin that displays ITW medical products.
 
 
+
 ## Installation and Setup
 
 Download and install the plugin. 
@@ -38,6 +39,7 @@ In the left-sidebar, go to Settings > Permalinks. Then scroll to the bottom of t
 #### 3. Warranty 
 
 In the left sidebar, go to ITW Medical Products > Settings and scroll to the "Warranty" section. Enter the warranty text. This will display onall products. 
+
 
 
 ### Import Products and Categories
