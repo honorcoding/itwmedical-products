@@ -1,0 +1,111 @@
+product_number,mfg_number,title,long_description,short_description,image,image_file,product_details_materials_of_construction,product_details_connections,product_details_design,product_details_performance_data,product_details_packaging,product_drawings,product_drawings_files,technical_literature,technical_literature_files,category_number,categories
+P0075590-00-230,0075590-00-230,MediPure I.V. Filter,"Filtertek's self-priming Adult I.V. filters are designed to provide the safety, reliability, and efficiency that characterize superior patient care. Available in 0.2,1.2, Hiflo, and positively charged versions. Socket port versions are available for external connection to I.V. tubing.","0.2 HiFlo,Socket Ports",medipure group.jpg,http://filtertek.azurewebsites.net/images/products/medipure group.jpg,"Filter Material: 0.2 micron, PES Membrane 
+Vent Media: .02 micron, ePTFE Membrane 
+Housing Material: Acrylic  
+
+Biological Safety: USP Class VI Materials 
+Sterilization Compatibility: Gamma Radiation, EtO","Type: Socket Port 
+Inlet: 0.152"" id Straight Tube Fitting 
+Outlet: 0.152"" id Straight Tube Fitting","Overall Dimensions: 2.86x1.27x0.15""height (0.526"" at port) 
+Effective Filtration Area: 12.0 cm2 
+IP: Patent Pending ","Bubble point: >40 psi 
+Minimum flow rate: 35 mL/min @ 36"" H2O head height 
+Pressure rating: >45 psi 
+Prime time: 2.90 sec. @ 36"" H2O head height 
+Priming volume: 2.67 mL total 
+Bacterial retention: Passes 96hr test for bacterial retention 
+Hold up volume: 0.92 mL 
+Usability: Disposable","Standard Pack: 500 parts/carton (bulk, non-sterile)  
+
+Specifications are for pre-sterilized products and are subject to change without notice. Results in specific applications may vary. Filtertek recommends that end user confirm fitness in specific applications. ",,,,,20301,Adult I.V Filters
+PP0072780-00-52,0072780-00-520,Pre-Bypass Filter,"Designed to filter recirculating, non-cellular priming solutions for extracorporeal circuits, Filtertek's disposable Pre-bypass filters are available in 0.2 or 5 micron pore sizes. To ensure proper usage, flow direction arrows and flow restriction notes are indicated.","0.2u Filter, 3/8""x3/8"" Barbs",0072780-00-010ph.jpg,http://filtertek.azurewebsites.net/images/products/0072780-00-010ph.jpg,"Filter Material: 0.2 micron, Acrylic Copolymer Membrane 
+Housing Material: Acrylic  
+
+Biological Safety: USP Class VI Materials 
+Sterilization Compatibility: EtO","Type: Tubing 
+Inlet: 1/2"" or 3/8"" OD Barbed 
+Outlet: 1/2"" or 3/8"" OD Barbed",Effective Filtration Area: 10.8 sq.in.,"Bubble point: 20 psi minimum 
+Minimum flow rate: 0.1 Lpm @ 2 psi 
+Maximum Operating Pressure: 25 psi 
+Priming volume: 100mL 
+Usability: Disposable  
+
+Specifications are for pre-sterilized products and are subject to change without notice. Results in specific applications may vary. Filtertek recommends that end user confirm fitness in specific applications. ",,0072780-00drw.jpg,http://filtertek.azurewebsites.net/images/drawings/0072780-00drw.jpg,,,20900,Pre-Bypass Filter
+PP0072780-00-62,0072780-00-620,Pre-Bypass Filter,"Designed to filter recirculating, non-cellular priming solutions for extracorporeal circuits, Filtertek's disposable Pre-bypass filters are available in 0.2 or 5 micron pore sizes. To ensure proper usage, flow direction arrows and flow restriction notes are molded into the housing.","0.2u Filter,1/2""x1/2"" Barbs",0072780-00-010ph.jpg,http://filtertek.azurewebsites.net/images/products/0072780-00-010ph.jpg,"Filter Material: 0.2 micron, Acrylic Copolymer Membrane 
+Housing Material: Acrylic  
+
+Biological Safety: USP Class VI Materials 
+Sterilization Compatibility: EtO","Type: Tubing 
+Inlet: 1/2"" or 3/8"" OD Barbed 
+Outlet: 1/2"" or 3/8"" OD Barbed",Effective Filtration Area: 10.8 sq.in.,"Bubble point: 20 psi minimum 
+Minimum flow rate: 0.1 Lpm @ 2 psi 
+Maximum Flow Rate: 0.5 Lpm @ 10 psi 
+Maximum Operating Pressure: 25 psi 
+Priming volume: 100mL 
+Usability: Disposable  
+
+Specifications are for pre-sterilized products and are subject to change without notice. Results in specific applications may vary. Filtertek recommends that end user confirm fitness in specific applications.",,0072780-00drw.jpg,http://filtertek.azurewebsites.net/images/drawings/0072780-00drw.jpg,,,20900,Pre-Bypass Filter
+PP0072780-00-72,0072780-00-720,Pre-Bypass Filter,"Designed to filter recirculating, non-cellular priming solutions for extracorporeal circuits, Filtertek's disposable Pre-bypass filters are available in 0.2 or 5 micron pore sizes. To ensure proper usage, flow direction arrows and flow restriction notes are molded into the housing.","0.2u Filter,3/8""x1/2"" Barbs",0072780-00-010ph.jpg,http://filtertek.azurewebsites.net/images/products/0072780-00-010ph.jpg,"Filter Material: 0.2 micron, Acrylic Copolymer Membrane 
+Housing Material: Acrylic  
+
+Biological Safety: USP Class VI Materials 
+Sterilization Compatibility: EtO","Type: Tubing 
+Inlet: 1/2"" or 3/8"" OD Barbed 
+Outlet: 1/2"" or 3/8"" OD Barbed",Effective Filtration Area: 10.8 sq.in.,"Bubble point: 20 psi minimum 
+Minimum flow rate: 0.1 Lpm @ 2 psi 
+Maximum Flow Rate: 0.5 Lpm @ 10 psi 
+Maximum Operating Pressure: 25 psi 
+Priming volume: 100mL 
+Usability: Disposable  
+
+Specifications are for pre-sterilized products and are subject to change without notice. Results in specific applications may vary. Filtertek recommends that end user confirm fitness in specific applications.",,0072780-00drw.jpg,http://filtertek.azurewebsites.net/images/drawings/0072780-00drw.jpg,,,20900,Pre-Bypass Filter
+PP0072780-00-82,0072780-00-820,Pre-Bypass Filter,"Designed to filter recirculating, non-cellular priming solutions for extracorporeal circuits, Filtertek's disposable Pre-bypass filters are available in 0.2 or 5 micron pore sizes. To ensure proper usage, flow direction arrows and flow restriction notes are molded into the housing.","0.2u Filter,1/2""x3/8""Barbs",0072780-00-010ph.jpg,http://filtertek.azurewebsites.net/images/products/0072780-00-010ph.jpg,"Filter Material: 0.2 micron, Acrylic Copolymer Membrane 
+Housing Material: Acrylic  
+
+Biological Safety: USP Class VI Materials 
+Sterilization Compatibility: EtO","Type: Tubing 
+Inlet: 1/2"" or 3/8"" OD Barbed 
+Outlet: 1/2"" or 3/8"" OD Barbed",Effective Filtration Area: 10.8 sq.in.,"Bubble point: 20 psi minimum 
+Minimum flow rate: 0.1 Lpm @ 2 psi 
+Maximum Flow Rate: 0.5 Lpm @ 10 psi 
+Maximum Operating Pressure: 25 psi 
+Priming volume: 100mL 
+Usability: Disposable  
+
+Specifications are for pre-sterilized products and are subject to change without notice. Results in specific applications may vary. Filtertek recommends that end user confirm fitness in specific applications.",,0072780-00drw.jpg,http://filtertek.azurewebsites.net/images/drawings/0072780-00drw.jpg,,,20900,Pre-Bypass Filter
+PP0073670-00-86,PP0073670-00-86,MediPure I.V. Filter,"Filtertek's self-priming Adult I.V. filters are designed to provide the safety, reliability, and efficiency that characterize superior patient care. Useful in applications such as aqueous solutions, TPN solutions, drug delivery, and drug transfer.",1.2u I.V. filter,medipuregroup.jpg,http://filtertek.azurewebsites.net/images/products/medipuregroup.jpg,"Filter Material: 1.2 micron, PES Membrane 
+Vent Media: .02 micron, ePTFE Membrane 
+Housing Material: Acrylic  
+
+Biological Safety: USP Class VI Materials 
+Drug/Fluid Compatibility: Lipids & TPN Solutions 
+Sterilization Compatibility: Gamma Radiation, EtO ","Type: Tubing 
+Inlet: 0.120"" od Male Slip 
+Outlet: 0.120"" od Male Slip","Overall Dimensions: 2.86x1.27x0.15""height (0.526"" at port) 
+Effective Filtration Area: 12.0 cm2 
+IP: Patent Pending","Bubble point: >/= 6 psi 
+Minimum flow rate: 40 mL/min @ 36"" H2O head height 
+Pressure rating: Minimum of 45psi 
+Prime time: 2.9 sec. @ 36"" H2O head height 
+Priming volume: 2.67 mL 
+Hold up volume: 0.92 mL 
+Usability: Disposable ","Standard Pack: 500 parts/carton (bulk, non-sterile)  
+
+Specifications are for pre-sterilized products and are subject to change without notice. Results in specific applications may vary. Filtertek recommends that end user confirm fitness in specific applications.",,,,,20301,Adult I.V Filters
+PP0075590-00-86,PP0075590-00-86,MediPure I.V. Filter,"Filtertek's self-priming Adult I.V. filters are designed to provide the safety, reliability, and efficiency that characterize superior patient care. Useful in applications such as aqueous IV solutions, TPN solutions, drug delivery, and drug transfer.",1.2u I.V. filter,medipuregroup.jpg,http://filtertek.azurewebsites.net/images/products/medipuregroup.jpg,"Filter Material: 1.2 micron, PES Membrane 
+Vent Media: .02 micron, ePTFE Membrane 
+Housing Material: Acrylic  
+
+Biological Safety: USP Class VI Materials 
+Drug/Fluid Compatibility: Lipids & TPN Solutions 
+Sterilization Compatibility: Gamma Radiation, EtO",Type: Tubing,"Overall Dimensions: 2.86x1.27x0.15""height (0.526"" at port) 
+Effective Filtration Area: 12.0 cm2 
+IP: Patent Pending","Bubble point: >/= 6 psi 
+Minimum flow rate: 40 mL/min @ 36"" H2O head height 
+Pressure rating: Minimum of 45 psi 
+Prime time: 2.9 sec. @ 36"" H2O head height 
+Priming volume: 2.67 mL 
+Hold up volume: 0.92 mL 
+Usability: Disposable","Standard Pack: 500 parts/carton (bulk, non-sterile)  
+
+Specifications are for pre-sterilized products and are subject to change without notice. Results in specific applications may vary. Filtertek recommends that end user confirm fitness in specific applications.",,,,,20301,Adult I.V Filters

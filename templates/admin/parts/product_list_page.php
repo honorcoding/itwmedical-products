@@ -11,6 +11,7 @@ $pages = $args['all_pages'];
     <p>
         <label for="itwmp-plp-field">Product List Page</label>
         <select id="itwmp-plp-field" name="itwmp-plp-field" class="itwmp-plp-field">
+            <option value=""> -- Select -- </option>
             <?php   
                 foreach( $pages as $page ) {
                     if ( isset( $page->ID ) && isset( $page->post_title ) ) {
