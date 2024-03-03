@@ -4,8 +4,37 @@
 
 
 /* -------------------------------------
-   GENERAL 
+   TABLET AND MOBILE CHECKS
 ------------------------------------- */
+
+.hc-tablet-check {
+    display: none;
+    visibility: hidden;
+}
+
+.hc-mobile-check {
+    display: none;
+    visibility: hidden;
+}    
+
+/* TABLET */
+@media (max-width: 1024px) { /* set tablet size here (see: elementor settings) */
+    .hc-tablet-check {
+        visibility: visible;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 767px) { /* set mobile size here (see: elementor settings) */
+    .hc-tablet-check {
+        visibility: hidden;
+    }
+    .hc-mobile-check {
+       visibility: visible;
+    }    
+}
+
+
 
 /*
 * TABS 
@@ -35,7 +64,7 @@
 .itw-tabs .itw-tabs-bar .itw-tabs-button {
    padding: 8px 16px;
    float: left;
-   width: auto; 
+   width: 20%; 
    display: block; 
    white-space: normal;
    color: #000;
@@ -69,6 +98,26 @@
 
 .bottom-space {
    margin-bottom: 25px!important;
+}
+.itw-tabs .itw-tab-header {
+   padding: 8px 16px;
+   width: 90%; 
+   display: block; 
+   white-space: normal;
+   color: #000;
+   border: none;
+   text-decoration: none;
+   cursor: pointer;
+   outline: 0;
+   background: url("bkgd-strip.png") repeat scroll 0 -50px #385FA9;
+   color: #FFFFFF;
+   margin: 35px 2px 10px 0;
+   text-transform: uppercase;
+   line-height: 1;  
+   font-size: 14px; 
+}
+.itw-tabs .itw-tab-header:first-of-type {
+   margin-top: 0px;
 }
 
 
@@ -358,18 +407,30 @@
    box-shadow: 2px 2px 2px #ddd;
    border-radius: 6px;
 }
-.itw-product-list table {}
-.itw-product-list table tr {}
-.itw-product-list table th, 
-.itw-product-list table td {
-   text-align: left;
-   padding: 2px 12px;
+.itw-product-list .itw-table {
+   display: flex;
+   flex-direction: column;
 }
-.itw-product-list table th:first-of-type,
-.itw-product-list table td:first-of-type {
-   padding-left: 0px;
+.itw-product-list .itw-table .itw-row {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: nowrap;
+   padding: 1px 0;
+   border: solid 1px #f1e9e3;
+   border-radius: 3px;
 }
-.itw-product-list table td.view-column {
-   min-width: 25px;
+.itw-product-list .itw-table .itw-row.itw-header-row {
+   font-weight: bold;
+} 
+.itw-product-list .itw-table .itw-col {
+   flex-basis: 25%;
+   padding: 2px;
+   line-height: 1;
 }
-.itw-product-list .itw-term-description {}
+.itw-product-list .itw-table a {
+   text-decoration: none;
+}
+.itw-product-list .itw-table a:hover {
+   border-color: #333;
+   color: #333;
+}

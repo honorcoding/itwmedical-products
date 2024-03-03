@@ -12,30 +12,29 @@
 
             if ( ! empty( $products ) ) {
                 ?>
-                    <table>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>Product No.</th>
-                            <th>Mfg. No.</th>
-                            <th>Product Name</th>
-                            <th>Description</th>
-                        </tr>
+                    <div class="itw-table">
+                        <div class="itw-row itw-header-row">
+                            <div class="itw-col">Product Name</div>
+                            <div class="itw-col">Product No.</div>
+                            <div class="itw-col">Mfg. No.</div>
+                            <div class="itw-col">Description</div>
+                        </div>
                         <?php 
                             foreach ( $products as $product ) {
 
                             $link = get_permalink( $product->post_id );                                
                             ?>
-                                <tr>
-                                    <td class="view-column"><a href="<?php echo $link; ?>">View</a></td>
-                                    <td><?php echo $product->product_number; ?></td>
-                                    <td><?php echo $product->mfg_number; ?></td>
-                                    <td><?php echo $product->title; ?></td>
-                                    <td><?php echo $product->short_description; ?></td>
-                                </tr>
+                                <a href="<?php echo $link; ?>" class="itw-row">
+                                    <div class="itw-col"><?php echo $product->title; ?></div>
+                                    <div class="itw-col"><?php echo $product->product_number; ?></div>
+                                    <div class="itw-col"><?php echo $product->mfg_number; ?></div>
+                                    <div class="itw-col"><?php echo $product->short_description; ?></div>
+                                </a>
                             <?php
+
                             }
                         ?>
-                    </table>
+                    </div>
                 <?php
             } else {
                 ?>

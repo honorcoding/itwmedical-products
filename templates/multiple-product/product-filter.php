@@ -32,6 +32,7 @@
 
         <?php 
             // submit button
+            // NOTE: this is not required, because javascript automatically submits the forms 
             if ( ! empty( $options ) ) {
                 ?>
                 <input type="submit" value="Filter" />

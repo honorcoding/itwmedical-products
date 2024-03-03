@@ -4,7 +4,61 @@
 
 (function($) {
     $(document).ready(function() {
+
+
+        /**
+         * TEST FOR TABLET OR MOBILE
+         */ 
+
+        // check if tablet screen size (based on css rule, not inaccurate $(window).width()
+        $('body').append('<div class="hc-tablet-check"></div>');
+        function isTablet(){
+            if ( $( '.hc-tablet-check' ).css("visibility") == "visible" ){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // check if mobile screen size (based on css rule, not inaccurate $(window).width()
+        $('body').append('<div class="hc-mobile-check"></div>');
+        function isMobile(){
+            if ( $( '.hc-mobile-check' ).css("visibility") == "visible" ){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // on page load
+        if ( isMobile() ) {
+            $( '.itw-hide-mobile' ).hide();
+            $( '.itw-show-mobile' ).show();
+        } else {
+            $( '.itw-hide-mobile' ).show();
+            $( '.itw-show-mobile' ).hide();
+        }
+        // if window resizes
+        $( window ).on( "resize", function() {
+            if ( isMobile() ) {
+                $( '.itw-hide-mobile' ).hide();
+                $( '.itw-show-mobile' ).show();
+            } else {
+                $( '.itw-hide-mobile' ).show();
+                $( '.itw-show-mobile' ).hide();
+            }
+        } );
+
+
+        /**
+         * Filter forms are submitted when category changes
+         */        
+        $('.itw-product-filter-form #itw_category').on('change', function() {
+            var $form = $(this).closest('form');
+            $form.submit();
+        });
     
+
         /**
          * TABS 
          * 
