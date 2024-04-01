@@ -40,6 +40,11 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
             const IMPORT_FILE_FORM_ID  = 'itw_import_file_upload_form';
             const IMPORT_FILE_UPLOAD_FOLDER = 'itw_import';
 
+            // store import CSV data in wp options (between ajax calls)
+            const ITW_IMPORT_CSV_OPTION_KEY = 'ITW_IMPORT_CSV_OPTION_KEY';
+
+            // import batch size 
+            const IMPORT_BATCH_SIZE = 5;
 
             // path for display templates
             const TEMPLATE_PATH       = ITW_MEDICAL_PRODUCTS_PATH . 'templates/admin/';
@@ -60,9 +65,14 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                 // add admin menu
                 add_action( 'admin_menu', array( $this, 'add_settings_page_to_admin_menu') );
 
-                // Ajax action to export product csv data
-                add_action( 'wp_ajax_itw_get_product_csv_data', array( $this, 'get_product_csv_data' ) );
-                add_action( 'wp_ajax_nopriv_itw_get_product_csv_data', array( $this, 'get_product_csv_data' ) );                
+                // ajax actions to import products 
+                add_action( 'wp_ajax_itw_upload_import_file', array( $this, 'ajax_upload_import_file' ) );
+                add_action( 'wp_ajax_itw_get_csv_data_from_import_file', array( $this, 'ajax_get_csv_data_from_import_file' ) );
+                add_action( 'wp_ajax_itw_import_products_in_batches', array( $this, 'ajax_import_products_in_batches' ) );
+
+                // ajax action to export product csv data
+                add_action( 'wp_ajax_itw_get_product_csv_data', array( $this, 'ajax_get_product_csv_data' ) );
+                add_action( 'wp_ajax_nopriv_itw_get_product_csv_data', array( $this, 'ajax_get_product_csv_data' ) );                
 
             }
 
@@ -79,6 +89,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
                         var itw = {
                             ajax_url:'<?php echo admin_url('admin-ajax.php'); ?>',
                             import_form_id: '<?php echo self::IMPORT_FILE_FORM_ID; ?>',
+                            import_field_id: '<?php echo self::IMPORT_FILE_FIELD_ID; ?>',
                         };
                     </script>
                     <?php
@@ -352,11 +363,210 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
 
 
             // ------------------------------------------------------
-            // IMPORT TOOLS
+            // AJAX IMPORT TOOLS
             // ------------------------------------------------------
 
             /**
+             * responds to ajax request to upload an import file
+             */
+            public function ajax_upload_import_file() {    
+
+                $data = [];       
+
+                // upload the import file 
+                $file_upload = $this->get_import_file_upload();
+                if ( $file_upload ) {
+
+                    $results = $file_upload->handle_form_submission();
+
+                    // if no error on file upload
+                    if ( $results ) {
+                        if ( $results['has_error'] === 'false' ) {
+
+                            // success: show results
+                            $data = $results;
+
+                        } else {
+                            $data['error'] = $results['message'];
+                        }
+                    } else { 
+                        $data['error'] = 'Form submission unsuccessful.';
+                    }
+                    
+                } else {
+                    $data['error'] = 'ITW_File_Upload object not found.';
+                }
+
+                // return the results
+                if ( ! isset( $data['error'] ) ) {
+                    wp_send_json_success( $data );
+                } else {
+                    wp_send_json_error( $data );
+                }
+
+            } // end : ajax_upload_import_file()
+
+
+            /**
+             * responds to ajax request to import the csv data from import file 
+             */
+            public function ajax_get_csv_data_from_import_file() {  
+
+                $data = [];
+
+                // get the upload file 
+                $file_upload = $this->get_import_file_upload();
+                if ( $file_upload ) {
+
+                    // get the path of the uploaded file 
+                    $file_data = $file_upload->get_files();
+                    if ( isset( $file_data['uploadPath'] ) ) {
+
+                        $file_path = $file_data['uploadPath'];      
+
+                        // import the csv file data into an array
+                        $csv_data = ITW_CSV_File::import_csv_file_to_array( $file_path );
+
+                        // delete the temporary import file (no longer required)
+                        if ( file_exists( $file_path ) ) {
+                            unlink( $file_path );
+                        }                                 
+
+                        // if no errors while importing the csv file
+                        if ( ! isset( $csv_data['error'] ) ) {
+
+                            // separate the csv data into batches and then save in wordpress options
+                            $csv_data = $this->separate_array_into_batches( $csv_data );
+                            delete_option( self::ITW_IMPORT_CSV_OPTION_KEY ); // avoids confusion
+                            $opt_results = update_option( self::ITW_IMPORT_CSV_OPTION_KEY, $csv_data, false );
+
+                            if ( ! $opt_results ) {
+                                // report error
+                                $data['error'] = 'Could not save CSV data to Wordpress options.';
+                            } else {
+                                // report success 
+                                $data['message'] = 'CSV data imported successfully from file.';
+                            }
+
+                        // else (if error while importing the csv file)
+                        } else {
+                            // report the CSV import error 
+                            $data['error'] = $csv_data['error'];
+                        }
+
+                    } else {
+                        // report the file upload error message 
+                        $data['error'] = 'Invalid upload path.';
+                    }
+
+                } // end : if file_upload
+
+                // return the results
+                if ( ! isset( $data['error'] ) ) {
+                    wp_send_json_success( $data );
+                } else {
+                    wp_send_json_error( $data );
+                }
+
+            } // end :ajax_get_csv_data_from_import_file()
+
+
+            /**
+             * imports products from csv data in batches 
+             */
+            public function ajax_import_products_in_batches() {
+
+                $data = [];
+
+                if ( isset( $_POST['current_batch'] ) && is_numeric( $_POST['current_batch'] ) ) {
+
+                    $current_batch = intval( $_POST['current_batch'] );
+
+                    // get csv data (already stored in batches by $this->ajax_get_csv_data_from_import_file() )
+                    $csv_data = get_option( self::ITW_IMPORT_CSV_OPTION_KEY );
+
+                    // get the current batch of csv data to process 
+                    $csv_batch = $csv_data[ $current_batch ];
+
+                    // import the csv data as ITW_Products 
+                    $product_controller = itw_prod();
+
+                    $import_messages = $product_controller->import( $csv_batch );
+
+                    // convert the $import_messages into a string 
+                    $import_messages_string = '';
+                    foreach( $import_messages as $key => $msg ) {
+                        if ( $key > 0 ) {
+                            $import_messages_string .= '<br/>';
+                        }
+                        $import_messages_string .= $msg;
+                    }
+
+                    // report back with results
+                    $data['current_batch'] = $current_batch;
+
+                    $next_batch = $current_batch + 1; 
+                    if ( isset( $csv_data[ $next_batch ] ) ) {
+                        $data['next_batch'] = $next_batch;
+                    } else { 
+                        $data['next_batch'] = 'END';
+                    }
+
+                    $data['total_batches'] = count( $csv_data );
+
+                    $data['results'] = $import_messages_string;
+
+                } else {
+                    // report back that batch is undefined
+                    $data['error'] = 'Could not import batch. Batch undefined: [' . $current_batch . ']';
+                }
+
+                // return the results
+                if ( ! isset( $data['error'] ) ) {
+                    wp_send_json_success( $data );
+                } else {
+                    wp_send_json_error( $data );
+                }
+
+            }            
+
+            /**
+             * breaks CSV data into batches for more reliable import              
+             */
+            public function separate_array_into_batches( $array, $batch_size = '' ) {
+                
+                $in_batches = [];
+                $batch_size = ( ! is_numeric( $batch_size ) ) ? self::IMPORT_BATCH_SIZE : intval( $batch_size );
+
+                $i = 0; 
+                $array_size = count( $array );
+
+                do {
+
+                    $temp = [];
+
+                    for ( $j = 0; $j < $batch_size; $j++ ) {
+                        if ( $i + $j >= $array_size ) {
+                            break;
+                        }
+
+                        $temp[] = $array[$i+$j];
+                    }
+
+                    $in_batches[] = $temp;
+
+                    $i += $j;                    
+
+                } while ( $i < $array_size );
+
+                return $in_batches;
+
+            }
+
+
+            /**
              * Get CSV Export Download Link
+             * TODO: THIS FUNCTION IS NOT USED 
              */
             public function get_import_product_button( $title = 'Export' ) {
                 return '<input type="button" onclick="itw_download_export_file()" value="'.$title.'" />';
@@ -370,7 +580,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
             /**
              * Handles Ajax call to get product csv data 
              */
-            public function get_product_csv_data() {
+            public function ajax_get_product_csv_data() {
 
                 // get array of data for all products
                 $product_controller = itw_prod();

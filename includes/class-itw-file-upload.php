@@ -116,12 +116,12 @@ if ( ! class_exists( 'ITW_File_Upload' ) ) :
             //  DISPLAY FORM (OR FIELD)
             // ---------------------------------------------------
 
-            public function get_form_html() {
+            public function get_form_html( $submit_label = 'Import' ) {
 
                 $html = '
-                    <form id="'.$this->form_id.'" method="post" enctype="multipart/form-data">
-                        ' . $this->get_field_html() . '
-                        <input id-"'.$this->form_id.'_submitted" name="'.$this->form_id.'_submitted" type="submit" value="Import" />
+                    <form id="'.$this->form_id.'" name="'.$this->form_id.'" method="post" enctype="multipart/form-data">
+                        ' . $this->get_field_html() . ' 
+                        <input id-"'.$this->form_id.'_submitted" name="'.$this->form_id.'_submitted" type="submit" value="'.$submit_label.'" />
                     </form>
                 ';
 
@@ -278,13 +278,13 @@ if ( ! class_exists( 'ITW_File_Upload' ) ) :
                                 if ( $didUpload ) {                        
                                     $files[$i]['results'] = basename( $files[$i]['fileName'] ) . ' successfully uploaded';
                                 } else {
-                                    $files[$i]['results'] = 'An error occurred.';
+                                    $files[$i]['errors'][] = 'The temp file could not be moved to the upload folder.';;
                                 }
 
                             // otherwise, state that error occurred.
                             } else {
 
-                                $files[$i]['results'] = 'An error occurred.';
+                                $files[$i]['errors'][] = 'An error occurred.';
 
                             } // end : if no errors
 
@@ -292,13 +292,13 @@ if ( ! class_exists( 'ITW_File_Upload' ) ) :
 
                     } else {
 
-                        $files['error'] = 'Upload directory does not exist and could not be created.';
+                        $files['errors'][] = 'Upload directory does not exist and could not be created.';
 
                     } // end : if upload directory exists
 
                 } else {
 
-                    $files['error'] = 'File upload field is empty.';
+                    $files['errors'][] = 'File upload field is empty.';
 
                 } // end : if file upload field is populated
 
@@ -365,25 +365,25 @@ if ( ! class_exists( 'ITW_File_Upload' ) ) :
                             if ( $didUpload ) {                        
                                 $file['results'] = basename( $file['fileName'] ) . ' successfully uploaded';
                             } else {
-                                $file['results'] = 'An error occurred.';
+                                $file['errors'][] = 'The temp file could not be moved to the upload folder.';
                             }
 
                         // otherwise, state the error occurred.
                         } else {
 
-                            $file['results'] = 'An error occurred.';
+                            $file['errors'][] = 'An error occurred.';
 
                         } // end : if no errors
 
                     } else { 
                         
-                        $files['error'] = 'Upload directory does not exist and could not be created.';
+                        $file['errors'][] = 'Upload directory does not exist and could not be created.';
                         
                     } // end : if upload directory exists
 
                 } else {
                         
-                    $file['error'] = 'File upload field is empty.';
+                    $file['errors'][] = 'File upload field is empty.';
                         
                 } // end : if file upload field is populated
 

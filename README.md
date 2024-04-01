@@ -22,6 +22,8 @@ Create a page for listings (or choose an existing page). Add the following short
 #### 2. Settings 
 
 In the left-sidebar, go to ITW Medical Products > Settings and scroll to the "Product List Page" section. Select the page with the above shortcodes. 
+
+Note: Importing CSV files may not work with certain browsers. This is because some browsers do not support the javascript feature FormData. If it is not working on the browser of your choice, try Firefox, Edge, Chrome or Safari. 
  
  
 ### Individual Products 

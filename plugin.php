@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ITW Medical Products
  * Description: Handles medical products. 
- * Version: 1.0
+ * Version: 1.1
  * Author: ITW Medical
  * Author URI:   https://itwmedical.com
  * License:      GPL2
@@ -192,8 +192,8 @@ function show_debug() {
         global $debug;
         // example: $debug['data'] = $data;
 
-
-
+        // do stuff here...
+        //$debug['csv_data'] = get_option( 'ITW_IMPORT_CSV_OPTION_KEY' );
 
         // do not delete below this line
         if ( $debug ) {
@@ -210,4 +210,3 @@ function show_debug() {
     //}
     
 }
-

@@ -34,6 +34,14 @@
     margin-left: 25px;
 }
 
+/* import section */
+#itw_import_results.has_content {
+    margin-top: 25px;
+    border: solid 2px #2271b1;
+    padding: 20px;
+    border-radius: 5px;
+}
+
 /* warranty section */
 .itwmp-settings .itwmp-warranty-field {
     width: 100%;

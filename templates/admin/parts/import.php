@@ -9,6 +9,7 @@ $example_csv_url = ITW_MEDICAL_PRODUCTS_URL . 'assets/example.csv';
     Notes: <br/>
         <li>If the "image" field is left blank, then it will do nothing. Also, "image" should be a full URL.</li>
         <li>Categories are listed by name and separated by commas. (e.g. Category 1, Category 3)</li>
+        <li>Importing CSV files only works with certain browsers. If it is not working on the browser of your choice, try using Firefox, Edge, Chrome or Safari. </li>
     </ul>
 </p>
 <br />
@@ -18,5 +19,6 @@ $example_csv_url = ITW_MEDICAL_PRODUCTS_URL . 'assets/example.csv';
         echo $file_upload->get_form_html();
     }
     ?>
+    <div id="itw_import_results"></div>
 </p>
 
