@@ -58,8 +58,7 @@ Install the plugin "WP Import Export Lite". Import the file /itwmedical-products
 
 Import the product categories before importing the products. 
 
-Import the product files from /itwmedical-products/imports/. You can import them all at once (which takes a long time and might cause the site to time out.) Or you can import them in steps. 
- 
+Import the product files from /itwmedical-products/imports/. 
  
  
 ## Usage 
