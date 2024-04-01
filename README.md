@@ -40,7 +40,7 @@ In the left-sidebar, go to Settings > Permalinks. Then scroll to the bottom of t
 
 #### 3. Warranty 
 
-In the left sidebar, go to ITW Medical Products > Settings and scroll to the "Warranty" section. Enter the warranty text. This will display onall products. 
+In the left sidebar, go to ITW Medical Products > Settings and scroll to the "Warranty" section. Enter the warranty text. This will display on all products. 
  
  
  
@@ -50,9 +50,9 @@ In the left sidebar, go to ITW Medical Products > Settings and scroll to the "Wa
 
 Import the product categories before importing the products. 
 
-Install the plugin "WP Import Export Lite". Import the file /itwmedical-products/imports/categories.csv. Import as "Taxonomies | Categories | Tags" : itw-medical-product-category. Use the the name , description and (under "Other Catgeory Options") use the parent slug and the category slug. 
+Install the plugin "WP Import Export Lite". Import the file /itwmedical-products/imports/categories.csv. Import as "Taxonomies | Categories | Tags" : itw-medical-product-category. Use the the name , description and (under "Other Category Options") use the parent slug and the category slug. 
 
-(Note: if there are issues with parent-child categories on import, then rearrance the csv file to put all the parents categories first.)
+(Note: if there are issues with parent-child categories on import, then rearrange the csv file to put all the parents categories first.)
 
 #### 2. Products 
 
