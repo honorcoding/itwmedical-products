@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: ITW Medical Products
- * Description: Handles medical products. 
+ * Description: Facilitates display, edit and bulk import/export of ITW Medical products. 
  * Version: 1.1
  * Author: ITW Medical
  * Author URI:   https://itwmedical.com
