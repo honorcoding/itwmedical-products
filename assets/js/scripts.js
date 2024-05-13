@@ -65,6 +65,28 @@
          * HOW TO USE:
          *   see style.css
          */
+        itw_hide_all_tabs_except_active_on_desktop();
+        $(window).on('resize', function(){
+            itw_hide_all_tabs_except_active_on_desktop();
+        });
+
+        function itw_hide_all_tabs_except_active_on_desktop() {
+            if ( isMobile() ) {
+                // if mobile, show all tabs
+                $('.itw-tab').show();
+            } else {
+                // if not mobile, then hide all tabs except the active one
+                $('.itw-tabs-button.active').each(function() {
+                    var $parent = $(this).closest('.itw-tabs');
+                    var tab = $(this).data('tab');
+                    var $tab = $parent.find( '#' + tab );            
+                    $parent.find('.itw-tab').hide();
+                    $tab.show();
+                });
+            }
+        }
+
+
         $('.itw-tabs-button').on( "click", function() {
 
             // if clicked on active tab, then do nothing 

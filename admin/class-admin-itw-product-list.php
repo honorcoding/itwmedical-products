@@ -41,17 +41,17 @@ if ( ! class_exists( 'Admin_ITW_Product_List' ) ) :
 
                 // product category dropdown 
                 add_action('restrict_manage_posts', array( $this, 'add_filters_to_list_page' ) );
-                add_action('pre_get_posts', array( $this, 'handle_filters_on_list_page' ) );
+                add_action('pre_get_posts', array( $this, 'handle_filters_on_list_page' ), 20, 1 );
 
                 // product categories in list 
                 add_filter( 'manage_'.ITW_Product::get_post_type().'_posts_columns',  array( $this, 'add_custom_columns_to_list_page' ) ); 
                 add_action( 'manage_'.ITW_Product::get_post_type().'_posts_custom_column' ,  array( $this, 'add_data_to_custom_columns_for_list_page') , 10, 2 );
 
                 // customize the search query to look in custom fields as well 
-                add_filter( "pre_get_posts", array( $this, 'custom_search_query' ) );            
+                // note: the custom search does not search by title, only by meta fields. this is a limitation of wordpress.
+                add_filter( "pre_get_posts", array( $this, 'custom_search_query' ), 20, 1 );   
 
             }
-
 
 
             // ----------------------------------------------------
@@ -211,7 +211,7 @@ if ( ! class_exists( 'Admin_ITW_Product_List' ) ) :
                 );
                 $searchterm = $query->query_vars['s'];
 
-                // we have to remove the "s" parameter from the query, because it will prevent the posts from being found
+                // we have to remove the "s" parameter from the query, because it will cause a conflict
                 $query->query_vars['s'] = "";
 
                 if ($searchterm != "") {
@@ -225,6 +225,7 @@ if ( ! class_exists( 'Admin_ITW_Product_List' ) ) :
                     }
                     $query->set("meta_query", $meta_query);
                 };
+
             }
 
 

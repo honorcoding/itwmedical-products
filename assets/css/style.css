@@ -92,9 +92,11 @@
 }
 .itw-tabs .itw-tabs-section {
    background: url("bkgd-strip.png") repeat-x scroll 0 -753px #FFFFFF;
-   padding: 15px;
+   padding: 15px 0;
 }
-.itw-tabs .itw-tabs-section .itw-tab {}
+.itw-tabs .itw-tabs-section .itw-tab {
+   margin-bottom: 35px;
+}
 
 .bottom-space {
    margin-bottom: 25px!important;

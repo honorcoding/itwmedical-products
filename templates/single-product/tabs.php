@@ -12,10 +12,10 @@
             $data = do_shortcode('[itw_product view="details"]');
             if ( $data !== '' ) {
                 ?>
-                    <div class="itw-tab-header itw-show-mobile">
-                        Product Details 
-                    </div>
                     <div id="itw-product-single-Product-Details" class="itw-tab">
+                        <div class="itw-tab-header itw-show-mobile">
+                            Product Details 
+                        </div>
                         <?php 
                             echo $data; 
                         ?>
@@ -28,10 +28,10 @@
             $data = do_shortcode('[itw_product view="drawings"]');
             if ( $data !== '' ) {
                 ?>
-                    <div class="itw-tab-header itw-show-mobile">
-                        Product Drawings 
-                    </div>
                     <div id="itw-product-single-Product-Drawings" class="itw-tab">
+                        <div class="itw-tab-header itw-show-mobile">
+                            Product Drawings 
+                        </div>
                         <?php 
                             echo $data; 
                         ?>
@@ -44,10 +44,10 @@
             $data = do_shortcode('[itw_product view="warranty"]');
             if ( $data !== '' ) {
                 ?>
-                    <div class="itw-tab-header itw-show-mobile">
-                        Warranty
-                    </div>
                     <div id="itw-product-single-Warranty" class="itw-tab">
+                        <div class="itw-tab-header itw-show-mobile">
+                            Warranty
+                        </div>
                         <?php 
                             echo $data; 
                         ?>
@@ -60,10 +60,10 @@
             $data = do_shortcode('[itw_product view="technical"]');
             if ( $data !== '' ) {
                 ?>
-                    <div class="itw-tab-header itw-show-mobile">
-                        Technical Literature
-                    </div>
                     <div id="itw-product-single-Technical-Literature" class="itw-tab">
+                        <div class="itw-tab-header itw-show-mobile">
+                            Technical Literature
+                        </div>
                         <?php 
                             echo $data; 
                         ?>
@@ -76,10 +76,10 @@
             $data = do_shortcode('[itw_product view="related"]');
             if ( $data !== '' ) {
                 ?>
-                    <div class="itw-tab-header itw-show-mobile">
-                        Related Products 
-                    </div>
                     <div id="itw-product-single-Related" class="itw-tab">
+                        <div class="itw-tab-header itw-show-mobile">
+                            Related Products 
+                        </div>
                         <?php 
                             echo $data; 
                         ?>
