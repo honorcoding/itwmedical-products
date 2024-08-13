@@ -8,7 +8,7 @@
 //
 //  Use: 
 //      1. Enqueue the necessary styles and scripts 
-//      \ITW_Medical\Media\ITW_WP_Media::enqueue_admin_styles_and_scripts();
+//      \ITW_Medical\Media\ITW_WP_Media::enqueue_media_styles_and_scripts();
 //
 //      2. Add fields to forms (meta boxes) where necessary
 //            
