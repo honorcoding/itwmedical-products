@@ -184,7 +184,7 @@ if ( ! class_exists( 'Admin_ITW_Product_Single' ) ) :
                                 <label for="<?php echo $field['id']; ?>"><?php esc_html_e( $field['label'], 'itw_medical_products' ); ?></label>
                                 <br />
                                 <?php echo $field_html; ?>
-                                <?
+                                <?php
                             }
                         ?>
                     </p>
