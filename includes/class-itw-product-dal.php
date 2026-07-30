@@ -197,6 +197,7 @@ if ( ! class_exists( 'ITW_Product_DAL' ) ) :
                     $product->mfg_number             = get_post_meta( $post_id, self::META_KEY_PREFIX . 'mfg_number', true );
                     $product->title                  = get_the_title( $post_id );
                     $product->short_description      = get_post_meta( $post_id, self::META_KEY_PREFIX . 'short_description', true );
+                    $product->accessibility_description = $product->short_description;
                     $product->long_description       = get_post_meta( $post_id, self::META_KEY_PREFIX . 'long_description', true );
                     $product->image                  = get_post_thumbnail_id( $post_id );
                     $product->image_file             = WPX::get_filename_from_attachment_id( $product->image );

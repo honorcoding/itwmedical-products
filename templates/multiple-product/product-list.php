@@ -2,6 +2,12 @@
     <div class="itw-product-list">
         <?php
 
+            if ( $filter_term !== '' ) {
+                $caption = 'List of ' . $filter_term;
+            } else { 
+                $caption = 'List of Products';
+            }
+
             if ( $term_description !== '' ) {
                 ?>
                     <div class="itw-term-description">
@@ -10,31 +16,38 @@
                 <?php
             }
 
+
             if ( ! empty( $products ) ) {
                 ?>
-                    <div class="itw-table">
-                        <div class="itw-row itw-header-row">
-                            <div class="itw-col">Product Name</div>
-                            <div class="itw-col">Product No.</div>
-                            <div class="itw-col">Mfg. No.</div>
-                            <div class="itw-col">Description</div>
-                        </div>
-                        <?php 
-                            foreach ( $products as $product ) {
+                    <table class="itw-table">
+                        <caption><?php echo $caption; ?></caption>
+                        <thead>
+                            <tr class="itw-row itw-header-row">
+                                <th scope="col" class="itw-col">Product Name</th>
+                                <th scope="col" class="itw-col">Product No.</th>
+                                <th scope="col" class="itw-col">Mfg. No.</th>
+                                <th scope="col" class="itw-col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                foreach ( $products as $product ) {
 
-                            $link = get_permalink( $product->post_id );                                
+                                $link = get_permalink( $product->post_id );                                
+                                ?>
+                                    <?php /* <a href="<?php echo $link; ?>" class="itw-row"> */ ?>
+                                    <tr class="itw-row">
+                                        <td scope="row" class="itw-col"><a href="<?php echo $link; ?>" aria-label="View product: <?php echo $product->title . ' - ' . $product->product_number; ?>"><?php echo $product->title; ?></a></td>
+                                        <td class="itw-col"><?php echo $product->product_number; ?></a></td>
+                                        <td class="itw-col"><?php echo $product->mfg_number; ?></a></td>
+                                        <td class="itw-col"><?php echo $product->accessibility_description; ?></a></td>
+                                    </tr>
+                                <?php
+
+                                }
                             ?>
-                                <a href="<?php echo $link; ?>" class="itw-row">
-                                    <div class="itw-col"><?php echo $product->title; ?></div>
-                                    <div class="itw-col"><?php echo $product->product_number; ?></div>
-                                    <div class="itw-col"><?php echo $product->mfg_number; ?></div>
-                                    <div class="itw-col"><?php echo $product->short_description; ?></div>
-                                </a>
-                            <?php
-
-                            }
-                        ?>
-                    </div>
+                        </tbody>
+                    </table>
                 <?php
             } else {
                 ?>

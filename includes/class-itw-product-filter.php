@@ -105,8 +105,10 @@ if ( ! class_exists( 'ITW_Product_Filter' ) ) :
 
                             if ( $term ) {
                                 $term_id = $term->term_id;
+                                $term_name = $term->name;
                             } else {
                                 $term_id = false;
+                                $term_name = false;
                             }
                             
                             if ( $term_id ) {
@@ -121,6 +123,7 @@ if ( ! class_exists( 'ITW_Product_Filter' ) ) :
                                 'slug'  => ITW_Product::CUSTOM_TAXONOMY,
                                 'value' => $value,
                                 'term_id' => $term_id,
+                                'term_name' => $term_name,
                                 'term_description' => $term_description, 
                             ); 
 

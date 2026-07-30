@@ -158,11 +158,15 @@ if ( ! class_exists( 'ITW_Product_Archive_Client_View' ) ) :
                 // get the description of first filter item 
                 // (there should only be one, but just in case)
                 $term_description = '';
+                $filter_term = '';
                 $filter_values = $filter->get_filter_values();                
                 if ( ! empty( $filter_values ) ) {
                     $key = array_key_first( $filter_values );
                     if ( isset( $filter_values[ $key ]['term_description'] ) && $filter_values[ $key ]['term_description'] ) {
                         $term_description = $filter_values[ $key ]['term_description'];
+                    }
+                    if ( isset( $filter_values[ $key ]['term_name'] ) && $filter_values[ $key ]['term_name'] ) {
+                        $filter_term = $filter_values[ $key ]['term_name'];
                     }
                 }
                 
@@ -193,6 +197,7 @@ if ( ! class_exists( 'ITW_Product_Archive_Client_View' ) ) :
                 return $output;
 
             }
+
 
 
     } // end class: ITW_Product_Archive_Client_View

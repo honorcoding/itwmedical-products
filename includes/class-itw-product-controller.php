@@ -76,7 +76,35 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
             
             // @returns (ITW_Product) or (boolean) false
             public function get_product( $post_id ) {
-                return $this->dal->get_product( $post_id );
+                $product = $this->dal->get_product( $post_id );
+                $product->accessibility_description = $this->get_accessibility_description( $product->short_description );
+                return $product;
+            }
+
+            // cleans up product description for accessibility display 
+            public function get_accessibility_description( $text ) {
+
+                // 1. Fix commas: add space after comma if missing
+                $text = preg_replace('/,(\S)/', ', $1', $text);
+
+                // 2. Fix periods ONLY when NOT part of a decimal number
+                // Negative lookbehind: skip digits before the period
+                $text = preg_replace('/(?<!\d)\.(\S)/', '. $1', $text);
+
+                // 3. Fix "I.V." abbreviation spacing (normalize it)
+                $text = preg_replace('/I\. ?V\./i', 'I.V.', $text);
+
+                // 4. Fix "u" spacing ONLY when followed by a letter (not a decimal)
+                $text = preg_replace('/u([A-Za-z])/i', 'u $1', $text);
+
+                // 5. Fix "Filter" spacing
+                $text = preg_replace('/Filter(\S)/i', 'Filter $1', $text);
+
+                // 6. Fix "HiFlo" spacing
+                $text = preg_replace('/HiFlo(\S)/i', 'HiFlo $1', $text);
+
+                return trim($text);
+                
             }
 
             public function get_product_number( $post_id ) {

@@ -40,6 +40,7 @@ if ( ! class_exists( 'ITW_Product' ) ) :
                 'mfg_number',
                 'title',
                 'short_description',
+                'accessibility_description',
                 'long_description',
                 'image',
                 'image_file',
@@ -62,6 +63,7 @@ if ( ! class_exists( 'ITW_Product' ) ) :
             public $mfg_number;
             public $title;
             public $short_description;
+            public $accessibility_description;
             public $long_description;
             public $image;
             public $image_file;
