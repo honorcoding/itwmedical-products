@@ -17,8 +17,8 @@ if ( isset( $product->technical_literature ) && $product->technical_literature !
 
             foreach( $literature as $attachment_id ) {
 
-                $url = WPX::get_filename_from_attachment_id( $attachment_id ); 
-                $filename = basename( $url );
+                $url = esc_url( WPX::get_filename_from_attachment_id( $attachment_id ) ); 
+                $filename = esc_attr( basename( $url ) );
                 $thumbnail = wp_get_attachment_image( $attachment_id, 'thumbnail' );
 
                 if ( $url && $thumbnail !== '' ) {

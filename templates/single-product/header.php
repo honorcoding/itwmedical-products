@@ -3,11 +3,14 @@
             <?php 
                 if ( $category_html !== '' ) {
                     ?>
-                    <h2><?php echo $category_html; ?></h2>
+                    <div class="category-meta">
+                        <span class="category-label">Category:&nbsp;</span>
+                        <span class="category-name"><?php echo $category_html; ?></span>
+                    </div>
                     <?php 
                 } 
             ?>
-            <h1 class="itw-title"><?php echo $product->title; ?></h1>
+            <h1 class="itw-title"><?php echo esc_html( $product->title ); ?></h1>
             <div class="itw-long-description"><?php echo $product->long_description; ?></div>
         </div>
         <div class="itw-col">

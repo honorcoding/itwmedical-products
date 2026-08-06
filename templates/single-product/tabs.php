@@ -1,92 +1,99 @@
 <div class="itw-tabs">
-    <div class="itw-tabs-bar itw-hide-mobile">
-        <button class="itw-tabs-button active" data-tab="itw-product-single-Product-Details">Product Details</button>
-        <button class="itw-tabs-button" data-tab="itw-product-single-Product-Drawings">Product Drawings</button>
-        <button class="itw-tabs-button" data-tab="itw-product-single-Warranty">Warranty</button>
-        <button class="itw-tabs-button" data-tab="itw-product-single-Technical-Literature">Technical Literature</button>
-        <button class="itw-tabs-button" data-tab="itw-product-single-Related">Related Products</button>
-    </div> 
-    <div class="itw-tabs-section">
+    <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1" tabindex="0">
+            Product Details
+        </button>
 
-        <?php 
-            $data = do_shortcode('[itw_product view="details"]');
-            if ( $data !== '' ) {
-                ?>
-                    <div id="itw-product-single-Product-Details" class="itw-tab">
-                        <div class="itw-tab-header itw-show-mobile">
-                            Product Details 
-                        </div>
-                        <?php 
-                            echo $data; 
-                        ?>
-                    </div>
-                <?php
-            }
-        ?>
+        <button role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2" tabindex="-1">
+            Product Drawings
+        </button>
 
-        <?php 
-            $data = do_shortcode('[itw_product view="drawings"]');
-            if ( $data !== '' ) {
-                ?>
-                    <div id="itw-product-single-Product-Drawings" class="itw-tab">
-                        <div class="itw-tab-header itw-show-mobile">
-                            Product Drawings 
-                        </div>
-                        <?php 
-                            echo $data; 
-                        ?>
-                    </div>
-                <?php
-            }
-        ?>
+        <button role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3" tabindex="-1">
+            Warranty
+        </button>
 
-        <?php 
-            $data = do_shortcode('[itw_product view="warranty"]');
-            if ( $data !== '' ) {
-                ?>
-                    <div id="itw-product-single-Warranty" class="itw-tab">
-                        <div class="itw-tab-header itw-show-mobile">
-                            Warranty
-                        </div>
-                        <?php 
-                            echo $data; 
-                        ?>
-                    </div>
-                <?php
-            }
-        ?>
+        <button role="tab" aria-selected="false" aria-controls="panel-4" id="tab-4" tabindex="-1">
+            Technical Literature
+        </button>
 
-        <?php 
-            $data = do_shortcode('[itw_product view="technical"]');
-            if ( $data !== '' ) {
-                ?>
-                    <div id="itw-product-single-Technical-Literature" class="itw-tab">
-                        <div class="itw-tab-header itw-show-mobile">
-                            Technical Literature
-                        </div>
-                        <?php 
-                            echo $data; 
-                        ?>
-                    </div>
-                <?php
-            }
-        ?>
-
-        <?php 
-            $data = do_shortcode('[itw_product view="related"]');
-            if ( $data !== '' ) {
-                ?>
-                    <div id="itw-product-single-Related" class="itw-tab">
-                        <div class="itw-tab-header itw-show-mobile">
-                            Related Products 
-                        </div>
-                        <?php 
-                            echo $data; 
-                        ?>
-                    </div>
-                <?php
-            }
-        ?>
-
+        <button role="tab" aria-selected="false" aria-controls="panel-5" id="tab-5" tabindex="-1">
+            Related Products
+        </button>
     </div>
-</div>    
+
+    <?php 
+    // PRODUCT DETAILS PANEL 
+    $data = do_shortcode('[itw_product view="details"]');
+    if ( $data !== '' ) {
+        ?>
+        <div id="panel-1" role="tabpanel"  aria-labelledby="tab-1">
+            <h2>Product Details</h2>
+            <?php 
+            echo $data; 
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+
+    <?php 
+    // PRODUCT DRAWINGS PANEL 
+    $data = do_shortcode('[itw_product view="drawings"]');
+    if ( $data !== '' ) {
+        ?>
+        <div id="panel-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+            <h2>Product Drawings</h2>
+            <?php 
+            echo $data; 
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+
+    <?php 
+    // WARRANTY PANEL 
+    $data = do_shortcode('[itw_product view="warranty"]');
+    if ( $data !== '' ) {
+        ?>
+        <div id="panel-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+            <h2>Warranty</h2>
+            <?php 
+            echo $data; 
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+
+    <?php 
+    // TECHNICAL LITERATURE PANEL 
+    $data = do_shortcode('[itw_product view="technical"]');
+    if ( $data !== '' ) {
+        ?>
+        <div id="panel-4" role="tabpanel" aria-labelledby="tab-4" hidden>
+            <h2>Technical Literature</h2>
+            <?php 
+            echo $data; 
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+
+    <?php 
+    // RELATED PRODUCTS PANEL 
+    $data = do_shortcode('[itw_product view="related"]');
+    if ( $data !== '' ) {
+        ?>
+        <div id="panel-5" role="tabpanel" aria-labelledby="tab-5" hidden>
+            <h2>Related Products</h2>
+            <?php 
+            echo $data; 
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+
+</div><!-- end: tabs -->  

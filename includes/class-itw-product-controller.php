@@ -95,13 +95,13 @@ if ( ! class_exists( 'ITW_Product_Controller' ) ) :
                 $text = preg_replace('/I\. ?V\./i', 'I.V.', $text);
 
                 // 4. Fix "u" spacing ONLY when followed by a letter (not a decimal)
-                $text = preg_replace('/u([A-Za-z])/i', 'u $1', $text);
+                $text = preg_replace('/(\d)u([A-Za-z])/i', '$1u $2', $text);
 
                 // 5. Fix "Filter" spacing
-                $text = preg_replace('/Filter(\S)/i', 'Filter $1', $text);
+                $text = preg_replace('/Filter(?!,)(\S)/i', 'Filter $1', $text);
 
                 // 6. Fix "HiFlo" spacing
-                $text = preg_replace('/HiFlo(\S)/i', 'HiFlo $1', $text);
+                $text = preg_replace('/HiFlo(?!,)(\S)/i', 'HiFlo $1', $text);
 
                 return trim($text);
                 

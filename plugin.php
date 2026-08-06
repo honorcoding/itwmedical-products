@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ITW Medical Products
  * Description: Facilitates display, edit and bulk import/export of ITW Medical products. 
- * Version: 1.3.2
+ * Version: 1.3.3
  * Author: ITW Medical
  * Author URI:   https://itwmedical.com
  * License:      GPL2
@@ -21,6 +21,9 @@ define("ITW_MEDICAL_PRODUCTS_PATH", plugin_dir_path(__FILE__));
 
 // PLUGIN SETTNIGS 
 define("ITW_PRODUCT_LIST_PAGE_ID_OPTION_KEY", 'itw_product_list_page_id' );
+
+// DEBUG LOG 
+define("ITW_LOG_PATH", ITW_MEDICAL_PRODUCTS_PATH . "logs/");
 
 
 // ----------------------------------------------------
@@ -68,6 +71,26 @@ function itw_load_plugin_resources() {
     //    // can safely use tools now (e.g. itw_prod()->...)
     //
     define('ITW_MEDICAL_PRODUCTS', 'TRUE');
+
+
+
+    // ------------------------------------------------------------
+    // PLUGIN RESOURCES
+    // ------------------------------------------------------------
+
+    require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/debug/class-itw-debugger.php';
+    function debugger() {
+        if ( 
+            empty( $GLOBALS['itw_debugger'] ) || 
+            ! ( $GLOBALS['itw_debugger'] instanceof \ITW\Debugger ) 
+        ) {
+            // prepare for general debugging and logging
+            $GLOBALS['itw_debugger'] = \ITW\Debugger::instance();
+            $GLOBALS['itw_debugger']->set_log_path( ITW_LOG_PATH . 'debug.log' );
+        }
+        return $GLOBALS['itw_debugger'];    
+    }
+
     
 
     // ------------------------------------------------------------

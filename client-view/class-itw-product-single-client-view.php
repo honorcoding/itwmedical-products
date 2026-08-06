@@ -155,7 +155,6 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
             // ------------------------------------------------------
             // SINGLE PAGE TEMPLATE 
             // ------------------------------------------------------
-
             public function itw_medical_product_single_content_shortcode( $atts = array(), $content='' ) {
 
                 // set up default parameters
@@ -232,7 +231,7 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
                         // generate shortcode output from template file
                         ob_start(); 
                             include self::TEMPLATE_PARTS_PATH . $view . '.php';
-                        $output = ob_get_clean();
+                        $output = ob_get_clean();                        
                                         
                     }
 
@@ -285,3 +284,4 @@ if ( ! class_exists( 'ITW_Product_Single_Client_View' ) ) :
     new ITW_Product_Single_Client_View();
 
 endif;
+

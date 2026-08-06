@@ -30,9 +30,9 @@ Note: Importing CSV files may not work with certain browsers. This is because so
 
 #### 1. The page template 
 
-The itwmedical.com website uses the twentytwentythree theme, which is a block theme. This means that the actual template is not found in the Wordpress files. Instead, the individual product page template was created in Appearance > Editor. That template handles the header/footer/sidebar. The shortcode [itw_medical_product_single_content] was placed in that template to refer to this template file (See: /templates/single-itw-product-content.php and /client/class-itw-product-client-view.php). Only the content can be modified here. The Appearance > Editor tool handles the remainder of the page.
+The itwmedical.com website uses the twentytwentythree theme, which is a block theme. This means that the actual template is not found in the Wordpress files. Instead, the individual product page template was created in Appearance > Editor. That template handles the header/footer/sidebar. The shortcode [itw_medical_product_single_content] was placed in that template to refer to this template file (See: /templates/single-itw-product-content.php and /client/class-itw-product-client-view.php). Only the content can be modified here. The Appearance > Editor tool handles the remainder of the page. (Note: This shortcode must be added to an HTML block. It will not render properly in a Wordpress Shortcode block.)
 
-Alternatively, it is possible to add a page template to a Wordpress theme the old fashioned way. Add a page named "page-itw-medical-product.php". (Simply copy the original page.php template). Then add the shortcode [itw_medical_product_single_content] where the content should go. 
+Alternatively, it is possible to add a page template to a Wordpress theme the old fashioned way. Add a page named "page-itw-medical-product.php". (Simply copy the original page.php template). Then add the shortcode [itw_medical_product_single_content] where the content should go. (Note: This shortcode must be added to an HTML block. It will not render properly in a Wordpress Shortcode block.)
 
 #### 2. Permalinks 
 

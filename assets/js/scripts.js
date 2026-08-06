@@ -64,7 +64,7 @@
          * 
          * HOW TO USE:
          *   see style.css
-         */
+         *
         itw_hide_all_tabs_except_active_on_desktop();
         $(window).on('resize', function(){
             itw_hide_all_tabs_except_active_on_desktop();
@@ -107,7 +107,7 @@
             $(this).addClass('active');
 
         });
-
+        */
 
         /**
          * Example:
@@ -151,3 +151,50 @@ async function download_on_click( imageSrc, nameOfDownload ) {
 
 }
 
+
+// ---------------------------------------------
+// single product tabs 
+// ---------------------------------------------
+
+const tabs = document.querySelectorAll('[role="tab"]');
+const panels = document.querySelectorAll('[role="tabpanel"]');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => itwActivateTab(tab));
+  tab.addEventListener('keydown', e => {
+    const index = [...tabs].indexOf(tab);
+
+    if (e.key === 'ArrowRight') {
+      const next = tabs[index + 1] || tabs[0];
+      next.focus();
+      itwActivateTab(next);
+    }
+
+    if (e.key === 'ArrowLeft') {
+      const prev = tabs[index - 1] || tabs[tabs.length - 1];
+      prev.focus();
+      itwActivateTab(prev);
+    }
+  });
+});
+
+function itwActivateTab(tab) {
+  // deactivate all tabs
+  tabs.forEach(t => {
+    t.setAttribute('aria-selected', 'false');
+    t.setAttribute('tabindex', '-1');
+    t.classList.remove('active');
+  });
+
+  // hide all panels
+  panels.forEach(p => p.hidden = true);
+
+  // activate selected tab
+  tab.setAttribute('aria-selected', 'true');
+  tab.setAttribute('tabindex', '0');
+  tab.classList.add('active');
+
+  // show associated panel
+  const panel = document.getElementById(tab.getAttribute('aria-controls'));
+  panel.hidden = false;
+}

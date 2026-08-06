@@ -5,11 +5,8 @@ if ( $warranty && $warranty !== '' ) {
     ?>
         <div class="itw-warranty">
             <?php 
-                //echo $content; 
+                echo $warranty; 
             ?>
-            <h2>Product Warranty</h2>
-
-            <?php echo $warranty; ?>
         </div>    
     <?php
 }

@@ -2,6 +2,38 @@
  * ITW PRODUCTS - STYLES 
  */
 
+body {
+   font-size: 16px;
+   color: #545656;
+}
+
+p {
+   font-size: 1rem;
+}
+
+h1 {
+   font-size: 2.25rem;
+}
+
+h2 {
+   font-size: 1.75rem;
+}
+
+h3 {
+   margin: 25px 0 10px;
+   font-size: 1.5rem;
+   text-transform: capitalize;
+}
+
+h4 {
+   font-size: 1.25rem;
+}
+
+button {
+   font-size: 1rem;
+}
+
+
 
 /* -------------------------------------
    TABLET AND MOBILE CHECKS
@@ -36,25 +68,10 @@
 
 
 
-/*
+/* ---------------------------------
 * TABS 
-* 
-* HOW TO USE:
-*   <div class="itw-tabs">
-*       <div class="itw-tabs-bar">
-*           <button class="itw-tabs-button active" data-tab="tabname1">Tab1</button>
-*           <button class="itw-tabs-button" data-tab="tabname2">Tab2</button>
-*       </div> 
-*       <div class="itw-tabs-section">
-*           <div id="tabname1" class="itw-tab">
-*               Tab1 content goes here...
-*           </div>
-*           <div id="tabname2" class="itw-tab">
-*               Tab2 content goes here...
-*           </div>
-*       </div>
-*   </div> 
-*/
+--------------------------------- */
+
 .itw-tabs {}
 .itw-tabs .itw-tabs-bar {
    display: -ms-flexbox;
@@ -77,7 +94,7 @@
    margin: 0 2px 0 0;
    text-transform: uppercase;
    line-height: 1;  
-   font-size: 9px; 
+   /*font-size: 9px;*/
 }
 .itw-tabs .itw-tabs-bar .itw-tabs-button:first-of-type {
    margin-left: 0;
@@ -122,6 +139,75 @@
    margin-top: 0px;
 }
 
+.itw-tabs .tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: auto;
+  width: auto;
+}
+
+.itw-tabs .tabs [role="tab"] {
+  padding: 10px 8px;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+  cursor: pointer;
+}
+
+.itw-tabs .tabs [role="tab"][aria-selected="true"] {
+  padding: 12px 8px;
+  background: #fff;
+  color: #284f99;
+  font-weight: bold;
+  margin-bottom: -1px;
+}
+
+.itw-tabs [role="tabpanel"] {
+  padding: 20px 10px;
+  border: solid 1px #ccc;
+  border-radius: 0 0 10px 10px;
+}
+
+.itw-tabs [role="tabpanel"] h3 {
+   color: #284f99;
+}
+
+@media (max-width: 768px) {
+   .itw-tabs .tabs {
+      flex-direction: column;
+      gap: 8px;
+   }
+
+   .itw-tabs .tabs [role="tab"] {
+      width: 100%;
+      text-align: left;
+      border-radius: 3px;
+   }
+
+   .itw-tabs .tabs [role="tab"][aria-selected="true"] {
+      position: relative; 
+      background: #284f99;
+      color: #fff;
+   }
+
+   .itw-tabs [role="tab"][aria-selected="true"]::before {
+      content: "›";
+      position: absolute;
+      left: -0.85rem;        
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #284F99;
+   }
+
+   .itw-tabs [role="tabpanel"] {
+      margin-top: 10px;
+   }   
+}
+
 
 
 /* -------------------------------------
@@ -136,17 +222,17 @@
 .itw-product-single h1 {
    color: #385fa9;
    font-weight: normal;
-   font-size: 240%;
+   /*font-size: 240%;*/
    letter-spacing: -.5px;
 }
 .itw-product-single h2 {
-   color: #EE8D00;
-   line-height: 180%;
-   font-size: 150%;
+   color: #545656;
+   /*line-height: 180%;*/
+   /*font-size: 150%;*/
    font-weight: normal;
 }
 .itw-product-single h2 a {
-   color: #EE8D00!important;
+   color: #545656!important;
    text-decoration: none;
 }
 .itw-product-single h2 a:hover {
@@ -378,19 +464,16 @@
    display: flex;
 }
 .itw-product-filter {
-   padding: 20px;
    width: 100%;
    margin: 0 10px 20px 0px;
-   background: #f1e9e3;
-   box-shadow: 2px 2px 2px #ddd;
    border-radius: 6px;
 }
 .itw-product-filter select {
-   height: 26px;
+   height: 44px;
 }
 .itw-product-filter input[type=submit] {
    background: #EE8D00;
-   height: 26px;
+   height: 44px;
    padding-top: 3px;
 }
 .itw-product-filter input[type=submit]:hover {
@@ -402,25 +485,26 @@
    display: flex;  
 }
 .itw-product-list {
-   padding: 20px;
    width: 100%;
    margin: 0 10px 20px 0px;
-   background: #f1e9e3;
-   box-shadow: 2px 2px 2px #ddd;
    border-radius: 6px;
 }
 .itw-product-list .itw-table {
    display: flex;
    flex-direction: column;
-   font-size: 14px;
+   margin-top: 25px;
+   /*font-size: 14px;*/
+}
+.itw-product-list .itw-table caption {
+   font-size: 0.85rem;
 }
 .itw-product-list .itw-table .itw-row {
    display: flex;
    flex-direction: row;
    flex-wrap: nowrap;
-   padding: 1px 0;
-   border: solid 1px #f1e9e3;
-   border-radius: 3px;
+   padding: 10px 0;
+   border-bottom: solid 1px #f1e9e3;
+   /*border-radius: 3px;*/
 }
 .itw-product-list .itw-table th {
    text-align: left;

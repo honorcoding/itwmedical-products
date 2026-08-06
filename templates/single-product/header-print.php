@@ -7,7 +7,7 @@
                     <?php 
                 } 
             ?>
-            <h1 class="itw-title"><?php echo $product->title; ?></h1>
+            <h1 class="itw-title"><?php echo esc_html( $product->title ); ?></h1>
             <div class="itw-long-description"><?php echo $product->long_description; ?></div>
             <?php echo do_shortcode('[itw_product view="order"]'); ?>
         </div>
