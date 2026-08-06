@@ -472,12 +472,14 @@ button {
    height: 44px;
 }
 .itw-product-filter input[type=submit] {
-   background: #EE8D00;
+   background: #00569f;
    height: 44px;
-   padding-top: 3px;
+   display: inline-flex;
+   align-items: center;
 }
 .itw-product-filter input[type=submit]:hover {
-   background: #385fa9;
+   background: #ffcc00;
+   color: #000;
 }
 
 /* product list */
@@ -519,6 +521,10 @@ button {
 }
 .itw-product-list .itw-table a {
    text-decoration: underline;
+   color: #00569f;
+}
+.itw-product-list .itw-table a:hover {
+   text-decoration: none;
 }
 .itw-product-list .itw-table a:hover {
    border-color: #333;
