@@ -1,44 +1,38 @@
 <div class="itw-product-filter-container">
     <div class="itw-product-filter">
         <form class="itw-product-filter-form" method="GET">
-
-        <?php 
+        
+            <?php 
             // itw_category filter
             if ( ! empty( $options ) ) {
 
-                $output = '<select id="itw_category" name="itw_category">';
-                $current = $filter->get_query_var( 'itw_category' );
+                $output = '<div class="itw-form-field">';
 
-                foreach( $options as $value => $label ) {
+                    $output .= '<label for="itw_category">Category</label>';
+                    $output .= '<select id="itw_category" name="itw_category">';
 
-                    $selected = ( $current !== '' && $value == $current ) ? ' selected' : '';
-                    //$link = $filter->add_filter_params_to_url( array( 'itw_category' => $value ) );
+                        // select options 
+                        $current = $filter->get_query_var( 'itw_category' );
 
-                    $output .= '<option value="' . $value . '"' . $selected . '>';
-                        $output .= $label;
-                    $output .= '</option>';
+                        foreach( $options as $value => $label ) {
 
-                }
+                            $selected = ( $current !== '' && $value == $current ) ? ' selected' : '';
+                            //$link = $filter->add_filter_params_to_url( array( 'itw_category' => $value ) );
 
-                $output .= '</select>';
+                            $output .= '<option value="' . $value . '"' . $selected . '>';
+                                $output .= $label;
+                            $output .= '</option>';
+
+                        }
+
+                    $output .= '</select>';
+                    $output .= '<input type="submit" value="Filter" />';
+
+                $output .= '</div>';
                 echo $output;
 
-            } else {
-                ?>
-                <p>No categories available to filter.</p>
-                <?php
             }
-        ?>
-
-        <?php 
-            // submit button
-            // NOTE: this is not required, because javascript automatically submits the forms 
-            if ( ! empty( $options ) ) {
-                ?>
-                <input type="submit" value="Filter" />
-                <?php 
-            }
-        ?>   
+            ?>
 
         </form>
     </div>

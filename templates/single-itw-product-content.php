@@ -22,7 +22,7 @@ $print_url = $path  . '?view=print' . $query;
         echo do_shortcode('[itw_product view="order"]');
         ?>
 
-        <p class="bottom-space"><a href="<?php echo $print_url ?>" target="_blank">+ print friendly version</a></p>
+        <p class="bottom-space"><a href="<?php echo $print_url ?>" target="_blank" rel="nofollow noopener noreferrer">+ print friendly version</a></p>
 
         <?php
         echo do_shortcode('[itw_product view="tabs"]');

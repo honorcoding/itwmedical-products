@@ -58,57 +58,7 @@
             $form.submit();
         });
     
-
-        /**
-         * TABS 
-         * 
-         * HOW TO USE:
-         *   see style.css
-         *
-        itw_hide_all_tabs_except_active_on_desktop();
-        $(window).on('resize', function(){
-            itw_hide_all_tabs_except_active_on_desktop();
-        });
-
-        function itw_hide_all_tabs_except_active_on_desktop() {
-            if ( isMobile() ) {
-                // if mobile, show all tabs
-                $('.itw-tab').show();
-            } else {
-                // if not mobile, then hide all tabs except the active one
-                $('.itw-tabs-button.active').each(function() {
-                    var $parent = $(this).closest('.itw-tabs');
-                    var tab = $(this).data('tab');
-                    var $tab = $parent.find( '#' + tab );            
-                    $parent.find('.itw-tab').hide();
-                    $tab.show();
-                });
-            }
-        }
-
-
-        $('.itw-tabs-button').on( "click", function() {
-
-            // if clicked on active tab, then do nothing 
-            if ( $(this).hasClass('active') ) {
-                return;
-            }
-
-            // otherwise, 
-            // open that tab
-            var $parent = $(this).closest('.itw-tabs');
-            var tab = $(this).data('tab');
-            var $tab = $parent.find( '#' + tab );            
-            $parent.find('.itw-tab').hide();
-            $tab.show();
-
-            // and change the active tab 
-            $parent.find('.itw-tabs-button').removeClass('active');
-            $(this).addClass('active');
-
-        });
-        */
-
+        
         /**
          * Example:
          * <div class="download_on_click" data-url="https://mysite.com/downloadable.jpg" filename="downloadable.jpg">Click Me</div>
@@ -175,6 +125,10 @@ tabs.forEach(tab => {
       prev.focus();
       itwActivateTab(prev);
     }
+
+    if (e.key === 'Enter' || e.key === ' ') {
+      itwActivateTab(tab);
+    }
   });
 });
 
@@ -187,7 +141,10 @@ function itwActivateTab(tab) {
   });
 
   // hide all panels
-  panels.forEach(p => p.hidden = true);
+  panels.forEach(p => {
+    p.hidden = true;
+    p.setAttribute('aria-hidden', 'true');
+  });
 
   // activate selected tab
   tab.setAttribute('aria-selected', 'true');
@@ -197,4 +154,5 @@ function itwActivateTab(tab) {
   // show associated panel
   const panel = document.getElementById(tab.getAttribute('aria-controls'));
   panel.hidden = false;
+  panel.setAttribute('aria-hidden', 'false');
 }
