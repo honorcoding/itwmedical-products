@@ -48,7 +48,6 @@ function itw_yoast_breadcrumb_output( $output ) {
     $revised = str_replace( 'span', 'li', $revised );
     $revised = '<ul class="breadcrumb">' . $revised . '</ul>';
 
-wp_die( htmlentities( debugger()->dump( $revised)));    
     return $revised;
 
 }
