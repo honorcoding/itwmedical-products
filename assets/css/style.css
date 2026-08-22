@@ -605,6 +605,7 @@ dl.itw-order-list dd:last-of-type {
 /* product list */
 .itw-product-list-container {
    display: flex;  
+   overflow-x: auto; /* scrolls horizontally on mobile - good for accessibility */
 }
 .itw-product-list {
    width: 100%;
@@ -630,6 +631,9 @@ dl.itw-order-list dd:last-of-type {
 }
 .itw-product-list .itw-table th {
    text-align: left;
+}
+.itw-product-list .itw-table th[scope="row"] {
+   font-weight: normal;
 }
 .itw-product-list .itw-table .itw-row.itw-header-row {
    font-weight: bold;

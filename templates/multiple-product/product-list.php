@@ -37,7 +37,7 @@
                                 ?>
                                     <?php /* <a href="<?php echo $link; ?>" class="itw-row"> */ ?>
                                     <tr class="itw-row">
-                                        <td scope="row" class="itw-col"><a href="<?php echo $link; ?>" aria-label="View product: <?php echo $product->title . ' - ' . $product->product_number; ?>"><?php echo $product->title; ?></a></td>
+                                        <th scope="row" class="itw-col"><a href="<?php echo $link; ?>" aria-label="<?php echo $product->title . ' - ' . $product->product_number; ?>"><?php echo $product->title; ?></a></th>
                                         <td class="itw-col"><?php echo $product->product_number; ?></a></td>
                                         <td class="itw-col"><?php echo $product->mfg_number; ?></a></td>
                                         <td class="itw-col"><?php echo $product->accessibility_description; ?></a></td>
