@@ -568,6 +568,17 @@ dl.itw-order-list dd:last-of-type {
 ------------------------------------- */
 
 /* filter */
+.itw-product-filter-form fieldset {
+  /*
+  border: none;
+  padding: 0;
+  */
+  margin: 0;
+}
+.itw-product-filter-form legend {
+  font-weight: 600;
+  margin-bottom: .5rem;
+}
 .itw-form-field {
    display: flex;
    align-items: center;   
