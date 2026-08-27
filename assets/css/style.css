@@ -627,6 +627,8 @@ dl.itw-order-list dd:last-of-type {
    display: flex;
    flex-direction: column;
    margin-top: 25px;
+   table-layout: fixed;
+   width: 100%;
    /*font-size: 14px;*/
 }
 .itw-table caption {
@@ -642,6 +644,14 @@ dl.itw-order-list dd:last-of-type {
 }
 .itw-table th {
    text-align: left;
+}
+.itw-table th, 
+.itw-table td {
+   padding-right: 10px!important;
+}
+.itw-table th:last-child, 
+.itw-table td:last-child {
+   padding-right: 0px!important;
 }
 .itw-table th[scope="row"] {
    font-weight: normal;
