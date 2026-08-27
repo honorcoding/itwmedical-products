@@ -22,7 +22,7 @@
                     <table class="itw-table">
                         <caption><?php echo $caption; ?></caption>
                         <thead>
-                            <tr class="itw-header-row">
+                            <tr class="itw-header">
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Product No.</th>
                                 <th scope="col">Mfg. No.</th>
