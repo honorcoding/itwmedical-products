@@ -624,48 +624,35 @@ dl.itw-order-list dd:last-of-type {
    border-radius: 6px;
 }
 .itw-table {
-   display: flex;
-   flex-direction: column;
    margin-top: 25px;
-   table-layout: fixed;
    width: 100%;
-   /*font-size: 14px;*/
+   table-layout: fixed;
+   border-collapse: collapse;   
 }
 .itw-table caption {
    font-size: 0.85rem;
 }
-.itw-table .itw-row, 
 .itw-table tr {
-   display: flex;
-   flex-direction: row;
-   flex-wrap: nowrap;
+   display: table-row; 
    padding: 12px 0;
    border-bottom: solid 1px #f1e9e3;
-   /*border-radius: 3px;*/
 }
+.itw-table tr.itw-header-row {
+   font-weight: bold;
+} 
 .itw-table th {
    text-align: left;
 }
 .itw-table th, 
 .itw-table td {
-   padding-right: 10px!important;
-}
-.itw-table th:last-child, 
-.itw-table td:last-child {
-   padding-right: 0px!important;
+   display: table-cell; 
+   vertical-align: middle;
+   min-height: 44px;   
+   padding: 10px;
+   line-height: 1;
 }
 .itw-table th[scope="row"] {
    font-weight: normal;
-}
-.itw-table .itw-row.itw-header-row, 
-.itw-table tr.itw-header-row {
-   font-weight: bold;
-} 
-.itw-table .itw-col, 
-.itw-table th, .itw-table td {
-   flex-basis: 25%;
-   padding: 2px;
-   line-height: 1;
 }
 .itw-table a {
    text-decoration: underline;
