@@ -651,7 +651,7 @@ dl.itw-order-list dd:last-of-type {
    padding: 10px;
    line-height: 1;
 }
-.itw-table th[scope="row"] {
+.itw-table th[scope="row"]:not(.itw-header) {
    font-weight: normal;
 }
 .itw-table a {
