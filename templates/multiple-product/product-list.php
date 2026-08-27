@@ -1,5 +1,5 @@
-<div class="itw-product-list-container">
-    <div class="itw-product-list">
+<div class="itw-table-outer-container">
+    <div class="itw-table-inner-container">
         <?php
 
             if ( $filter_term !== '' ) {

@@ -111,6 +111,9 @@ function itw_load_plugin_resources() {
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'client-view/class-itw-product-archive-client-view.php';     
         require_once ITW_MEDICAL_PRODUCTS_PATH . 'client-view/itw-client-view.php';     
 
+        // accessibility enhancements 
+        require_once ITW_MEDICAL_PRODUCTS_PATH . 'includes/accessibility-enhancements.php';     
+
     }             
 
     // ------------------------------------------------------------
