@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ITW Medical Products
  * Description: Facilitates display, edit and bulk import/export of ITW Medical products. 
- * Version: 1.3.8
+ * Version: 1.3.9
  * Author: ITW Medical
  * Author URI:   https://itwmedical.com
  * License:      GPL2
