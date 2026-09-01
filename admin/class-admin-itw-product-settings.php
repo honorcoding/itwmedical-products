@@ -80,14 +80,25 @@ if ( ! class_exists( 'Admin_ITW_Product_Settings' ) ) :
             }
 
             public function add_styles_and_scripts() {
-                            
-                // client portal admin scripts
-                $js_slug = "itw-product-settings-scripts"; 
-                $js_uri = ITW_MEDICAL_PRODUCTS_URL . 'assets/js/admin-itw-settings.js';
-                $js_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/js/admin-itw-settings.js' );
 
-                wp_register_script( $js_slug, $js_uri, array('jquery'), $js_filetime, true );    
-                wp_enqueue_script( $js_slug );   
+                // only enqueue if on the itw-products settings page 
+                $screen = get_current_screen();
+                if (
+                    isset( $screen->post_type ) &&
+                    $screen->post_type === 'itw-medical-product' &&
+                    isset( $screen->id ) &&
+                    $screen->id === 'itw-medical-product_page_itwmp-settings'
+                ) {
+                                        
+                            // client portal admin scripts
+                            $js_slug = "itw-product-settings-scripts"; 
+                            $js_uri = ITW_MEDICAL_PRODUCTS_URL . 'assets/js/admin-itw-settings.js';
+                            $js_filetime = filemtime( ITW_MEDICAL_PRODUCTS_PATH . 'assets/js/admin-itw-settings.js' );
+
+                            wp_register_script( $js_slug, $js_uri, array('jquery'), $js_filetime, true );    
+                            wp_enqueue_script( $js_slug );   
+
+                }
 
             }
 
