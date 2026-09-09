@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ITW Medical Products
  * Description: Facilitates display, edit and bulk import/export of ITW Medical products. 
- * Version: 1.3.11
+ * Version: 1.3.12
  * Author: ITW Medical
  * Author URI:   https://itwmedical.com
  * License:      GPL2
@@ -197,7 +197,33 @@ function itw_product_admin_styles_and_scripts() {
 
 }
 
-  
+
+
+// ----------------------------------------------------
+// TROUBLESHOOT WHY NINJA FORMS ARE NOT WORKING 
+// ----------------------------------------------------
+
+add_action( 'admin_init', 'troubleshoot_ninja_forms' );
+function troubleshoot_ninja_forms() {
+
+	$logger = \ITW\Debugger::instance();
+    $logger->set_log_path( ITW_LOG_PATH . 'test.log' );    
+    $logger->log_var( get_option('ninja_forms_db_version') );
+
+    $transient_key = 'nf_db_version_deleted';
+
+    $logger->log_var( ( ( get_transient( $transient_key ) === true ) ? 'true' : 'false' ), 'transient: ' );
+
+    /*
+    if ( get_transient( $transient_key ) === false ) {
+        delete_option('ninja_forms_db_version');
+        set_transient( $transient_key, true, HOUR_IN_SECONDS );
+    }
+    */
+    delete_transient( $transient_key );
+    
+}
+
 
 
 // ----------------------------------------------------

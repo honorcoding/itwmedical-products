@@ -143,7 +143,7 @@ if ( ! class_exists( 'Debugger') ) :
              */
             function log_var( $var, $message = '' ) {
 
-                $this->log( $message . hc_dump( $var, false ) );
+                $this->log( $message . $this->dump( $var, false ) );
 
             }    
 
