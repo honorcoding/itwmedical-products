@@ -227,22 +227,31 @@ function troubleshoot_ninja_forms() {
 
     // access database 
     global $wpdb;
+    global $debug;
+
+    /*
     $sql = "
             SELECT option_name, option_value
             FROM {$wpdb->prefix}options 
             WHERE option_name LIKE '%s'
             ;";
-                
     $search = 'ninja_forms%';
     $results = $wpdb->get_results($wpdb->prepare($sql, $search), ARRAY_A);    
-
-    // store results in log file 
-    //$logger->log_var( $results, 'All "ninja_forms" options: ' );
-
-    // show results in debug in footer 
-    global $debug;
     $debug[] = 'All "ninja_forms" options: ';
     $debug[] = $results;
+    */
+
+    $sql = "SELECT * FROM {$wpdb->prefix}nf3_upgrades;";                            
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug['select_from_nf3_upgrades'] = $results; 
+
+    $sql = "SHOW CREATE TABLE {$wpdb->prefix}nf3_upgrades;";                            
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug['show_create_table_nf3_upgrades'] = $results; 
+
+    $sql = "SHOW TABLES LIKE '%nf%';";                            
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug['show_tables_life_nf'] = $results; 
 
 }
 
