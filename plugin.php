@@ -208,20 +208,42 @@ function troubleshoot_ninja_forms() {
 
 	$logger = \ITW\Debugger::instance();
     $logger->set_log_path( ITW_LOG_PATH . 'test.log' );    
-    $logger->log_var( get_option('ninja_forms_db_version') );
 
+    /*
+    $logger->log_var( get_option('ninja_forms_db_version') );
+    
     $transient_key = 'nf_db_version_deleted';
 
     $logger->log_var( ( ( get_transient( $transient_key ) === true ) ? 'true' : 'false' ), 'transient: ' );
 
-    /*
+    
     if ( get_transient( $transient_key ) === false ) {
         delete_option('ninja_forms_db_version');
         set_transient( $transient_key, true, HOUR_IN_SECONDS );
     }
-    */
-    delete_transient( $transient_key );
     
+    //delete_transient( $transient_key );
+    */
+
+    // access database 
+    global $wpdb;
+    $sql = "
+            SELECT option_name, option_value
+            FROM {$wpdb->prefix}options 
+            WHERE option_name LIKE '%s'
+            ;";
+                
+    $search = 'ninja_forms%';
+    $results = $wpdb->get_results($wpdb->prepare($sql, $search), ARRAY_A);    
+
+    // store results in log file 
+    $logger->log_var( $results, 'All "ninja_forms" options: ' );
+
+    // show results in debug in footer 
+    global $debug;
+    $debug[] = 'All "ninja_forms" options: ';
+    $debug[] = $results;
+
 }
 
 
@@ -233,8 +255,8 @@ function troubleshoot_ninja_forms() {
 global $debug;
 if ( is_admin() ) {
     add_action( 'admin_footer', 'show_debug' );
-} else { 
-    add_action( 'wp_footer', 'show_debug' );
+} else {     
+    //add_action( 'wp_footer', 'show_debug' ); // commented out... only shows results to admin, not client
 }
 
 
