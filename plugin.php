@@ -241,6 +241,22 @@ function troubleshoot_ninja_forms() {
     $debug[] = $results;
     */
 
+    $sql = "
+            SELECT option_name, option_value
+                FROM wp_options
+                WHERE option_name IN (
+                    'ninja_forms_version',
+                    'ninja_forms_db_version',
+                    'ninja_forms_needs_updates',
+                    'ninja_forms_required_updates',
+                    'ninja_forms_zuul'
+                )
+            ;";
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug[] = 'All "ninja_forms" options: ';
+    $debug[] = $results;
+
+    /*
     $sql = "SELECT USER(), CURRENT_USER();";                                
     $results = $wpdb->get_results($sql, ARRAY_A);    
     $debug['select_user'] = $results; 
@@ -270,6 +286,7 @@ function troubleshoot_ninja_forms() {
     $sql = "DROP TABLE wp_ninja_test;";                            
     $results = $wpdb->get_results($sql, ARRAY_A);    
     $debug['drop_table'] = $results; 
+    */
 
 }
 
