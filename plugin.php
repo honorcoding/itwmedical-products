@@ -237,7 +237,7 @@ function troubleshoot_ninja_forms() {
     $results = $wpdb->get_results($wpdb->prepare($sql, $search), ARRAY_A);    
 
     // store results in log file 
-    $logger->log_var( $results, 'All "ninja_forms" options: ' );
+    //$logger->log_var( $results, 'All "ninja_forms" options: ' );
 
     // show results in debug in footer 
     global $debug;
