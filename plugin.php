@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ITW Medical Products
  * Description: Facilitates display, edit and bulk import/export of ITW Medical products. 
- * Version: 1.3.13
+ * Version: 1.3.14
  * Author: ITW Medical
  * Author URI:   https://itwmedical.com
  * License:      GPL2
@@ -241,17 +241,35 @@ function troubleshoot_ninja_forms() {
     $debug[] = $results;
     */
 
-    $sql = "SELECT * FROM {$wpdb->prefix}nf3_upgrades;";                            
+    $sql = "SELECT USER(), CURRENT_USER();";                                
     $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['select_from_nf3_upgrades'] = $results; 
+    $debug['select_user'] = $results; 
 
-    $sql = "SHOW CREATE TABLE {$wpdb->prefix}nf3_upgrades;";                            
+    $sql = "SHOW GRANTS;";                                
     $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['show_create_table_nf3_upgrades'] = $results; 
+    $debug['show_grants'] = $results; 
 
-    $sql = "SHOW TABLES LIKE '%nf%';";                            
+    $sql = "SHOW VARIABLES LIKE 'sql_mode';";                            
     $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['show_tables_life_nf'] = $results; 
+    $debug['show_variables_like_sql_mode'] = $results; 
+
+    $sql = "
+        CREATE TABLE wp_ninja_test (
+            id INT NOT NULL AUTO_INCREMENT,
+            test_value VARCHAR(50),
+            PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    ";                            
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug['create_table'] = $results; 
+
+    $sql = "SHOW TABLES LIKE 'wp_ninja_test';";                            
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug['show_tables_like_wp_ninja_test'] = $results; 
+
+    $sql = "DROP TABLE wp_ninja_test;";                            
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug['drop_table'] = $results; 
 
 }
 
