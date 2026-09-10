@@ -286,11 +286,13 @@ function troubleshoot_ninja_forms() {
     $debug['show_tables_like_wp_ninja_test'] = $results; 
     /* */
 
-    /*
     $sql = "DROP TABLE wp_nf3_upgrades;";                            
     $results = $wpdb->get_results($sql, ARRAY_A);    
     $debug['drop_table'] = $results; 
-    /* */
+    
+    $sql = "SHOW TABLES LIKE '%nf3%';";                            
+    $results = $wpdb->get_results($sql, ARRAY_A);    
+    $debug['show_tables_like_nf3'] = $results; 
 
 }
 
