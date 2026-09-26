@@ -156,3 +156,17 @@ function itwActivateTab(tab) {
   panel.hidden = false;
   panel.setAttribute('aria-hidden', 'false');
 }
+
+
+/**
+ * add <nav> tag to skip-link for accessibility compliance
+ */
+document.addEventListener('DOMContentLoaded', function () {
+    const skipLink = document.getElementById('wp-skip-link');
+    if (skipLink && skipLink.parentElement.tagName !== 'NAV') {
+        const nav = document.createElement('nav');
+        nav.setAttribute('aria-label', 'Skip links');
+        skipLink.parentNode.insertBefore(nav, skipLink);
+        nav.appendChild(skipLink);
+    }
+});

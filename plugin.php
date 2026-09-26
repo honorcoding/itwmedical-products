@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ITW Medical Products
  * Description: Facilitates display, edit and bulk import/export of ITW Medical products. 
- * Version: 1.3.14
+ * Version: 1.3.15
  * Author: ITW Medical
  * Author URI:   https://itwmedical.com
  * License:      GPL2
@@ -198,103 +198,6 @@ function itw_product_admin_styles_and_scripts() {
 }
 
 
-
-// ----------------------------------------------------
-// TROUBLESHOOT WHY NINJA FORMS ARE NOT WORKING 
-// ----------------------------------------------------
-
-add_action( 'admin_init', 'troubleshoot_ninja_forms' );
-function troubleshoot_ninja_forms() {
-
-	$logger = \ITW\Debugger::instance();
-    $logger->set_log_path( ITW_LOG_PATH . 'test.log' );    
-
-    /*
-    $logger->log_var( get_option('ninja_forms_db_version') );
-    
-    $transient_key = 'nf_db_version_deleted';
-
-    $logger->log_var( ( ( get_transient( $transient_key ) === true ) ? 'true' : 'false' ), 'transient: ' );
-
-    
-    if ( get_transient( $transient_key ) === false ) {
-        delete_option('ninja_forms_db_version');
-        set_transient( $transient_key, true, HOUR_IN_SECONDS );
-    }
-    
-    //delete_transient( $transient_key );
-    */
-
-    // access database 
-    global $wpdb;
-    global $debug;
-
-    /*
-    $sql = "
-            SELECT option_name, option_value
-            FROM {$wpdb->prefix}options 
-            WHERE option_name LIKE '%s'
-            ;";
-    $search = 'ninja_forms%';
-    $results = $wpdb->get_results($wpdb->prepare($sql, $search), ARRAY_A);    
-    $debug[] = 'All "ninja_forms" options: ';
-    $debug[] = $results;
-    */
-
-    /*
-    $sql = "
-            SELECT option_name, option_value
-                FROM wp_options
-                WHERE option_name IN (
-                    'ninja_forms_version',
-                    'ninja_forms_db_version',
-                    'ninja_forms_needs_updates',
-                    'ninja_forms_required_updates',
-                    'ninja_forms_zuul'
-                )
-            ;";
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug[] = 'All "ninja_forms" options: ';
-    $debug[] = $results;
-    */
-
-    /*
-    $sql = "SELECT USER(), CURRENT_USER();";                                
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['select_user'] = $results; 
-
-    $sql = "SHOW GRANTS;";                                
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['show_grants'] = $results; 
-
-    $sql = "SHOW VARIABLES LIKE 'sql_mode';";                            
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['show_variables_like_sql_mode'] = $results; 
-
-    $sql = "
-        CREATE TABLE wp_ninja_test (
-            id INT NOT NULL AUTO_INCREMENT,
-            test_value VARCHAR(50),
-            PRIMARY KEY (id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    ";                            
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['create_table'] = $results; 
-
-    $sql = "SHOW TABLES LIKE 'wp_ninja_test';";                            
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['show_tables_like_wp_ninja_test'] = $results; 
-    /* */
-
-    $sql = "DROP TABLE wp_nf3_upgrades;";                            
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['drop_table'] = $results; 
-    
-    $sql = "SHOW TABLES LIKE '%nf3%';";                            
-    $results = $wpdb->get_results($sql, ARRAY_A);    
-    $debug['show_tables_like_nf3'] = $results; 
-
-}
 
 
 
